@@ -1,0 +1,45 @@
+import { BigInt, BigDecimal } from '@graphprotocol/graph-ts'
+
+import { Tick } from '../types/schema'
+import { fastExponentiation, safeDiv } from '.'
+import { ONE_BD, ZERO_BI } from './constants'
+import { ModifyLiquidity } from '../types/PoolManager/PoolManager'
+
+export function createTick(tickId: string, tickIdx: i32, poolId: string, event: ModifyLiquidity): Tick {
+  const tick = new Tick(tickId)
+  tick.tickIdx = BigInt.fromI32(tickIdx)
+  tick.pool = poolId
+  tick.poolAddress = poolId
+
+  tick.createdAtTimestamp = event.block.timestamp
+  tick.createdAtBlockNumber = event.block.number
+  tick.liquidityGross = ZERO_BI
+  tick.liquidityNet = ZERO_BI
+
+  tick.price0 = ONE_BD
+  tick.price1 = ONE_BD
+
+  // 1.0001^tick is token1/token0.
+  const price0 = fastExponentiation(BigDecimal.fromString('1.0001'), tickIdx)
+  tick.price0 = price0
+  tick.price1 = safeDiv(ONE_BD, price0)
+
+  return tick
+}
+
+export function feeTierToTickSpacing(feeTier: BigInt): BigInt {
+  if (feeTier.equals(BigInt.fromI32(10000))) {
+    return BigInt.fromI32(200)
+  }
+  if (feeTier.equals(BigInt.fromI32(3000))) {
+    return BigInt.fromI32(60)
+  }
+  if (feeTier.equals(BigInt.fromI32(500))) {
+    return BigInt.fromI32(10)
+  }
+  if (feeTier.equals(BigInt.fromI32(100))) {
+    return BigInt.fromI32(1)
+  }
+
+  throw Error('Unexpected fee tier')
+}
