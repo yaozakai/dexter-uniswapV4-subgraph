@@ -13,7 +13,7 @@ import {
 } from '../utils/intervalUpdates'
 import { createTick } from '../utils/tick'
 import { ModifyLiquidity as ModifyLiquidityEvent } from '../types/PoolManager/PoolManager'
-import { getAmount0, getAmount1 } from '../utils/liquidityAmounts'
+import { getAmount0, getAmount1 } from '../utils/liquidityMath/liquidityAmounts'
 
 export function handleModifyLiquidity(event: ModifyLiquidityEvent): void {
   handleModifyLiquidityHelper(event)

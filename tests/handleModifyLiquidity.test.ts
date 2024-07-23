@@ -1,5 +1,5 @@
 import { Address, BigDecimal, BigInt, Bytes, ethereum } from '@graphprotocol/graph-ts'
-import { beforeAll, describe, log, test } from 'matchstick-as'
+import { afterEach, beforeAll, beforeEach, clearStore, describe, log, test } from 'matchstick-as'
 import { ONE_BD } from '../src/utils/constants'
 
 import { handleModifyLiquidityHelper } from '../src/mappings/modifyLiquidity'
@@ -82,7 +82,7 @@ const MODIFY_LIQUIDITY_EVENT_REMOVE = new ModifyLiquidity(
 )
 
 describe('handleModifyLiquidity', () => {
-  beforeAll(() => {
+  beforeEach(() => {
     invokePoolCreatedWithMockedEthCalls(MOCK_EVENT, TEST_CONFIG)
 
     const bundle = new Bundle('1')
@@ -96,6 +96,10 @@ describe('handleModifyLiquidity', () => {
     const wethEntity = Token.load(WETH_MAINNET_FIXTURE.address)!
     wethEntity.derivedETH = TEST_WETH_DERIVED_ETH
     wethEntity.save()
+  })
+
+  afterEach(() => {
+    clearStore()
   })
 
   test('success - add liquidity event, pool tick is between tickUpper and tickLower', () => {
@@ -188,95 +192,95 @@ describe('handleModifyLiquidity', () => {
     ])
   })
 
-  // test('success - remove liquidity event, pool tick is between tickUpper and tickLower', () => {
-  //   // put the pools tick in range
-  //   const pool = Pool.load(USDC_WETH_POOL_ID)!
-  //   log.info ('pool',[pool.id])
-  //   pool.tick = BigInt.fromI32(MODIFY_LIQUIDITY_FIXTURE_REMOVE.tickLower + MODIFY_LIQUIDITY_FIXTURE_REMOVE.tickUpper).div(BigInt.fromI32(2))
-  //   pool.save()
+  test('success - remove liquidity event, pool tick is between tickUpper and tickLower', () => {
+    // put the pools tick in range
+    const pool = Pool.load(USDC_WETH_POOL_ID)!
+    log.info ('pool',[pool.id])
+    pool.tick = BigInt.fromI32(MODIFY_LIQUIDITY_FIXTURE_REMOVE.tickLower + MODIFY_LIQUIDITY_FIXTURE_REMOVE.tickUpper).div(BigInt.fromI32(2))
+    pool.save()
 
-  //   handleModifyLiquidityHelper(MODIFY_LIQUIDITY_EVENT_REMOVE, TEST_CONFIG)
+    handleModifyLiquidityHelper(MODIFY_LIQUIDITY_EVENT_REMOVE, TEST_CONFIG)
 
-  //   const amountToken0 = convertTokenToDecimal(BigInt.fromString('-304529883759127571614'), BigInt.fromString(USDC_MAINNET_FIXTURE.decimals))
-  //   const amountToken1 = convertTokenToDecimal(BigInt.fromString('-295530108791371696808'), BigInt.fromString(WETH_MAINNET_FIXTURE.decimals))
-  //   log.info('amountToken0',[amountToken0.toString()])
-  //   log.info('amountToken1',[amountToken1.toString()])
-  //   const poolTotalValueLockedETH = amountToken0
-  //     .times(TEST_USDC_DERIVED_ETH)
-  //     .plus(amountToken1.times(TEST_WETH_DERIVED_ETH))
-  //   const poolTotalValueLockedUSD = poolTotalValueLockedETH.times(TEST_ETH_PRICE_USD)
+    const amountToken0 = convertTokenToDecimal(BigInt.fromString('-304529883759127571614'), BigInt.fromString(USDC_MAINNET_FIXTURE.decimals))
+    const amountToken1 = convertTokenToDecimal(BigInt.fromString('-295530108791371696808'), BigInt.fromString(WETH_MAINNET_FIXTURE.decimals))
+    log.info('amountToken0',[amountToken0.toString()])
+    log.info('amountToken1',[amountToken1.toString()])
+    const poolTotalValueLockedETH = amountToken0
+      .times(TEST_USDC_DERIVED_ETH)
+      .plus(amountToken1.times(TEST_WETH_DERIVED_ETH))
+    const poolTotalValueLockedUSD = poolTotalValueLockedETH.times(TEST_ETH_PRICE_USD)
 
-  //   assertObjectMatches('PoolManager', TEST_CONFIG.poolManagerAddress, [
-  //     ['txCount', '1'],
-  //     ['totalValueLockedETH', poolTotalValueLockedETH.toString()],
-  //     ['totalValueLockedUSD', poolTotalValueLockedUSD.toString()],
-  //   ])
+    assertObjectMatches('PoolManager', TEST_CONFIG.poolManagerAddress, [
+      ['txCount', '1'],
+      ['totalValueLockedETH', poolTotalValueLockedETH.toString()],
+      ['totalValueLockedUSD', poolTotalValueLockedUSD.toString()],
+    ])
 
-  //   assertObjectMatches('Pool', USDC_WETH_POOL_ID, [
-  //     ['txCount', '1'],
-  //     ['liquidity', MODIFY_LIQUIDITY_FIXTURE_REMOVE.liquidityDelta.toString()],
-  //     ['totalValueLockedToken0', amountToken0.toString()],
-  //     ['totalValueLockedToken1', amountToken1.toString()],
-  //     ['totalValueLockedETH', poolTotalValueLockedETH.toString()],
-  //     ['totalValueLockedUSD', poolTotalValueLockedUSD.toString()],
-  //   ])
+    assertObjectMatches('Pool', USDC_WETH_POOL_ID, [
+      ['txCount', '1'],
+      ['liquidity', MODIFY_LIQUIDITY_FIXTURE_REMOVE.liquidityDelta.toString()],
+      ['totalValueLockedToken0', amountToken0.toString()],
+      ['totalValueLockedToken1', amountToken1.toString()],
+      ['totalValueLockedETH', poolTotalValueLockedETH.toString()],
+      ['totalValueLockedUSD', poolTotalValueLockedUSD.toString()],
+    ])
 
-  //   assertObjectMatches('Token', USDC_MAINNET_FIXTURE.address, [
-  //     ['txCount', '1'],
-  //     ['totalValueLocked', amountToken0.toString()],
-  //     ['totalValueLockedUSD', amountToken0.times(TEST_USDC_DERIVED_ETH.times(TEST_ETH_PRICE_USD)).toString()],
-  //   ])
+    assertObjectMatches('Token', USDC_MAINNET_FIXTURE.address, [
+      ['txCount', '1'],
+      ['totalValueLocked', amountToken0.toString()],
+      ['totalValueLockedUSD', amountToken0.times(TEST_USDC_DERIVED_ETH.times(TEST_ETH_PRICE_USD)).toString()],
+    ])
 
-  //   assertObjectMatches('Token', WETH_MAINNET_FIXTURE.address, [
-  //     ['txCount', '1'],
-  //     ['totalValueLocked', amountToken1.toString()],
-  //     ['totalValueLockedUSD', amountToken1.times(TEST_WETH_DERIVED_ETH.times(TEST_ETH_PRICE_USD)).toString()],
-  //   ])
-  //   log.info ('MOCK_EVENT',[MOCK_EVENT.transaction.hash.toHexString() + '-' + MOCK_EVENT.logIndex.toString()])
-  //   assertObjectMatches('ModifyLiquidity', MOCK_EVENT.transaction.hash.toHexString() + '-' + MOCK_EVENT.logIndex.toString(), [
-  //     ['transaction', MOCK_EVENT.transaction.hash.toHexString()],
-  //     ['timestamp', MOCK_EVENT.block.timestamp.toString()],
-  //     ['pool', USDC_WETH_POOL_ID],
-  //     ['token0', USDC_MAINNET_FIXTURE.address],
-  //     ['token1', WETH_MAINNET_FIXTURE.address],
-  //     // ['owner', MODIFY_LIQUIDITY_FIXTURE.owner.toHexString()],
-  //     ['sender', MODIFY_LIQUIDITY_FIXTURE_REMOVE.sender.toHexString()],
-  //     ['origin', MOCK_EVENT.transaction.from.toHexString()],
-  //     ['amount', MODIFY_LIQUIDITY_FIXTURE_REMOVE.liquidityDelta.toString()],
-  //     ['amount0', amountToken0.toString()],
-  //     ['amount1', amountToken1.toString()],
-  //     ['amountUSD', poolTotalValueLockedUSD.toString()],
-  //     ['tickUpper', MODIFY_LIQUIDITY_FIXTURE_REMOVE.tickUpper.toString()],
-  //     ['tickLower', MODIFY_LIQUIDITY_FIXTURE_REMOVE.tickLower.toString()],
-  //     ['logIndex', MOCK_EVENT.logIndex.toString()],
-  //   ])
+    assertObjectMatches('Token', WETH_MAINNET_FIXTURE.address, [
+      ['txCount', '1'],
+      ['totalValueLocked', amountToken1.toString()],
+      ['totalValueLockedUSD', amountToken1.times(TEST_WETH_DERIVED_ETH.times(TEST_ETH_PRICE_USD)).toString()],
+    ])
+    log.info ('MOCK_EVENT',[MOCK_EVENT.transaction.hash.toHexString() + '-' + MOCK_EVENT.logIndex.toString()])
+    assertObjectMatches('ModifyLiquidity', MOCK_EVENT.transaction.hash.toHexString() + '-' + MOCK_EVENT.logIndex.toString(), [
+      ['transaction', MOCK_EVENT.transaction.hash.toHexString()],
+      ['timestamp', MOCK_EVENT.block.timestamp.toString()],
+      ['pool', USDC_WETH_POOL_ID],
+      ['token0', USDC_MAINNET_FIXTURE.address],
+      ['token1', WETH_MAINNET_FIXTURE.address],
+      // ['owner', MODIFY_LIQUIDITY_FIXTURE.owner.toHexString()],
+      ['sender', MODIFY_LIQUIDITY_FIXTURE_REMOVE.sender.toHexString()],
+      ['origin', MOCK_EVENT.transaction.from.toHexString()],
+      ['amount', MODIFY_LIQUIDITY_FIXTURE_REMOVE.liquidityDelta.toString()],
+      ['amount0', amountToken0.toString()],
+      ['amount1', amountToken1.toString()],
+      ['amountUSD', poolTotalValueLockedUSD.toString()],
+      ['tickUpper', MODIFY_LIQUIDITY_FIXTURE_REMOVE.tickUpper.toString()],
+      ['tickLower', MODIFY_LIQUIDITY_FIXTURE_REMOVE.tickLower.toString()],
+      ['logIndex', MOCK_EVENT.logIndex.toString()],
+    ])
 
-  //   const lowerTickPrice = fastExponentiation(BigDecimal.fromString('1.0001'), MODIFY_LIQUIDITY_FIXTURE_REMOVE.tickLower)
-  //   assertObjectMatches('Tick', USDC_WETH_POOL_ID + '#' + MODIFY_LIQUIDITY_FIXTURE_REMOVE.tickLower.toString(), [
-  //     ['tickIdx', MODIFY_LIQUIDITY_FIXTURE_REMOVE.tickLower.toString()],
-  //     ['pool', USDC_WETH_POOL_ID],
-  //     ['poolAddress', USDC_WETH_POOL_ID],
-  //     ['createdAtTimestamp', MOCK_EVENT.block.timestamp.toString()],
-  //     ['createdAtBlockNumber', MOCK_EVENT.block.number.toString()],
-  //     ['liquidityGross', MODIFY_LIQUIDITY_FIXTURE_REMOVE.liquidityDelta.toString()],
-  //     ['liquidityNet', MODIFY_LIQUIDITY_FIXTURE_REMOVE.liquidityDelta.toString()],
-  //     ['price0', lowerTickPrice.toString()],
-  //     ['price1', safeDiv(ONE_BD, lowerTickPrice).toString()],
-  //   ])
+    const lowerTickPrice = fastExponentiation(BigDecimal.fromString('1.0001'), MODIFY_LIQUIDITY_FIXTURE_REMOVE.tickLower)
+    assertObjectMatches('Tick', USDC_WETH_POOL_ID + '#' + MODIFY_LIQUIDITY_FIXTURE_REMOVE.tickLower.toString(), [
+      ['tickIdx', MODIFY_LIQUIDITY_FIXTURE_REMOVE.tickLower.toString()],
+      ['pool', USDC_WETH_POOL_ID],
+      ['poolAddress', USDC_WETH_POOL_ID],
+      ['createdAtTimestamp', MOCK_EVENT.block.timestamp.toString()],
+      ['createdAtBlockNumber', MOCK_EVENT.block.number.toString()],
+      ['liquidityGross', MODIFY_LIQUIDITY_FIXTURE_REMOVE.liquidityDelta.toString()],
+      ['liquidityNet', MODIFY_LIQUIDITY_FIXTURE_REMOVE.liquidityDelta.toString()],
+      ['price0', lowerTickPrice.toString()],
+      ['price1', safeDiv(ONE_BD, lowerTickPrice).toString()],
+    ])
 
-  //   const upperTickPrice = fastExponentiation(BigDecimal.fromString('1.0001'), MODIFY_LIQUIDITY_FIXTURE_REMOVE.tickUpper)
-  //   assertObjectMatches('Tick', USDC_WETH_POOL_ID + '#' + MODIFY_LIQUIDITY_FIXTURE_REMOVE.tickUpper.toString(), [
-  //     ['tickIdx', MODIFY_LIQUIDITY_FIXTURE_REMOVE.tickUpper.toString()],
-  //     ['pool', USDC_WETH_POOL_ID],
-  //     ['poolAddress', USDC_WETH_POOL_ID],
-  //     ['createdAtTimestamp', MOCK_EVENT.block.timestamp.toString()],
-  //     ['createdAtBlockNumber', MOCK_EVENT.block.number.toString()],
-  //     ['liquidityGross', MODIFY_LIQUIDITY_FIXTURE_REMOVE.liquidityDelta.toString()],
-  //     ['liquidityNet', MODIFY_LIQUIDITY_FIXTURE_REMOVE.liquidityDelta.neg().toString()],
-  //     ['price0', upperTickPrice.toString()],
-  //     ['price1', safeDiv(ONE_BD, upperTickPrice).toString()],
-  //   ])
-  // })
+    const upperTickPrice = fastExponentiation(BigDecimal.fromString('1.0001'), MODIFY_LIQUIDITY_FIXTURE_REMOVE.tickUpper)
+    assertObjectMatches('Tick', USDC_WETH_POOL_ID + '#' + MODIFY_LIQUIDITY_FIXTURE_REMOVE.tickUpper.toString(), [
+      ['tickIdx', MODIFY_LIQUIDITY_FIXTURE_REMOVE.tickUpper.toString()],
+      ['pool', USDC_WETH_POOL_ID],
+      ['poolAddress', USDC_WETH_POOL_ID],
+      ['createdAtTimestamp', MOCK_EVENT.block.timestamp.toString()],
+      ['createdAtBlockNumber', MOCK_EVENT.block.number.toString()],
+      ['liquidityGross', MODIFY_LIQUIDITY_FIXTURE_REMOVE.liquidityDelta.toString()],
+      ['liquidityNet', MODIFY_LIQUIDITY_FIXTURE_REMOVE.liquidityDelta.neg().toString()],
+      ['price0', upperTickPrice.toString()],
+      ['price1', safeDiv(ONE_BD, upperTickPrice).toString()],
+    ])
+  })
 
   test('success - add liquidity event, pool tick is not between tickUpper and tickLower', () => {
     // put the pools tick out of range

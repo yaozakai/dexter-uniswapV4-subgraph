@@ -1,7 +1,7 @@
 import { BigInt } from '@graphprotocol/graph-ts'
-import { ZERO_BI } from './constants'
+import { ZERO_BI } from '../constants'
 import { SqrtPriceMath } from './sqrtPriceMath'
-import { TickMath } from './TickMath'
+import { TickMath } from './tickMath'
 
 // https://github.com/Uniswap/v3-sdk/blob/4e16fe8e56c8c26541545f138c89133794c7ce72/src/entities/position.ts#L68-L127
 export function getAmount0(tickLower: i32, tickUpper: i32, currTick: i32, amount: BigInt): BigInt {

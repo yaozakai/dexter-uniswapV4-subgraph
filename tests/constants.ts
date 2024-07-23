@@ -160,8 +160,6 @@ export const invokePoolCreatedWithMockedEthCalls = (
 
   const token0Address = Address.fromString(token0.address)
   const token1Address = Address.fromString(token1.address)
-  const poolAddress = subgraphConfig.stablecoinWrappedNativePoolId
-
 
   const id = Bytes.fromHexString(USDC_WETH_POOL_ID) as Bytes
 

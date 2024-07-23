@@ -25,7 +25,6 @@ export function handleInitializeHelper(
   const whitelistTokens = subgraphConfig.whitelistTokens
   const tokenOverrides = subgraphConfig.tokenOverrides
   const poolsToSkip = subgraphConfig.poolsToSkip
-  const poolMappings = subgraphConfig.poolMappings
 
   // temp fix
   if (poolsToSkip.includes(event.params.id.toHexString())) {
@@ -52,7 +51,7 @@ export function handleInitializeHelper(
    // create new bundle for tracking eth price
     const bundle = new Bundle('1')
     bundle.ethPriceUSD = ZERO_BD
-    bundle.save()
+      bundle.save()
 }
 
   poolManager.poolCount = poolManager.poolCount.plus(ONE_BI)

@@ -1,5 +1,5 @@
 import { BigInt, ByteArray } from '@graphprotocol/graph-ts'
-import { MaxUint256, ONE_BI, Q96, ZERO_BI } from './constants'
+import { MaxUint256, ONE_BI, Q96, ZERO_BI } from '../constants'
 
 // https://github.com/Uniswap/sdks/blob/92b765bdf2759e5e6639a01728a96df81efbaa2b/sdks/v3-sdk/src/utils/tickMath.ts
 
@@ -7,11 +7,6 @@ function mulShift(val: BigInt, mul: BigInt): BigInt {
     return val.times(mul).rightShift(128)
 }
 export abstract class TickMath {
-  /**
-   * Cannot be constructed.
-   */
-  private constructor() {}
-
   /**
    * The minimum tick that can be used on any pool.
    */
