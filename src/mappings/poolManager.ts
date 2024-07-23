@@ -1,26 +1,23 @@
 import { BigInt } from '@graphprotocol/graph-ts'
+import { log } from 'matchstick-as/assembly/log'
 
-import {  PoolManager } from '../types/schema'
+import { Initialize } from '../types/PoolManager/PoolManager'
+import { PoolManager } from '../types/schema'
 import { Bundle, Pool, Token } from '../types/schema'
 import { getSubgraphConfig, SubgraphConfig } from '../utils/chains'
-import { fetchTokenDecimals, fetchTokenName, fetchTokenSymbol, fetchTokenTotalSupply } from '../utils/token'
 import { ADDRESS_ZERO, ONE_BI, ZERO_BD, ZERO_BI } from '../utils/constants'
-import { Initialize } from '../types/PoolManager/PoolManager'
-import { log } from "matchstick-as/assembly/log";
-import { findNativePerToken, getNativePriceInUSD } from '../utils/pricing'
 import { updatePoolDayData, updatePoolHourData } from '../utils/intervalUpdates'
+import { findNativePerToken, getNativePriceInUSD } from '../utils/pricing'
+import { fetchTokenDecimals, fetchTokenName, fetchTokenSymbol, fetchTokenTotalSupply } from '../utils/token'
 
 // The subgraph handler must have this signature to be able to handle events,
 // however, we invoke a helper in order to inject dependencies for unit tests.
 export function handleInitialize(event: Initialize): void {
-   handleInitializeHelper(event)
+  handleInitializeHelper(event)
 }
 
 // Exported for unit tests
-export function handleInitializeHelper(
-  event: Initialize,
- subgraphConfig: SubgraphConfig = getSubgraphConfig(),
-): void {
+export function handleInitializeHelper(event: Initialize, subgraphConfig: SubgraphConfig = getSubgraphConfig()): void {
   const poolManagerAddress = subgraphConfig.poolManagerAddress
   const whitelistTokens = subgraphConfig.whitelistTokens
   const tokenOverrides = subgraphConfig.tokenOverrides
@@ -48,11 +45,11 @@ export function handleInitializeHelper(
     poolManager.txCount = ZERO_BI
     poolManager.owner = ADDRESS_ZERO
 
-   // create new bundle for tracking eth price
+    // create new bundle for tracking eth price
     const bundle = new Bundle('1')
     bundle.ethPriceUSD = ZERO_BD
-      bundle.save()
-}
+    bundle.save()
+  }
 
   poolManager.poolCount = poolManager.poolCount.plus(ONE_BI)
   const pool = new Pool(event.params.id.toHexString()) as Pool
@@ -167,7 +164,6 @@ export function handleInitializeHelper(
   const stablecoinAddresses = subgraphConfig.stablecoinAddresses
   const minimumNativeLocked = subgraphConfig.minimumNativeLocked
 
-
   //todo(matteen): revisit once we have initial sqrt price and tick
   // update pool sqrt price and tick
   // const pool = Pool.load(event.address.toHexString())!
@@ -175,7 +171,7 @@ export function handleInitializeHelper(
   // pool.tick = BigInt.fromI32(event.params.tick)
   // pool.save()
 
- // update ETH price now that prices could have changed
+  // update ETH price now that prices could have changed
   const bundle = Bundle.load('1')!
   bundle.ethPriceUSD = getNativePriceInUSD(stablecoinWrappedNativePoolId, stablecoinIsToken0)
   bundle.save()
@@ -201,4 +197,3 @@ export function handleInitializeHelper(
     token1.save()
   }
 }
-

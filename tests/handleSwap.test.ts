@@ -1,6 +1,8 @@
 import { Address, BigDecimal, BigInt, Bytes, ethereum } from '@graphprotocol/graph-ts'
 import { beforeAll, describe, test } from 'matchstick-as'
 
+import { handleSwapHelper } from '../src/mappings/swap'
+import { Swap } from '../src/types/PoolManager/PoolManager'
 import { Bundle, Token } from '../src/types/schema'
 import { convertTokenToDecimal, safeDiv } from '../src/utils'
 import { ZERO_BD } from '../src/utils/constants'
@@ -23,8 +25,6 @@ import {
   USDC_WETH_POOL_ID,
   WETH_MAINNET_FIXTURE,
 } from './constants'
-import { Swap } from '../src/types/PoolManager/PoolManager'
-import { handleSwapHelper } from '../src/mappings/swap'
 
 class SwapFixture {
   id: string
@@ -39,12 +39,12 @@ class SwapFixture {
 
 // https://sepolia.etherscan.io/tx/0x55e13046016b653bd125e26917fac1b06dd15bf7b0659701d5e9d00b7b403f2c#eventlog
 const SWAP_FIXTURE: SwapFixture = {
-  id:  USDC_WETH_POOL_ID,
+  id: USDC_WETH_POOL_ID,
   sender: Address.fromString('0x841B5A0b3DBc473c8A057E2391014aa4C4751351'),
-  amount0:  BigInt.fromString('-10007'),
+  amount0: BigInt.fromString('-10007'),
   amount1: BigInt.fromString('10000'),
   sqrtPriceX96: BigInt.fromString('79228162514264337514315787821'),
-  liquidity:BigInt.fromString('10000000000000000000000'), 
+  liquidity: BigInt.fromString('10000000000000000000000'),
   tick: -1,
   fee: 500,
 }

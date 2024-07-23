@@ -1,6 +1,7 @@
 import { BigInt, log } from '@graphprotocol/graph-ts'
 
-import { Bundle, Pool, PoolManager, Tick, Token, ModifyLiquidity } from '../types/schema'
+import { ModifyLiquidity as ModifyLiquidityEvent } from '../types/PoolManager/PoolManager'
+import { Bundle, ModifyLiquidity, Pool, PoolManager, Tick, Token } from '../types/schema'
 import { convertTokenToDecimal, loadTransaction } from '../utils'
 import { getSubgraphConfig, SubgraphConfig } from '../utils/chains'
 import { ONE_BI } from '../utils/constants'
@@ -11,15 +12,17 @@ import {
   updateTokenHourData,
   updateUniswapDayData,
 } from '../utils/intervalUpdates'
-import { createTick } from '../utils/tick'
-import { ModifyLiquidity as ModifyLiquidityEvent } from '../types/PoolManager/PoolManager'
 import { getAmount0, getAmount1 } from '../utils/liquidityMath/liquidityAmounts'
+import { createTick } from '../utils/tick'
 
 export function handleModifyLiquidity(event: ModifyLiquidityEvent): void {
   handleModifyLiquidityHelper(event)
 }
 
-export function handleModifyLiquidityHelper(event: ModifyLiquidityEvent, subgraphConfig: SubgraphConfig = getSubgraphConfig()): void {
+export function handleModifyLiquidityHelper(
+  event: ModifyLiquidityEvent,
+  subgraphConfig: SubgraphConfig = getSubgraphConfig(),
+): void {
   const poolManagerAddress = subgraphConfig.poolManagerAddress
 
   const bundle = Bundle.load('1')!
@@ -41,14 +44,14 @@ export function handleModifyLiquidityHelper(event: ModifyLiquidityEvent, subgrap
   const token1 = Token.load(pool.token1)
 
   if (token0 && token1) {
-    let currTick: i32 = pool.tick!.toI32()
+    const currTick: i32 = pool.tick!.toI32()
 
     // Get the amounts using the getAmounts function
-    let amount0Raw = getAmount0(event.params.tickLower, event.params.tickUpper, currTick, event.params.liquidityDelta)
-    let amount1Raw= getAmount1(event.params.tickLower, event.params.tickUpper, currTick, event.params.liquidityDelta)
+    const amount0Raw = getAmount0(event.params.tickLower, event.params.tickUpper, currTick, event.params.liquidityDelta)
+    const amount1Raw = getAmount1(event.params.tickLower, event.params.tickUpper, currTick, event.params.liquidityDelta)
     const amount0 = convertTokenToDecimal(amount0Raw, token0.decimals)
     const amount1 = convertTokenToDecimal(amount1Raw, token1.decimals)
-    
+
     const amountUSD = amount0
       .times(token0.derivedETH.times(bundle.ethPriceUSD))
       .plus(amount1.times(token1.derivedETH.times(bundle.ethPriceUSD)))
@@ -82,7 +85,6 @@ export function handleModifyLiquidityHelper(event: ModifyLiquidityEvent, subgrap
       pool.liquidity = pool.liquidity.plus(event.params.liquidityDelta)
     }
 
-
     // log pool liquidity
     pool.totalValueLockedToken0 = pool.totalValueLockedToken0.plus(amount0)
     pool.totalValueLockedToken1 = pool.totalValueLockedToken1.plus(amount1)
@@ -115,7 +117,7 @@ export function handleModifyLiquidityHelper(event: ModifyLiquidityEvent, subgrap
     // tick entities
     const lowerTickIdx = event.params.tickLower
     const upperTickIdx = event.params.tickUpper
- 
+
     const lowerTickId = poolId + '#' + BigInt.fromI32(event.params.tickLower).toString()
     const upperTickId = poolId + '#' + BigInt.fromI32(event.params.tickUpper).toString()
 
@@ -139,12 +141,11 @@ export function handleModifyLiquidityHelper(event: ModifyLiquidityEvent, subgrap
     lowerTick.save()
     upperTick.save()
 
-
     lowerTick.save()
     upperTick.save()
 
     updateUniswapDayData(event, poolManagerAddress)
-    updatePoolDayData(event.params.id.toHexString(),event)
+    updatePoolDayData(event.params.id.toHexString(), event)
     updatePoolHourData(event.params.id.toHexString(), event)
     updateTokenDayData(token0 as Token, event)
     updateTokenDayData(token1 as Token, event)

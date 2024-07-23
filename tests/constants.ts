@@ -1,11 +1,11 @@
 import { Address, BigDecimal, BigInt, Bytes, ethereum } from '@graphprotocol/graph-ts'
 import { assert, createMockedFunction, newMockEvent } from 'matchstick-as'
 
+import { handleInitializeHelper } from '../src/mappings/poolManager'
+import { Initialize } from '../src/types/PoolManager/PoolManager'
 import { Pool, Token } from '../src/types/schema'
 import { SubgraphConfig } from '../src/utils/chains'
 import { ZERO_BD, ZERO_BI } from '../src/utils/constants'
-import { handleInitializeHelper } from '../src/mappings/poolManager'
-import { Initialize } from '../src/types/PoolManager/PoolManager'
 
 const POOL_MANAGER_ADDRESS = '0xc021A7Deb4a939fd7E661a0669faB5ac7Ba2D5d6'
 const USDC_MAINNET_ADDRESS = '0xbe2a7f5acecdc293bf34445a0021f229dd2edd49'
@@ -16,7 +16,6 @@ export const WBTC_WETH_03_MAINNET_POOL = '0xcbcdf9626bc03e24f779434178a73a0b4bad
 export const POOL_FEE_TIER_03 = 500
 
 export const USDC_WETH_POOL_ID = '0xa40318dea5fabf21971f683f641b54d6d7d86f5b083cd6f0af9332c5c7a9ec06'
-
 
 export const TEST_CONFIG: SubgraphConfig = {
   poolManagerAddress: POOL_MANAGER_ADDRESS,
@@ -135,7 +134,7 @@ export const getPoolFixture = (poolAddress: string): PoolFixture => {
   if (poolAddress == WBTC_WETH_03_MAINNET_POOL) {
     return WBTC_WETH_03_MAINNET_POOL_FIXTURE
   } else if (poolAddress == USDC_WETH_POOL_ID) {
-     return USDC_WETH_03_MAINNET_POOL_FIXTURE
+    return USDC_WETH_03_MAINNET_POOL_FIXTURE
   } else {
     throw new Error('Pool address not found in fixtures')
   }
@@ -144,7 +143,6 @@ export const getPoolFixture = (poolAddress: string): PoolFixture => {
 export const TEST_ETH_PRICE_USD = BigDecimal.fromString('2000')
 export const TEST_USDC_DERIVED_ETH = BigDecimal.fromString('1').div(BigDecimal.fromString('2000'))
 export const TEST_WETH_DERIVED_ETH = BigDecimal.fromString('1')
-
 
 export const MOCK_EVENT = newMockEvent()
 

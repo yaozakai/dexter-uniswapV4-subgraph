@@ -1,4 +1,4 @@
-import { Address, BigDecimal, BigInt, dataSource } from '@graphprotocol/graph-ts'
+import { Address, BigDecimal, dataSource } from '@graphprotocol/graph-ts'
 
 import { StaticTokenDefinition } from './staticTokenDefinition'
 
@@ -73,7 +73,6 @@ export function getSubgraphConfig(): SubgraphConfig {
       poolsToSkip: [],
       poolMappings: [],
     }
-
   } else {
     throw new Error('Unsupported Network')
   }

@@ -1,7 +1,7 @@
 import { BigDecimal, BigInt } from '@graphprotocol/graph-ts'
 
-import { Bundle, Pool, PoolManager, Swap, Token } from '../types/schema'
 import { Swap as SwapEvent } from '../types/PoolManager/PoolManager'
+import { Bundle, Pool, PoolManager, Swap, Token } from '../types/schema'
 import { convertTokenToDecimal, loadTransaction, safeDiv } from '../utils'
 import { getSubgraphConfig, SubgraphConfig } from '../utils/chains'
 import { ONE_BI, ZERO_BD } from '../utils/constants'
@@ -124,7 +124,7 @@ export function handleSwapHelper(event: SwapEvent, subgraphConfig: SubgraphConfi
     pool.save()
 
     // update USD pricing
-     bundle.ethPriceUSD = getNativePriceInUSD(stablecoinWrappedNativePoolId, stablecoinIsToken0)
+    bundle.ethPriceUSD = getNativePriceInUSD(stablecoinWrappedNativePoolId, stablecoinIsToken0)
 
     bundle.save()
     token0.derivedETH = findNativePerToken(
@@ -173,7 +173,7 @@ export function handleSwapHelper(event: SwapEvent, subgraphConfig: SubgraphConfi
 
     // interval data
     const uniswapDayData = updateUniswapDayData(event, poolManagerAddress)
-    const poolDayData = updatePoolDayData(event.params.id.toHexString(),event)
+    const poolDayData = updatePoolDayData(event.params.id.toHexString(), event)
     const poolHourData = updatePoolHourData(event.params.id.toHexString(), event)
     const token0DayData = updateTokenDayData(token0 as Token, event)
     const token1DayData = updateTokenDayData(token1 as Token, event)

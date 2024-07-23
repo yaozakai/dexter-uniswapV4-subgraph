@@ -1,9 +1,9 @@
-import { BigInt, BigDecimal } from '@graphprotocol/graph-ts'
+import { BigDecimal, BigInt } from '@graphprotocol/graph-ts'
 
+import { ModifyLiquidity } from '../types/PoolManager/PoolManager'
 import { Tick } from '../types/schema'
 import { fastExponentiation, safeDiv } from '.'
 import { ONE_BD, ZERO_BI } from './constants'
-import { ModifyLiquidity } from '../types/PoolManager/PoolManager'
 
 export function createTick(tickId: string, tickIdx: i32, poolId: string, event: ModifyLiquidity): Tick {
   const tick = new Tick(tickId)

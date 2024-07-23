@@ -55,10 +55,7 @@ export function sqrtPriceX96ToTokenPrices(sqrtPriceX96: BigInt, token0: Token, t
   return [price0, price1]
 }
 
-export function getNativePriceInUSD(
-  stablecoinWrappedNativePoolId: string,
-  stablecoinIsToken0: boolean,
-): BigDecimal {
+export function getNativePriceInUSD(stablecoinWrappedNativePoolId: string, stablecoinIsToken0: boolean): BigDecimal {
   const stablecoinWrappedNativePool = Pool.load(stablecoinWrappedNativePoolId)
   if (stablecoinWrappedNativePool !== null) {
     return stablecoinIsToken0 ? stablecoinWrappedNativePool.token0Price : stablecoinWrappedNativePool.token1Price

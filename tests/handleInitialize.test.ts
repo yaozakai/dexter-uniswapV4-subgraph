@@ -1,7 +1,10 @@
 import { Address, BigDecimal, BigInt, Bytes, ethereum } from '@graphprotocol/graph-ts'
 import { assert, beforeEach, clearStore, describe, test } from 'matchstick-as'
 
+import { handleInitializeHelper } from '../src/mappings/poolManager'
+import { Initialize } from '../src/types/PoolManager/PoolManager'
 import { Bundle, Pool, Token } from '../src/types/schema'
+import { safeDiv } from '../src/utils'
 import { ADDRESS_ZERO } from '../src/utils/constants'
 import { findNativePerToken, getNativePriceInUSD } from '../src/utils/pricing'
 import {
@@ -19,9 +22,6 @@ import {
   WBTC_WETH_03_MAINNET_POOL_FIXTURE,
   WETH_MAINNET_FIXTURE,
 } from './constants'
-import { handleInitializeHelper } from '../src/mappings/poolManager'
-import { Initialize } from '../src/types/PoolManager/PoolManager'
-import { safeDiv } from '../src/utils'
 
 class InitializeFixture {
   id: string
@@ -31,7 +31,6 @@ class InitializeFixture {
   tickSpacing: string
   hooks: string
 }
-
 
 const INITIALIZE_FIXTURE: InitializeFixture = {
   // sqrtPriceX96: BigInt.fromString('1111111111111111'),
@@ -79,7 +78,7 @@ describe('handleInitialize', () => {
       ['token0', token0.id],
       ['token1', token1.id],
       ['feeTier', INITIALIZE_FIXTURE.fee],
-      // todo: add tickSpacing? 
+      // todo: add tickSpacing?
     ])
 
     const expectedEthPrice = getNativePriceInUSD(USDC_WETH_POOL_ID, true)
