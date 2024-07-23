@@ -53,8 +53,6 @@ export function handleInitializeHelper(
     const bundle = new Bundle('1')
     bundle.ethPriceUSD = ZERO_BD
     bundle.save()
-
-    //populateEmptyPools(event, poolMappings, whitelistTokens, tokenOverrides)
 }
 
   poolManager.poolCount = poolManager.poolCount.plus(ONE_BI)

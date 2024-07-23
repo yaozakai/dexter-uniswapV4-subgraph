@@ -66,7 +66,6 @@ export abstract class TickMath {
         if (tick > 0) ratio = MaxUint256.div(ratio)
 
         if (tick > 0) {
-            // const maxUint256 = BigInt.fromI32(2).leftShift(255).minus(BigInt.fromI32(1)).leftShift(1).plus(BigInt.fromI32(1));
             ratio = MaxUint256.div(ratio);
             }
         return ratio.rightShift(32).plus(
