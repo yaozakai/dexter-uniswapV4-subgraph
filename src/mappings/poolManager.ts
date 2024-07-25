@@ -1,4 +1,5 @@
 import { BigInt, log } from '@graphprotocol/graph-ts'
+
 import { Initialize as InitializeEvent } from '../types/PoolManager/PoolManager'
 import { PoolManager } from '../types/schema'
 import { Bundle, Pool, Token } from '../types/schema'

@@ -1,5 +1,4 @@
 import { BigInt } from '@graphprotocol/graph-ts'
-import { log } from 'matchstick-as/assembly/log'
 
 import { ONE_BI, Q96 } from '../constants'
 import { FullMath } from './fullMath'
@@ -27,10 +26,7 @@ export abstract class SqrtPriceMath {
           ONE_BI,
           sqrtRatioAX96,
         )
-      : numerator1
-          .times(numerator2)
-          .div(sqrtRatioBX96)
-          .div(sqrtRatioAX96)
+      : numerator1.times(numerator2).div(sqrtRatioBX96).div(sqrtRatioAX96)
   }
 
   public static getAmount1Delta(

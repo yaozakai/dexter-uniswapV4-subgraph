@@ -1,5 +1,5 @@
 import { Address, BigDecimal, BigInt, Bytes, ethereum } from '@graphprotocol/graph-ts'
-import { afterEach, beforeEach, clearStore, describe, log, test } from 'matchstick-as'
+import { afterEach, beforeEach, clearStore, describe, test } from 'matchstick-as'
 
 import { handleModifyLiquidityHelper } from '../src/mappings/modifyLiquidity'
 import { ModifyLiquidity } from '../src/types/PoolManager/PoolManager'

@@ -3,7 +3,7 @@ import { assert, beforeEach, clearStore, describe, test } from 'matchstick-as'
 
 import { handleInitializeHelper } from '../src/mappings/poolManager'
 import { Initialize } from '../src/types/PoolManager/PoolManager'
-import { Bundle, Pool, Token } from '../src/types/schema'
+import { Bundle, Pool } from '../src/types/schema'
 import { safeDiv } from '../src/utils'
 import { ADDRESS_ZERO } from '../src/utils/constants'
 import { findNativePerToken, getNativePriceInUSD } from '../src/utils/pricing'
