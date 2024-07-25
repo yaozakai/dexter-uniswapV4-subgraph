@@ -82,20 +82,11 @@ export const NULL_ETH_HEX_STRING = '0x000000000000000000000000000000000000000000
 export function isNullEthValue(value: string): boolean {
   return value == NULL_ETH_HEX_STRING
 }
-
-export function bigDecimalExp18(): BigDecimal {
-  return BigDecimal.fromString('1000000000000000000')
-}
-
 export function convertTokenToDecimal(tokenAmount: BigInt, exchangeDecimals: BigInt): BigDecimal {
   if (exchangeDecimals == ZERO_BI) {
     return tokenAmount.toBigDecimal()
   }
   return tokenAmount.toBigDecimal().div(exponentToBigDecimal(exchangeDecimals))
-}
-
-export function convertEthToDecimal(eth: BigInt): BigDecimal {
-  return eth.toBigDecimal().div(exponentToBigDecimal(18))
 }
 
 export function loadTransaction(event: ethereum.Event): Transaction {
