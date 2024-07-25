@@ -56,6 +56,7 @@ const INITIALIZE_EVENT = new Initialize(
     new ethereum.EventParam('currency1', ethereum.Value.fromAddress(Address.fromString(INITIALIZE_FIXTURE.currency1))),
     new ethereum.EventParam('fee', ethereum.Value.fromI32(parseInt(INITIALIZE_FIXTURE.fee) as i32)),
     new ethereum.EventParam('tickSpacing', ethereum.Value.fromI32(parseInt(INITIALIZE_FIXTURE.tickSpacing) as i32)),
+    new ethereum.EventParam('hooks', ethereum.Value.fromAddress(Address.fromString(INITIALIZE_FIXTURE.hooks))),
   ],
   MOCK_EVENT.receipt,
 )
@@ -77,6 +78,7 @@ describe('handleInitialize', () => {
       ['token0', token0.id],
       ['token1', token1.id],
       ['feeTier', INITIALIZE_FIXTURE.fee],
+      ['hooks', INITIALIZE_FIXTURE.hooks],
       ['createdAtTimestamp', MOCK_EVENT.block.timestamp.toString()],
       ['createdAtBlockNumber', MOCK_EVENT.block.number.toString()],
     ])

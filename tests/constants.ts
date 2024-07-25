@@ -84,6 +84,7 @@ export class PoolFixture {
   feeTier: string
   tickSpacing: string
   liquidity: string
+  hooks: string
 }
 
 export const USDC_WETH_05_MAINNET_POOL_FIXTURE: PoolFixture = {
@@ -93,6 +94,7 @@ export const USDC_WETH_05_MAINNET_POOL_FIXTURE: PoolFixture = {
   feeTier: '500',
   tickSpacing: '10',
   liquidity: '100',
+  hooks: ADDRESS_ZERO,
 }
 
 export const WBTC_WETH_03_MAINNET_POOL_FIXTURE: PoolFixture = {
@@ -102,7 +104,9 @@ export const WBTC_WETH_03_MAINNET_POOL_FIXTURE: PoolFixture = {
   feeTier: '3000',
   tickSpacing: '60',
   liquidity: '200',
+  hooks: ADDRESS_ZERO,
 }
+
 export const getPoolFixture = (poolAddress: string): PoolFixture => {
   if (poolAddress == WBTC_WETH_POOL_ID) {
     return WBTC_WETH_03_MAINNET_POOL_FIXTURE
@@ -211,6 +215,7 @@ export const createAndStoreTestPool = (poolFixture: PoolFixture): Pool => {
   pool.totalValueLockedETH = ZERO_BD
   pool.totalValueLockedUSDUntracked = ZERO_BD
   pool.liquidityProviderCount = ZERO_BI
+  pool.hooks = ADDRESS_ZERO
 
   pool.save()
   return pool
