@@ -5,17 +5,16 @@ import { handleInitializeHelper } from '../src/mappings/poolManager'
 import { Initialize } from '../src/types/PoolManager/PoolManager'
 import { Pool, Token } from '../src/types/schema'
 import { SubgraphConfig } from '../src/utils/chains'
-import { ZERO_BD, ZERO_BI } from '../src/utils/constants'
+import { ADDRESS_ZERO, ZERO_BD, ZERO_BI } from '../src/utils/constants'
 
 const POOL_MANAGER_ADDRESS = '0xc021A7Deb4a939fd7E661a0669faB5ac7Ba2D5d6'
 const USDC_MAINNET_ADDRESS = '0xbe2a7f5acecdc293bf34445a0021f229dd2edd49'
 const WETH_MAINNET_ADDRESS = '0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2'
 const WBTC_MAINNET_ADDRESS = '0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599'
-export const USDC_WETH_03_MAINNET_POOL = '0x8ad599c3a0ff1de082011efddc58f1908eb6e6d8'
-export const WBTC_WETH_03_MAINNET_POOL = '0xcbcdf9626bc03e24f779434178a73a0b4bad62ed'
-export const POOL_FEE_TIER_03 = 500
+export const POOL_FEE_TIER_05 = 500
 
 export const USDC_WETH_POOL_ID = '0xa40318dea5fabf21971f683f641b54d6d7d86f5b083cd6f0af9332c5c7a9ec06'
+export const WBTC_WETH_POOL_ID = '0x1C01B15792CB28081ADB1FFF9D7D93381392939574E080535DF181C55CD1DB59'
 
 export const TEST_CONFIG: SubgraphConfig = {
   poolManagerAddress: POOL_MANAGER_ADDRESS,
@@ -27,32 +26,6 @@ export const TEST_CONFIG: SubgraphConfig = {
   whitelistTokens: [WETH_MAINNET_ADDRESS, USDC_MAINNET_ADDRESS],
   tokenOverrides: [],
   poolsToSkip: [],
-  poolMappings: [],
-}
-
-export const TEST_CONFIG_WITH_NO_WHITELIST: SubgraphConfig = {
-  poolManagerAddress: POOL_MANAGER_ADDRESS,
-  stablecoinWrappedNativePoolId: USDC_WETH_03_MAINNET_POOL,
-  stablecoinIsToken0: true,
-  wrappedNativeAddress: WETH_MAINNET_ADDRESS,
-  minimumNativeLocked: ZERO_BD,
-  stablecoinAddresses: [USDC_MAINNET_ADDRESS],
-  whitelistTokens: [],
-  tokenOverrides: [],
-  poolsToSkip: [],
-  poolMappings: [],
-}
-
-export const TEST_CONFIG_WITH_POOL_SKIPPED: SubgraphConfig = {
-  poolManagerAddress: POOL_MANAGER_ADDRESS,
-  stablecoinWrappedNativePoolId: USDC_WETH_03_MAINNET_POOL,
-  stablecoinIsToken0: true,
-  wrappedNativeAddress: WETH_MAINNET_ADDRESS,
-  minimumNativeLocked: ZERO_BD,
-  stablecoinAddresses: [USDC_MAINNET_ADDRESS],
-  whitelistTokens: [WETH_MAINNET_ADDRESS, USDC_MAINNET_ADDRESS],
-  tokenOverrides: [],
-  poolsToSkip: [USDC_WETH_03_MAINNET_POOL],
   poolMappings: [],
 }
 
@@ -113,7 +86,7 @@ export class PoolFixture {
   liquidity: string
 }
 
-export const USDC_WETH_03_MAINNET_POOL_FIXTURE: PoolFixture = {
+export const USDC_WETH_05_MAINNET_POOL_FIXTURE: PoolFixture = {
   id: USDC_WETH_POOL_ID,
   token0: USDC_MAINNET_FIXTURE,
   token1: WETH_MAINNET_FIXTURE,
@@ -123,7 +96,7 @@ export const USDC_WETH_03_MAINNET_POOL_FIXTURE: PoolFixture = {
 }
 
 export const WBTC_WETH_03_MAINNET_POOL_FIXTURE: PoolFixture = {
-  id: WBTC_WETH_03_MAINNET_POOL,
+  id: WBTC_WETH_POOL_ID,
   token0: WBTC_MAINNET_FIXTURE,
   token1: WETH_MAINNET_FIXTURE,
   feeTier: '3000',
@@ -131,10 +104,10 @@ export const WBTC_WETH_03_MAINNET_POOL_FIXTURE: PoolFixture = {
   liquidity: '200',
 }
 export const getPoolFixture = (poolAddress: string): PoolFixture => {
-  if (poolAddress == WBTC_WETH_03_MAINNET_POOL) {
+  if (poolAddress == WBTC_WETH_POOL_ID) {
     return WBTC_WETH_03_MAINNET_POOL_FIXTURE
   } else if (poolAddress == USDC_WETH_POOL_ID) {
-    return USDC_WETH_03_MAINNET_POOL_FIXTURE
+    return USDC_WETH_05_MAINNET_POOL_FIXTURE
   } else {
     throw new Error('Pool address not found in fixtures')
   }
@@ -161,7 +134,7 @@ export const invokePoolCreatedWithMockedEthCalls = (
 
   const id = Bytes.fromHexString(USDC_WETH_POOL_ID) as Bytes
 
-  const hooksAddress = Address.fromString('0x0000000000000000000000000000000000000000')
+  const hooksAddress = Address.fromString(ADDRESS_ZERO)
   const parameters = [
     new ethereum.EventParam('id', ethereum.Value.fromFixedBytes(id)),
     new ethereum.EventParam('currency0', ethereum.Value.fromAddress(token0Address)),

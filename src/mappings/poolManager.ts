@@ -1,7 +1,5 @@
-import { BigInt } from '@graphprotocol/graph-ts'
-import { log } from 'matchstick-as/assembly/log'
-
-import { Initialize } from '../types/PoolManager/PoolManager'
+import { BigInt, log } from '@graphprotocol/graph-ts'
+import { Initialize as InitializeEvent } from '../types/PoolManager/PoolManager'
 import { PoolManager } from '../types/schema'
 import { Bundle, Pool, Token } from '../types/schema'
 import { getSubgraphConfig, SubgraphConfig } from '../utils/chains'
@@ -12,19 +10,26 @@ import { fetchTokenDecimals, fetchTokenName, fetchTokenSymbol, fetchTokenTotalSu
 
 // The subgraph handler must have this signature to be able to handle events,
 // however, we invoke a helper in order to inject dependencies for unit tests.
-export function handleInitialize(event: Initialize): void {
+export function handleInitialize(event: InitializeEvent): void {
   handleInitializeHelper(event)
 }
 
-// Exported for unit tests
-export function handleInitializeHelper(event: Initialize, subgraphConfig: SubgraphConfig = getSubgraphConfig()): void {
+export function handleInitializeHelper(
+  event: InitializeEvent,
+  subgraphConfig: SubgraphConfig = getSubgraphConfig(),
+): void {
   const poolManagerAddress = subgraphConfig.poolManagerAddress
   const whitelistTokens = subgraphConfig.whitelistTokens
   const tokenOverrides = subgraphConfig.tokenOverrides
   const poolsToSkip = subgraphConfig.poolsToSkip
+  const stablecoinWrappedNativePoolId = subgraphConfig.stablecoinWrappedNativePoolId
+  const stablecoinIsToken0 = subgraphConfig.stablecoinIsToken0
+  const wrappedNativeAddress = subgraphConfig.wrappedNativeAddress
+  const stablecoinAddresses = subgraphConfig.stablecoinAddresses
+  const minimumNativeLocked = subgraphConfig.minimumNativeLocked
+  const poolId = event.params.id.toHexString()
 
-  // temp fix
-  if (poolsToSkip.includes(event.params.id.toHexString())) {
+  if (poolsToSkip.includes(poolId)) {
     return
   }
 
@@ -52,7 +57,7 @@ export function handleInitializeHelper(event: Initialize, subgraphConfig: Subgra
   }
 
   poolManager.poolCount = poolManager.poolCount.plus(ONE_BI)
-  const pool = new Pool(event.params.id.toHexString()) as Pool
+  const pool = new Pool(poolId)
   let token0 = Token.load(event.params.currency0.toHexString())
   let token1 = Token.load(event.params.currency1.toHexString())
 
@@ -149,51 +154,25 @@ export function handleInitializeHelper(event: Initialize, subgraphConfig: Subgra
   pool.collectedFeesToken1 = ZERO_BD
   pool.collectedFeesUSD = ZERO_BD
 
-  pool.tick = ZERO_BI // todo(matteen): revisit
-
+  // todo(matteen): Update with tick and price event data when that is available
+  // pool.sqrtPrice = event.params.sqrtPriceX96
+  // pool.tick = BigInt.fromI32(event.params.tick)
+  pool.tick = ZERO_BI // temp
   pool.save()
-
   token0.save()
   token1.save()
   poolManager.save()
 
-  // from v3 initialzie handler:
-  const stablecoinWrappedNativePoolId = subgraphConfig.stablecoinWrappedNativePoolId
-  const stablecoinIsToken0 = subgraphConfig.stablecoinIsToken0
-  const wrappedNativeAddress = subgraphConfig.wrappedNativeAddress
-  const stablecoinAddresses = subgraphConfig.stablecoinAddresses
-  const minimumNativeLocked = subgraphConfig.minimumNativeLocked
-
-  //todo(matteen): revisit once we have initial sqrt price and tick
-  // update pool sqrt price and tick
-  // const pool = Pool.load(event.address.toHexString())!
-  // pool.sqrtPrice = event.params.sqrtPriceX96
-  // pool.tick = BigInt.fromI32(event.params.tick)
-  // pool.save()
-
+  // update prices
   // update ETH price now that prices could have changed
   const bundle = Bundle.load('1')!
   bundle.ethPriceUSD = getNativePriceInUSD(stablecoinWrappedNativePoolId, stablecoinIsToken0)
   bundle.save()
+  updatePoolDayData(poolId, event)
+  updatePoolHourData(poolId, event)
+  token1.derivedETH = findNativePerToken(token1, wrappedNativeAddress, stablecoinAddresses, minimumNativeLocked)
+  token0.derivedETH = findNativePerToken(token0, wrappedNativeAddress, stablecoinAddresses, minimumNativeLocked)
 
-  updatePoolDayData(event.params.id.toHexString(), event)
-  updatePoolHourData(event.params.id.toHexString(), event)
-
-  // update token prices
-  if (token0 && token1) {
-    token0.derivedETH = findNativePerToken(
-      token0 as Token,
-      wrappedNativeAddress,
-      stablecoinAddresses,
-      minimumNativeLocked,
-    )
-    token1.derivedETH = findNativePerToken(
-      token1 as Token,
-      wrappedNativeAddress,
-      stablecoinAddresses,
-      minimumNativeLocked,
-    )
-    token0.save()
-    token1.save()
-  }
+  token0.save()
+  token1.save()
 }

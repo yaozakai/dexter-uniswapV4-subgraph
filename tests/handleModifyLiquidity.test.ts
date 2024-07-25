@@ -109,7 +109,6 @@ describe('handleModifyLiquidity', () => {
   test('success - add liquidity event, pool tick is between tickUpper and tickLower', () => {
     // put the pools tick in range
     const pool = Pool.load(USDC_WETH_POOL_ID)!
-    log.info('pool', [pool.id])
     pool.tick = BigInt.fromI32(MODIFY_LIQUIDITY_FIXTURE_ADD.tickLower + MODIFY_LIQUIDITY_FIXTURE_ADD.tickUpper).div(
       BigInt.fromI32(2),
     )
@@ -125,8 +124,7 @@ describe('handleModifyLiquidity', () => {
       BigInt.fromString('295530108791371696808'),
       BigInt.fromString(WETH_MAINNET_FIXTURE.decimals),
     )
-    log.info('amountToken0', [amountToken0.toString()])
-    log.info('amountToken1', [amountToken1.toString()])
+
     const poolTotalValueLockedETH = amountToken0
       .times(TEST_USDC_DERIVED_ETH)
       .plus(amountToken1.times(TEST_WETH_DERIVED_ETH))
@@ -158,7 +156,6 @@ describe('handleModifyLiquidity', () => {
       ['totalValueLocked', amountToken1.toString()],
       ['totalValueLockedUSD', amountToken1.times(TEST_WETH_DERIVED_ETH.times(TEST_ETH_PRICE_USD)).toString()],
     ])
-    log.info('MOCK_EVENT', [MOCK_EVENT.transaction.hash.toHexString() + '-' + MOCK_EVENT.logIndex.toString()])
     assertObjectMatches(
       'ModifyLiquidity',
       MOCK_EVENT.transaction.hash.toHexString() + '-' + MOCK_EVENT.logIndex.toString(),
@@ -211,7 +208,6 @@ describe('handleModifyLiquidity', () => {
   test('success - remove liquidity event, pool tick is between tickUpper and tickLower', () => {
     // put the pools tick in range
     const pool = Pool.load(USDC_WETH_POOL_ID)!
-    log.info('pool', [pool.id])
     pool.tick = BigInt.fromI32(
       MODIFY_LIQUIDITY_FIXTURE_REMOVE.tickLower + MODIFY_LIQUIDITY_FIXTURE_REMOVE.tickUpper,
     ).div(BigInt.fromI32(2))
@@ -227,8 +223,6 @@ describe('handleModifyLiquidity', () => {
       BigInt.fromString('-295530108791371696808'),
       BigInt.fromString(WETH_MAINNET_FIXTURE.decimals),
     )
-    log.info('amountToken0', [amountToken0.toString()])
-    log.info('amountToken1', [amountToken1.toString()])
     const poolTotalValueLockedETH = amountToken0
       .times(TEST_USDC_DERIVED_ETH)
       .plus(amountToken1.times(TEST_WETH_DERIVED_ETH))
@@ -260,7 +254,6 @@ describe('handleModifyLiquidity', () => {
       ['totalValueLocked', amountToken1.toString()],
       ['totalValueLockedUSD', amountToken1.times(TEST_WETH_DERIVED_ETH.times(TEST_ETH_PRICE_USD)).toString()],
     ])
-    log.info('MOCK_EVENT', [MOCK_EVENT.transaction.hash.toHexString() + '-' + MOCK_EVENT.logIndex.toString()])
     assertObjectMatches(
       'ModifyLiquidity',
       MOCK_EVENT.transaction.hash.toHexString() + '-' + MOCK_EVENT.logIndex.toString(),
@@ -270,7 +263,6 @@ describe('handleModifyLiquidity', () => {
         ['pool', USDC_WETH_POOL_ID],
         ['token0', USDC_MAINNET_FIXTURE.address],
         ['token1', WETH_MAINNET_FIXTURE.address],
-        // ['owner', MODIFY_LIQUIDITY_FIXTURE.owner.toHexString()],
         ['sender', MODIFY_LIQUIDITY_FIXTURE_REMOVE.sender.toHexString()],
         ['origin', MOCK_EVENT.transaction.from.toHexString()],
         ['amount', MODIFY_LIQUIDITY_FIXTURE_REMOVE.liquidityDelta.toString()],

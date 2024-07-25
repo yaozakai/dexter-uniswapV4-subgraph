@@ -23,7 +23,6 @@ type PoolManager @entity {
   totalValueLockedUSDUntracked: BigDecimal!
   # TVL derived in ETH untracked
   totalValueLockedETHUntracked: BigDecimal!
-
   # current owner of the factory
   owner: ID!
 }

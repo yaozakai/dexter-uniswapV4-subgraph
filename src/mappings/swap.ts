@@ -61,13 +61,9 @@ export function handleSwapHelper(event: SwapEvent, subgraphConfig: SubgraphConfi
     const amount1USD = amount1ETH.times(bundle.ethPriceUSD)
 
     // get amount that should be tracked only - div 2 because cant count both input and output as volume
-    const amountTotalUSDTracked = getTrackedAmountUSD(
-      amount0Abs,
-      token0 as Token,
-      amount1Abs,
-      token1 as Token,
-      whitelistTokens,
-    ).div(BigDecimal.fromString('2'))
+    const amountTotalUSDTracked = getTrackedAmountUSD(amount0Abs, token0, amount1Abs, token1, whitelistTokens).div(
+      BigDecimal.fromString('2'),
+    )
     const amountTotalETHTracked = safeDiv(amountTotalUSDTracked, bundle.ethPriceUSD)
     const amountTotalUSDUntracked = amount0USD.plus(amount1USD).div(BigDecimal.fromString('2'))
 
@@ -118,7 +114,7 @@ export function handleSwapHelper(event: SwapEvent, subgraphConfig: SubgraphConfi
     token1.txCount = token1.txCount.plus(ONE_BI)
 
     // updated pool ratess
-    const prices = sqrtPriceX96ToTokenPrices(pool.sqrtPrice, token0 as Token, token1 as Token)
+    const prices = sqrtPriceX96ToTokenPrices(pool.sqrtPrice, token0, token1)
     pool.token0Price = prices[0]
     pool.token1Price = prices[1]
     pool.save()
@@ -127,18 +123,8 @@ export function handleSwapHelper(event: SwapEvent, subgraphConfig: SubgraphConfi
     bundle.ethPriceUSD = getNativePriceInUSD(stablecoinWrappedNativePoolId, stablecoinIsToken0)
 
     bundle.save()
-    token0.derivedETH = findNativePerToken(
-      token0 as Token,
-      wrappedNativeAddress,
-      stablecoinAddresses,
-      minimumNativeLocked,
-    )
-    token1.derivedETH = findNativePerToken(
-      token1 as Token,
-      wrappedNativeAddress,
-      stablecoinAddresses,
-      minimumNativeLocked,
-    )
+    token0.derivedETH = findNativePerToken(token0, wrappedNativeAddress, stablecoinAddresses, minimumNativeLocked)
+    token1.derivedETH = findNativePerToken(token1, wrappedNativeAddress, stablecoinAddresses, minimumNativeLocked)
 
     /**
      * Things afffected by new USD rates
@@ -175,10 +161,10 @@ export function handleSwapHelper(event: SwapEvent, subgraphConfig: SubgraphConfi
     const uniswapDayData = updateUniswapDayData(event, poolManagerAddress)
     const poolDayData = updatePoolDayData(event.params.id.toHexString(), event)
     const poolHourData = updatePoolHourData(event.params.id.toHexString(), event)
-    const token0DayData = updateTokenDayData(token0 as Token, event)
-    const token1DayData = updateTokenDayData(token1 as Token, event)
-    const token0HourData = updateTokenHourData(token0 as Token, event)
-    const token1HourData = updateTokenHourData(token1 as Token, event)
+    const token0DayData = updateTokenDayData(token0, event)
+    const token1DayData = updateTokenDayData(token1, event)
+    const token0HourData = updateTokenHourData(token0, event)
+    const token1HourData = updateTokenHourData(token1, event)
 
     // update volume metrics
     uniswapDayData.volumeETH = uniswapDayData.volumeETH.plus(amountTotalETHTracked)

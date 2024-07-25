@@ -15,11 +15,11 @@ import {
   TEST_CONFIG,
   TEST_ETH_PRICE_USD,
   USDC_MAINNET_FIXTURE,
-  USDC_WETH_03_MAINNET_POOL_FIXTURE,
+  USDC_WETH_05_MAINNET_POOL_FIXTURE,
   USDC_WETH_POOL_ID,
   WBTC_MAINNET_FIXTURE,
-  WBTC_WETH_03_MAINNET_POOL,
   WBTC_WETH_03_MAINNET_POOL_FIXTURE,
+  WBTC_WETH_POOL_ID,
   WETH_MAINNET_FIXTURE,
 } from './constants'
 
@@ -33,8 +33,6 @@ class InitializeFixture {
 }
 
 const INITIALIZE_FIXTURE: InitializeFixture = {
-  // sqrtPriceX96: BigInt.fromString('1111111111111111'),
-  // tick: 194280,
   id: USDC_WETH_POOL_ID,
   currency0: USDC_MAINNET_FIXTURE.address,
   currency1: WETH_MAINNET_FIXTURE.address,
@@ -42,6 +40,7 @@ const INITIALIZE_FIXTURE: InitializeFixture = {
   tickSpacing: '10',
   hooks: ADDRESS_ZERO,
 }
+
 const id = Bytes.fromHexString(USDC_WETH_POOL_ID) as Bytes
 
 const INITIALIZE_EVENT = new Initialize(
@@ -63,7 +62,7 @@ const INITIALIZE_EVENT = new Initialize(
 
 describe('handleInitialize', () => {
   test('success', () => {
-    createAndStoreTestPool(USDC_WETH_03_MAINNET_POOL_FIXTURE)
+    createAndStoreTestPool(USDC_WETH_05_MAINNET_POOL_FIXTURE)
 
     const token0 = createAndStoreTestToken(USDC_MAINNET_FIXTURE)
     const token1 = createAndStoreTestToken(WETH_MAINNET_FIXTURE)
@@ -78,14 +77,15 @@ describe('handleInitialize', () => {
       ['token0', token0.id],
       ['token1', token1.id],
       ['feeTier', INITIALIZE_FIXTURE.fee],
-      // todo: add tickSpacing?
+      ['createdAtTimestamp', MOCK_EVENT.block.timestamp.toString()],
+      ['createdAtBlockNumber', MOCK_EVENT.block.number.toString()],
     ])
 
     const expectedEthPrice = getNativePriceInUSD(USDC_WETH_POOL_ID, true)
     assertObjectMatches('Bundle', '1', [['ethPriceUSD', expectedEthPrice.toString()]])
 
     const expectedToken0Price = findNativePerToken(
-      token0 as Token,
+      token0,
       TEST_CONFIG.wrappedNativeAddress,
       TEST_CONFIG.stablecoinAddresses,
       TEST_CONFIG.minimumNativeLocked,
@@ -93,7 +93,7 @@ describe('handleInitialize', () => {
     assertObjectMatches('Token', USDC_MAINNET_FIXTURE.address, [['derivedETH', expectedToken0Price.toString()]])
 
     const expectedToken1Price = findNativePerToken(
-      token1 as Token,
+      token1,
       TEST_CONFIG.wrappedNativeAddress,
       TEST_CONFIG.stablecoinAddresses,
       TEST_CONFIG.minimumNativeLocked,
@@ -105,7 +105,7 @@ describe('handleInitialize', () => {
 describe('getEthPriceInUSD', () => {
   beforeEach(() => {
     clearStore()
-    createAndStoreTestPool(USDC_WETH_03_MAINNET_POOL_FIXTURE)
+    createAndStoreTestPool(USDC_WETH_05_MAINNET_POOL_FIXTURE)
   })
 
   test('success - stablecoin is token0', () => {
@@ -151,7 +151,7 @@ describe('findNativePerToken', () => {
   test('success - token is wrapped native', () => {
     const token = createAndStoreTestToken(WETH_MAINNET_FIXTURE)
     const ethPerToken = findNativePerToken(
-      token as Token,
+      token,
       TEST_CONFIG.wrappedNativeAddress,
       TEST_CONFIG.stablecoinAddresses,
       TEST_CONFIG.minimumNativeLocked,
@@ -162,7 +162,7 @@ describe('findNativePerToken', () => {
   test('success - token is stablecoin', () => {
     const token = createAndStoreTestToken(USDC_MAINNET_FIXTURE)
     const ethPerToken = findNativePerToken(
-      token as Token,
+      token,
       TEST_CONFIG.wrappedNativeAddress,
       TEST_CONFIG.stablecoinAddresses,
       TEST_CONFIG.minimumNativeLocked,
@@ -182,7 +182,7 @@ describe('findNativePerToken', () => {
     pool.save()
 
     const token0 = createAndStoreTestToken(WBTC_MAINNET_FIXTURE)
-    token0.whitelistPools = [WBTC_WETH_03_MAINNET_POOL]
+    token0.whitelistPools = [WBTC_WETH_POOL_ID]
     token0.save()
 
     const token1 = createAndStoreTestToken(WETH_MAINNET_FIXTURE)
@@ -190,7 +190,7 @@ describe('findNativePerToken', () => {
     token1.save()
 
     const ethPerToken = findNativePerToken(
-      token0 as Token,
+      token0,
       WETH_MAINNET_FIXTURE.address,
       [USDC_MAINNET_FIXTURE.address],
       minimumEthLocked,
@@ -202,7 +202,7 @@ describe('findNativePerToken', () => {
   test('success - token is not wrapped native or stablecoin, but has no pools', () => {
     const token0 = createAndStoreTestToken(WBTC_MAINNET_FIXTURE)
     const ethPerToken = findNativePerToken(
-      token0 as Token,
+      token0,
       TEST_CONFIG.wrappedNativeAddress,
       TEST_CONFIG.stablecoinAddresses,
       TEST_CONFIG.minimumNativeLocked,
@@ -212,11 +212,11 @@ describe('findNativePerToken', () => {
 
   test('success - token is not wrapped native or stablecoin, but has no pools with liquidity', () => {
     const token0 = createAndStoreTestToken(WBTC_MAINNET_FIXTURE)
-    token0.whitelistPools = [WBTC_WETH_03_MAINNET_POOL]
+    token0.whitelistPools = [WBTC_WETH_POOL_ID]
     token0.save()
 
     const ethPerToken = findNativePerToken(
-      token0 as Token,
+      token0,
       TEST_CONFIG.wrappedNativeAddress,
       TEST_CONFIG.stablecoinAddresses,
       TEST_CONFIG.minimumNativeLocked,

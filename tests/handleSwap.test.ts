@@ -16,7 +16,7 @@ import {
   assertObjectMatches,
   invokePoolCreatedWithMockedEthCalls,
   MOCK_EVENT,
-  POOL_FEE_TIER_03,
+  POOL_FEE_TIER_05,
   TEST_CONFIG,
   TEST_ETH_PRICE_USD,
   TEST_USDC_DERIVED_ETH,
@@ -114,7 +114,7 @@ describe('handleSwap', () => {
     const amountTotalETHTRacked = safeDiv(amountTotalUSDTracked, TEST_ETH_PRICE_USD)
     const amountTotalUSDUntracked = amount0USD.plus(amount1USD).div(BigDecimal.fromString('2'))
 
-    const feeTierBD = BigDecimal.fromString(POOL_FEE_TIER_03.toString())
+    const feeTierBD = BigDecimal.fromString(POOL_FEE_TIER_05.toString())
     const feesETH = amountTotalETHTRacked.times(feeTierBD).div(BigDecimal.fromString('1000000'))
     const feesUSD = amountTotalUSDTracked.times(feeTierBD).div(BigDecimal.fromString('1000000'))
 

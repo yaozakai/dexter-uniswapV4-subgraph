@@ -12,12 +12,6 @@ export abstract class SqrtPriceMath {
     liquidity: BigInt,
     roundUp: boolean,
   ): BigInt {
-    log.info('sqrtRatioAX96 {} sqrtRatioBX96 {} liquidity {}', [
-      sqrtRatioAX96.toString(),
-      sqrtRatioBX96.toString(),
-      liquidity.toString(),
-    ])
-
     if (sqrtRatioAX96.gt(sqrtRatioBX96)) {
       const temp = sqrtRatioAX96
       sqrtRatioAX96 = sqrtRatioBX96
@@ -33,7 +27,10 @@ export abstract class SqrtPriceMath {
           ONE_BI,
           sqrtRatioAX96,
         )
-      : numerator1.times(numerator2).div(sqrtRatioBX96).div(sqrtRatioAX96)
+      : numerator1
+          .times(numerator2)
+          .div(sqrtRatioBX96)
+          .div(sqrtRatioAX96)
   }
 
   public static getAmount1Delta(
@@ -42,11 +39,6 @@ export abstract class SqrtPriceMath {
     liquidity: BigInt,
     roundUp: boolean,
   ): BigInt {
-    log.info('sqrtRatioAX96 {} sqrtRatioBX96 {} liquidity {}', [
-      sqrtRatioAX96.toString(),
-      sqrtRatioBX96.toString(),
-      liquidity.toString(),
-    ])
     if (sqrtRatioAX96.gt(sqrtRatioBX96)) {
       const temp = sqrtRatioAX96
       sqrtRatioAX96 = sqrtRatioBX96
