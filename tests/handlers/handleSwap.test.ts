@@ -1,17 +1,17 @@
 import { Address, BigDecimal, BigInt, Bytes, ethereum } from '@graphprotocol/graph-ts'
 import { beforeAll, describe, test } from 'matchstick-as'
 
-import { handleSwapHelper } from '../src/mappings/swap'
-import { Swap } from '../src/types/PoolManager/PoolManager'
-import { Bundle, Token } from '../src/types/schema'
-import { convertTokenToDecimal, safeDiv } from '../src/utils'
-import { ZERO_BD } from '../src/utils/constants'
+import { handleSwapHelper } from '../../src/mappings/swap'
+import { Swap } from '../../src/types/PoolManager/PoolManager'
+import { Bundle, Token } from '../../src/types/schema'
+import { convertTokenToDecimal, safeDiv } from '../../src/utils'
+import { ZERO_BD } from '../../src/utils/constants'
 import {
   findNativePerToken,
   getNativePriceInUSD,
   getTrackedAmountUSD,
   sqrtPriceX96ToTokenPrices,
-} from '../src/utils/pricing'
+} from '../../src/utils/pricing'
 import {
   assertObjectMatches,
   invokePoolCreatedWithMockedEthCalls,
@@ -174,7 +174,13 @@ describe('handleSwap', () => {
       ['feesUSD', feesUSD.toString()],
       ['txCount', '1'],
       ['derivedETH', newToken0DerivedETH.toString()],
-      ['totalValueLockedUSD', amount0.times(newToken0DerivedETH).times(newEthPrice).toString()],
+      [
+        'totalValueLockedUSD',
+        amount0
+          .times(newToken0DerivedETH)
+          .times(newEthPrice)
+          .toString(),
+      ],
     ])
 
     assertObjectMatches('Token', WETH_MAINNET_FIXTURE.address, [
@@ -185,7 +191,13 @@ describe('handleSwap', () => {
       ['feesUSD', feesUSD.toString()],
       ['txCount', '1'],
       ['derivedETH', newToken1DerivedETH.toString()],
-      ['totalValueLockedUSD', amount1.times(newToken1DerivedETH).times(newEthPrice).toString()],
+      [
+        'totalValueLockedUSD',
+        amount1
+          .times(newToken1DerivedETH)
+          .times(newEthPrice)
+          .toString(),
+      ],
     ])
 
     assertObjectMatches('Swap', MOCK_EVENT.transaction.hash.toHexString() + '-' + MOCK_EVENT.logIndex.toString(), [

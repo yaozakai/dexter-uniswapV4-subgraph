@@ -10,15 +10,6 @@ module.exports = {
       'error',
       { argsIgnorePattern: '^_', varsIgnorePattern: '^_', caughtErrorsIgnorePattern: '^_' },
     ],
-    '@typescript-eslint/no-this-alias': [
-      'error',
-      {
-        allowDestructuring: true, // Allow `const { props, state } = this`; false by default
-        allowedNames: [
-          'self', // Allow `const self= this`; `[]` by default
-        ],
-      },
-    ],
     '@typescript-eslint/no-non-null-assertion': 'off',
     '@typescript-eslint/no-explicit-any': 'off',
     '@typescript-eslint/ban-types': [

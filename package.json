@@ -4,8 +4,8 @@
   "repository": "https://github.com/Uniswap/v4-subgraph",
   "license": "GPL-3.0-or-later",
   "scripts": {
-    "lint": "eslint . --ext .js,.ts",
-    "lint:fix": "eslint . --ext .js,.ts --fix",
+    "lint": "eslint . --ext .ts",
+    "lint:fix": "eslint . --ext .ts --fix",
     "build": "run-s codegen && graph build",
     "build:docker": "docker build -t matchstick .",
     "buildonly": "graph build",

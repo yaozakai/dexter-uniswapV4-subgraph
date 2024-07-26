@@ -1,7 +1,7 @@
 import { BigInt } from '@graphprotocol/graph-ts'
 
-import { MaxUint256 } from '../constants'
 import { hexToBigInt } from '..'
+import { MaxUint256 } from '../constants'
 
 // https://github.com/Uniswap/sdks/blob/92b765bdf2759e5e6639a01728a96df81efbaa2b/sdks/v3-sdk/src/utils/tickMath.ts
 

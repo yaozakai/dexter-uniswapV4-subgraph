@@ -13,6 +13,7 @@ import {
   updateUniswapDayData,
 } from '../utils/intervalUpdates'
 import { getAmount0, getAmount1 } from '../utils/liquidityMath/liquidityAmounts'
+import { calculateAmountUSD } from '../utils/pricing'
 import { createTick } from '../utils/tick'
 
 export function handleModifyLiquidity(event: ModifyLiquidityEvent): void {
@@ -52,9 +53,7 @@ export function handleModifyLiquidityHelper(
     const amount0 = convertTokenToDecimal(amount0Raw, token0.decimals)
     const amount1 = convertTokenToDecimal(amount1Raw, token1.decimals)
 
-    const amountUSD = amount0
-      .times(token0.derivedETH.times(bundle.ethPriceUSD))
-      .plus(amount1.times(token1.derivedETH.times(bundle.ethPriceUSD)))
+    const amountUSD = calculateAmountUSD(amount0, amount1, token0.derivedETH, token1.derivedETH, bundle.ethPriceUSD)
 
     // reset tvl aggregates until new amounts calculated
     poolManager.totalValueLockedETH = poolManager.totalValueLockedETH.minus(pool.totalValueLockedETH)

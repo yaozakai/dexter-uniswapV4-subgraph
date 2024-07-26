@@ -15,10 +15,7 @@ jobs:
 
     steps:
       - name: Check out Git repository
-        uses: actions/checkout@v2
-        with:
-          ref: ${{ github.event.pull_request.head.ref || '' }}
-          token: ${{ secrets.github_token }}
+        uses: actions/checkout@v4
 
       - name: Set up node
         uses: actions/setup-node@v3
@@ -43,15 +40,6 @@ jobs:
 
       - name: Lint
         run: yarn run lint
-
-      - name: Commit lint fixes
-        if: github.event_name == 'pull_request'
-        run: |
-          git config --global user.name "${{ github.event.pull_request.user.login }}"
-          git config --global user.email "${{ github.event.pull_request.user.login }}@users.noreply.github.com"
-          if [ -z "$(git diff)" ]; then exit; fi
-          git commit -a -m "fix(lint): auto-fix [ci]"
-          git push
 
   build-and-test:
     needs: lint

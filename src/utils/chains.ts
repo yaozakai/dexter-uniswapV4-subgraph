@@ -6,7 +6,7 @@ export enum ChainId {
   SEPOLIA = 11155111,
 }
 
-// subgraph does not support string enums, hence these constants
+// assemblyscript does not support string enums, hence these constants
 const SEPOLIA_NETWORK_NAME = 'sepolia'
 
 // Note: All token and pool addresses should be lowercased!

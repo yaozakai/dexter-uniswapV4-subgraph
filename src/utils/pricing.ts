@@ -4,9 +4,6 @@ import { exponentToBigDecimal, safeDiv } from '../utils/index'
 import { Bundle, Pool, Token } from './../types/schema'
 import { ONE_BD, ZERO_BD, ZERO_BI } from './constants'
 
-export const WETH_ADDRESS = '0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2'
-export const STABLECOIN_IS_TOKEN0 = true
-
 const Q192 = BigInt.fromI32(2).pow(192 as u8)
 export function sqrtPriceX96ToTokenPrices(sqrtPriceX96: BigInt, token0: Token, token1: Token): BigDecimal[] {
   const num = sqrtPriceX96.times(sqrtPriceX96).toBigDecimal()
@@ -89,7 +86,7 @@ export function findNativePerToken(
       }
     }
   }
-  return priceSoFar // nothing was found return 0
+  return priceSoFar
 }
 
 /**
@@ -126,4 +123,14 @@ export function getTrackedAmountUSD(
 
   // neither token is on white list, tracked amount is 0
   return ZERO_BD
+}
+
+export function calculateAmountUSD(
+  amount0: BigDecimal,
+  amount1: BigDecimal,
+  token0DerivedETH: BigDecimal,
+  token1DerivedETH: BigDecimal,
+  ethPriceUSD: BigDecimal,
+): BigDecimal {
+  return amount0.times(token0DerivedETH.times(ethPriceUSD)).plus(amount1.times(token1DerivedETH.times(ethPriceUSD)))
 }
