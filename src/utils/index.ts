@@ -22,6 +22,20 @@ export function safeDiv(amount0: BigDecimal, amount1: BigDecimal): BigDecimal {
   }
 }
 
+export function hexToBigInt(hex: string): BigInt {
+  if (hex.startsWith('0x')) {
+    hex = hex.slice(2)
+  }
+  let decimal = '0'
+  for (let i = 0; i < hex.length; i++) {
+    decimal = BigInt.fromString(decimal)
+      .times(BigInt.fromI32(16))
+      .plus(BigInt.fromI32(parseInt(hex.charAt(i), 16) as i32))
+      .toString()
+  }
+  return BigInt.fromString(decimal)
+}
+
 /**
  * Implements exponentiation by squaring
  * (see https://en.wikipedia.org/wiki/Exponentiation_by_squaring )

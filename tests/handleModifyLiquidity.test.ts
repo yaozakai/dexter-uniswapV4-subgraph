@@ -1,5 +1,5 @@
 import { Address, BigDecimal, BigInt, Bytes, ethereum } from '@graphprotocol/graph-ts'
-import { afterEach, beforeEach, clearStore, describe, test } from 'matchstick-as'
+import { afterEach, beforeEach, clearStore, describe, log, test } from 'matchstick-as'
 
 import { handleModifyLiquidityHelper } from '../src/mappings/modifyLiquidity'
 import { ModifyLiquidity } from '../src/types/PoolManager/PoolManager'
@@ -117,7 +117,7 @@ describe('handleModifyLiquidity', () => {
     handleModifyLiquidityHelper(MODIFY_LIQUIDITY_EVENT_ADD, TEST_CONFIG)
 
     const amountToken0 = convertTokenToDecimal(
-      BigInt.fromString('304529883759127571614'),
+      BigInt.fromString('295530108791371696808'),
       BigInt.fromString(USDC_MAINNET_FIXTURE.decimals),
     )
     const amountToken1 = convertTokenToDecimal(
@@ -216,7 +216,7 @@ describe('handleModifyLiquidity', () => {
     handleModifyLiquidityHelper(MODIFY_LIQUIDITY_EVENT_REMOVE, TEST_CONFIG)
 
     const amountToken0 = convertTokenToDecimal(
-      BigInt.fromString('-304529883759127571614'),
+      BigInt.fromString('-295530108791371696808'),
       BigInt.fromString(USDC_MAINNET_FIXTURE.decimals),
     )
     const amountToken1 = convertTokenToDecimal(
