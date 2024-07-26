@@ -12,7 +12,6 @@ const SEPOLIA_NETWORK_NAME = 'sepolia'
 // Note: All token and pool addresses should be lowercased!
 export class SubgraphConfig {
   // deployment address
-  // e.g. https://docs.uniswap.org/contracts/v3/reference/deployments/ethereum-deployments
   poolManagerAddress: string
 
   // the address of a pool where one token is a stablecoin and the other is a
