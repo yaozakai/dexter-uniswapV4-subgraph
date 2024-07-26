@@ -26,10 +26,7 @@ export abstract class SqrtPriceMath {
           ONE_BI,
           sqrtRatioAX96,
         )
-      : numerator1
-          .times(numerator2)
-          .div(sqrtRatioBX96)
-          .div(sqrtRatioAX96)
+      : numerator1.times(numerator2).div(sqrtRatioBX96).div(sqrtRatioAX96)
   }
 
   public static getAmount1Delta(
