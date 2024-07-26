@@ -13,9 +13,9 @@ export function getAmount0(tickLower: i32, tickUpper: i32, currTick: i32, amount
   let amount0 = ZERO_BI
 
   if (currTick < tickLower) {
-    amount0 = SqrtPriceMath.getAmount0Delta(sqrtRatioAX96, sqrtRatioBX96, amount, false)
+    amount0 = SqrtPriceMath.getAmount0Delta(sqrtRatioAX96, sqrtRatioBX96, amount, true)
   } else if (currTick < tickUpper) {
-    amount0 = SqrtPriceMath.getAmount0Delta(sqrtRatioCurrentX96, sqrtRatioBX96, amount, false)
+    amount0 = SqrtPriceMath.getAmount0Delta(sqrtRatioCurrentX96, sqrtRatioBX96, amount, true)
   } else {
     amount0 = ZERO_BI
   }
@@ -33,9 +33,9 @@ export function getAmount1(tickLower: i32, tickUpper: i32, currTick: i32, amount
   if (currTick < tickLower) {
     amount1 = ZERO_BI
   } else if (currTick < tickUpper) {
-    amount1 = SqrtPriceMath.getAmount1Delta(sqrtRatioAX96, sqrtRatioCurrentX96, amount, false)
+    amount1 = SqrtPriceMath.getAmount1Delta(sqrtRatioAX96, sqrtRatioCurrentX96, amount, true)
   } else {
-    amount1 = SqrtPriceMath.getAmount1Delta(sqrtRatioAX96, sqrtRatioBX96, amount, false)
+    amount1 = SqrtPriceMath.getAmount1Delta(sqrtRatioAX96, sqrtRatioBX96, amount, true)
   }
 
   return amount1

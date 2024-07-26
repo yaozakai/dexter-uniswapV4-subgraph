@@ -117,11 +117,11 @@ describe('handleModifyLiquidity', () => {
     handleModifyLiquidityHelper(MODIFY_LIQUIDITY_EVENT_ADD, TEST_CONFIG)
 
     const amountToken0 = convertTokenToDecimal(
-      BigInt.fromString('295530108791371696808'),
+      BigInt.fromString('295530108791371696809'),
       BigInt.fromString(USDC_MAINNET_FIXTURE.decimals),
     )
     const amountToken1 = convertTokenToDecimal(
-      BigInt.fromString('295530108791371696808'),
+      BigInt.fromString('295530108791371696809'),
       BigInt.fromString(WETH_MAINNET_FIXTURE.decimals),
     )
 
@@ -216,11 +216,11 @@ describe('handleModifyLiquidity', () => {
     handleModifyLiquidityHelper(MODIFY_LIQUIDITY_EVENT_REMOVE, TEST_CONFIG)
 
     const amountToken0 = convertTokenToDecimal(
-      BigInt.fromString('-295530108791371696808'),
+      BigInt.fromString('-295530108791371696807'),
       BigInt.fromString(USDC_MAINNET_FIXTURE.decimals),
     )
     const amountToken1 = convertTokenToDecimal(
-      BigInt.fromString('-295530108791371696808'),
+      BigInt.fromString('-295530108791371696807'),
       BigInt.fromString(WETH_MAINNET_FIXTURE.decimals),
     )
     const poolTotalValueLockedETH = amountToken0

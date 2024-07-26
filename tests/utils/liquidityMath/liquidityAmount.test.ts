@@ -12,7 +12,7 @@ describe('Amount Calculations', () => {
   describe('getAmount0', () => {
     test('returns correct amount when current tick is below lower tick', () => {
       const result = getAmount0(-10, 10, -20, BigInt.fromI32(1000000))
-      assert.bigIntEquals(result, BigInt.fromI32(999))
+      assert.bigIntEquals(result, BigInt.fromI32(1000))
     })
 
     test('returns correct amount when current tick is between lower and upper tick', () => {
@@ -51,7 +51,7 @@ describe('Amount Calculations', () => {
 
     test('returns correct amount when current tick is above upper tick', () => {
       const result = getAmount1(-10, 10, 20, BigInt.fromI32(1000000))
-      assert.bigIntEquals(result, BigInt.fromI32(999))
+      assert.bigIntEquals(result, BigInt.fromI32(1000))
     })
 
     test('handles edge case with minimum tick', () => {
