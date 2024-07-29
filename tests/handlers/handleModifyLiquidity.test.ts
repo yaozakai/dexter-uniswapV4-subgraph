@@ -4,8 +4,8 @@ import { afterEach, beforeEach, clearStore, describe, test } from 'matchstick-as
 import { handleModifyLiquidityHelper } from '../../src/mappings/modifyLiquidity'
 import { ModifyLiquidity } from '../../src/types/PoolManager/PoolManager'
 import { Bundle, Pool, Token } from '../../src/types/schema'
-import { convertTokenToDecimal, fastExponentiation, safeDiv } from '../../src/utils'
 import { ONE_BD } from '../../src/utils/constants'
+import { convertTokenToDecimal, fastExponentiation, safeDiv } from '../../src/utils/index'
 import {
   assertObjectMatches,
   invokePoolCreatedWithMockedEthCalls,

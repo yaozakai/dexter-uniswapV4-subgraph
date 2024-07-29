@@ -2,9 +2,9 @@ import { BigInt, log } from '@graphprotocol/graph-ts'
 
 import { ModifyLiquidity as ModifyLiquidityEvent } from '../types/PoolManager/PoolManager'
 import { Bundle, ModifyLiquidity, Pool, PoolManager, Tick, Token } from '../types/schema'
-import { convertTokenToDecimal, loadTransaction } from '../utils'
 import { getSubgraphConfig, SubgraphConfig } from '../utils/chains'
 import { ONE_BI } from '../utils/constants'
+import { convertTokenToDecimal, loadTransaction } from '../utils/index'
 import {
   updatePoolDayData,
   updatePoolHourData,

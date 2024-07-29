@@ -2,9 +2,9 @@ import { BigDecimal, BigInt } from '@graphprotocol/graph-ts'
 
 import { Swap as SwapEvent } from '../types/PoolManager/PoolManager'
 import { Bundle, Pool, PoolManager, Swap, Token } from '../types/schema'
-import { convertTokenToDecimal, loadTransaction, safeDiv } from '../utils'
 import { getSubgraphConfig, SubgraphConfig } from '../utils/chains'
 import { ONE_BI, ZERO_BD } from '../utils/constants'
+import { convertTokenToDecimal, loadTransaction, safeDiv } from '../utils/index'
 import {
   updatePoolDayData,
   updatePoolHourData,

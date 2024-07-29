@@ -1,6 +1,6 @@
 import { BigDecimal, BigInt } from '@graphprotocol/graph-ts'
 
-import { hexToBigInt } from '.'
+import { hexToBigInt } from './index'
 
 export const ADDRESS_ZERO = '0x0000000000000000000000000000000000000000'
 

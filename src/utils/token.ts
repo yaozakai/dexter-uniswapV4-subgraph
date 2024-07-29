@@ -3,7 +3,7 @@ import { Address, BigInt } from '@graphprotocol/graph-ts'
 import { ERC20 } from '../types/PoolManager/ERC20'
 import { ERC20NameBytes } from '../types/PoolManager/ERC20NameBytes'
 import { ERC20SymbolBytes } from '../types/PoolManager/ERC20SymbolBytes'
-import { isNullEthValue } from '.'
+import { isNullEthValue } from './index'
 import { getStaticDefinition, StaticTokenDefinition } from './staticTokenDefinition'
 
 export function fetchTokenSymbol(tokenAddress: Address, tokenOverrides: StaticTokenDefinition[]): string {
