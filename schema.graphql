@@ -176,6 +176,9 @@ type Transaction @entity {
   # derived values
   modifyLiquiditys: [ModifyLiquidity]! @derivedFrom(field: "transaction")
   swaps: [Swap]! @derivedFrom(field: "transaction")
+  mintPositions: [MintPosition]! @derivedFrom(field: "transaction")
+  subscribes: [Subscribed]! @derivedFrom(field: "transaction")
+  unsubscribes: [Unsubscribed]! @derivedFrom(field: "transaction")
 }
 
 type Swap @entity {
@@ -406,4 +409,83 @@ type TokenHourData @entity {
   low: BigDecimal!
   # close price USD
   close: BigDecimal!
+}
+
+type PoolKey @entity {
+  # concatenation of all fields
+  id: ID!
+  # address of token0
+  token0: String!
+  # address of token1
+  token1: String!
+  # fee in bps
+  fee: BigInt!
+  # tick spacing
+  tickSpacing: BigInt!
+  # hook address
+  hooks: String!
+}
+
+type PositionConfig @entity {
+  # token id
+  id: ID!
+  # token id of position
+  tokenId: BigInt!
+  # pool key
+  poolKey: PoolKey!
+  # lower tick
+  tickLower: BigInt!
+  # upper tick
+  tickUpper: BigInt!
+}
+
+type MintPosition @entity {
+  # transaction hash + '#' + log index
+  id: ID!
+  # token id of position
+  tokenId: BigInt!
+  # configuration of position
+  positionConfig: PositionConfig!
+  # pointer to transaction
+  transaction: Transaction!
+  # log index
+  logIndex: BigInt!
+  # time of tx
+  timestamp: BigInt!
+  # the EOA that initiated the tx
+  origin: String!
+}
+
+type Subscribed @entity {
+  # transaction hash + '#' + log index
+  id: ID!
+  # token id of position subscribed to
+  tokenId: BigInt!
+  # address of subscriber
+  address: String!
+  # pointer to transaction
+  transaction: Transaction!
+  # log index
+  logIndex: BigInt!
+  # time of tx
+  timestamp: BigInt!
+  # the EOA that initiated the tx
+  origin: String!
+}
+
+type Unsubscribed @entity {
+  # transaction hash + '#' + log index
+  id: ID!
+  # token id of position unsubscribed from
+  tokenId: BigInt!
+  # address of subscriber
+  address: String!
+  # pointer to transaction
+  transaction: Transaction!
+  # log index
+  logIndex: BigInt!
+  # time of tx
+  timestamp: BigInt!
+  # the EOA that initiated the tx
+  origin: String!
 }

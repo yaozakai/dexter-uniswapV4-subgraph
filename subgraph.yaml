@@ -38,3 +38,29 @@ dataSources:
           handler: handleModifyLiquidity
         - event: Swap(indexed bytes32,address,int128,int128,uint160,uint128,int24,uint24)
           handler: handleSwap
+  - kind: ethereum/contract
+    name: PositionManager
+    network: sepolia
+    source:
+      abi: PositionManager
+      address: '0xCF2BA330E80C4E5A75F552ec64ACDB9DF7eDEe6F'
+      startBlock: 6462113
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      file: ./src/mappings/index.ts
+      entities:
+        - MintPosition
+        - PositionConfig
+        - PoolKey
+      abis:
+        - name: PositionManager
+          file: ./abis/PositionManager.json
+      eventHandlers:
+        - event: MintPosition(indexed uint256,((address,address,uint24,int24,address),int24,int24))
+          handler: handleMintPosition
+        - event: Subscribed(uint256,address)
+          handler: handleSubscribed
+        - event: Unsubscribed(uint256,address)
+          handler: handleUnsubscribed
