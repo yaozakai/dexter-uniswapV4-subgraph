@@ -1,4 +1,4 @@
-import { Address, BigInt, Bytes } from "@graphprotocol/graph-ts";
+import { Address, BigInt, Bytes } from '@graphprotocol/graph-ts'
 
 export function positionId(tokenId: BigInt): string {
   return tokenId.toString()

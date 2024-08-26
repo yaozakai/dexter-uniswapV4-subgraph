@@ -1,5 +1,3 @@
-
-
 import { Subscribed as SubscribedEvent } from '../types/PositionManager/PositionManager'
 import { Subscribed } from '../types/schema'
 import { loadTransaction } from '../utils'
@@ -11,9 +9,7 @@ export function handleSubscribed(event: SubscribedEvent): void {
   handleSubscribedHelper(event)
 }
 
-export function handleSubscribedHelper(
-  event: SubscribedEvent,
-): void {
+export function handleSubscribedHelper(event: SubscribedEvent): void {
   const subscribed = new Subscribed(eventId(event.transaction.hash, event.logIndex))
 
   const transaction = loadTransaction(event)

@@ -4,21 +4,17 @@ import { afterEach, assert, clearStore, describe, test } from 'matchstick-as'
 import { handleTransferHelper } from '../../src/mappings/transfer'
 import { Transfer } from '../../src/types/PositionManager/PositionManager'
 import { Position } from '../../src/types/schema'
-import {
-  assertObjectMatches,
-  MOCK_EVENT,
-  POSITION_FIXTURE
-} from './constants'
+import { assertObjectMatches, MOCK_EVENT, POSITION_FIXTURE } from './constants'
 
 const from = POSITION_FIXTURE.owner
 const to = Address.fromString('0xE2EE691F237Ee6529B6557F2fCDd3dCF0C59ec63')
 const tokenId = POSITION_FIXTURE.tokenId
 
 class TransferFixture {
-  id: string;
-  tokenId: string;
-  from: string;
-  to: string;
+  id: string
+  tokenId: string
+  from: string
+  to: string
 }
 
 const TRANSFER_FIXTURE: TransferFixture = {
@@ -38,7 +34,7 @@ const TRANSFER_EVENT = new Transfer(
   [
     new ethereum.EventParam('from', ethereum.Value.fromAddress(from)),
     new ethereum.EventParam('to', ethereum.Value.fromAddress(to)),
-    new ethereum.EventParam('tokenId', ethereum.Value.fromUnsignedBigInt(tokenId))
+    new ethereum.EventParam('tokenId', ethereum.Value.fromUnsignedBigInt(tokenId)),
   ],
   MOCK_EVENT.receipt,
 )

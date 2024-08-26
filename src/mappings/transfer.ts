@@ -1,4 +1,3 @@
-
 import { log } from '@graphprotocol/graph-ts'
 
 import { Transfer as TransferEvent } from '../types/PositionManager/PositionManager'
@@ -12,9 +11,7 @@ export function handleTransfer(event: TransferEvent): void {
   handleTransferHelper(event)
 }
 
-export function handleTransferHelper(
-  event: TransferEvent,
-): void {
+export function handleTransferHelper(event: TransferEvent): void {
   const tokenId = positionId(event.params.id)
   const from = event.params.from
   const to = event.params.to

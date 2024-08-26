@@ -10,13 +10,13 @@ import {
   POSITION_FIXTURE,
   PositionConfigFixture,
   USDC_MAINNET_FIXTURE,
-  WETH_MAINNET_FIXTURE
+  WETH_MAINNET_FIXTURE,
 } from './constants'
 
 class MintPositionFixture {
-  id: string;
-  tokenId: string;
-  positionConfig: PositionConfigFixture;
+  id: string
+  tokenId: string
+  positionConfig: PositionConfigFixture
 }
 
 const MINT_POSITION_FIXTURE: MintPositionFixture = {
@@ -30,14 +30,14 @@ const poolKeyTupleArray: Array<ethereum.Value> = [
   ethereum.Value.fromAddress(Address.fromString(WETH_MAINNET_FIXTURE.address)),
   ethereum.Value.fromI32(MINT_POSITION_FIXTURE.positionConfig.poolKey.fee as i32),
   ethereum.Value.fromI32(MINT_POSITION_FIXTURE.positionConfig.poolKey.tickSpacing as i32),
-  ethereum.Value.fromAddress(Address.fromString(MINT_POSITION_FIXTURE.positionConfig.poolKey.hooks))
+  ethereum.Value.fromAddress(Address.fromString(MINT_POSITION_FIXTURE.positionConfig.poolKey.hooks)),
 ]
 const poolKeyTuple = changetype<ethereum.Tuple>(poolKeyTupleArray)
 
 const configTupleArray: Array<ethereum.Value> = [
   ethereum.Value.fromTuple(poolKeyTuple),
   ethereum.Value.fromI32(MINT_POSITION_FIXTURE.positionConfig.tickLower as i32),
-  ethereum.Value.fromI32(MINT_POSITION_FIXTURE.positionConfig.tickUpper as i32)
+  ethereum.Value.fromI32(MINT_POSITION_FIXTURE.positionConfig.tickUpper as i32),
 ]
 const configTuple = changetype<ethereum.Tuple>(configTupleArray)
 
@@ -49,7 +49,10 @@ const MINT_POSITION_EVENT = new MintPosition(
   MOCK_EVENT.block,
   MOCK_EVENT.transaction,
   [
-    new ethereum.EventParam('tokenId', ethereum.Value.fromUnsignedBigInt(BigInt.fromString(MINT_POSITION_FIXTURE.tokenId))),
+    new ethereum.EventParam(
+      'tokenId',
+      ethereum.Value.fromUnsignedBigInt(BigInt.fromString(MINT_POSITION_FIXTURE.tokenId)),
+    ),
     new ethereum.EventParam('config', ethereum.Value.fromTuple(configTuple)),
   ],
   MOCK_EVENT.receipt,

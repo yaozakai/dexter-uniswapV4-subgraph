@@ -12,7 +12,7 @@ dataSources:
     network: sepolia
     source:
       abi: PoolManager
-      address: '0xc021A7Deb4a939fd7E661a0669faB5ac7Ba2D5d6'
+      address: "0xc021A7Deb4a939fd7E661a0669faB5ac7Ba2D5d6"
       startBlock: 6012766
     mapping:
       kind: ethereum/events
@@ -43,7 +43,7 @@ dataSources:
     network: sepolia
     source:
       abi: PositionManager
-      address: '0xCF2BA330E80C4E5A75F552ec64ACDB9DF7eDEe6F'
+      address: "0xCF2BA330E80C4E5A75F552ec64ACDB9DF7eDEe6F"
       startBlock: 6462113
     mapping:
       kind: ethereum/events
@@ -58,7 +58,8 @@ dataSources:
         - name: PositionManager
           file: ./abis/PositionManager.json
       eventHandlers:
-        - event: MintPosition(indexed uint256,((address,address,uint24,int24,address),int24,int24))
+        - event: MintPosition(indexed
+            uint256,((address,address,uint24,int24,address),int24,int24))
           handler: handleMintPosition
         - event: Subscribed(uint256,address)
           handler: handleSubscribed

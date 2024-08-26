@@ -1,4 +1,3 @@
-
 import { BigInt } from '@graphprotocol/graph-ts'
 
 import { MintPosition as MintPositionEvent } from '../types/PositionManager/PositionManager'
@@ -12,9 +11,7 @@ export function handleMintPosition(event: MintPositionEvent): void {
   handleMintPositionHelper(event)
 }
 
-export function handleMintPositionHelper(
-  event: MintPositionEvent,
-): void {
+export function handleMintPositionHelper(event: MintPositionEvent): void {
   const tokenId = event.params.tokenId
   const token0 = event.params.config.poolKey.currency0
   const token1 = event.params.config.poolKey.currency1

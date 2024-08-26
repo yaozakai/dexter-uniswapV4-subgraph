@@ -3,16 +3,12 @@ import { afterEach, clearStore, describe, test } from 'matchstick-as'
 
 import { handleUnsubscribedHelper } from '../../src/mappings/unsubscribed'
 import { Unsubscribed } from '../../src/types/PositionManager/PositionManager'
-import {
-  assertObjectMatches,
-  MOCK_EVENT,
-  POSITION_FIXTURE
-} from './constants'
+import { assertObjectMatches, MOCK_EVENT, POSITION_FIXTURE } from './constants'
 
 class UnsubscribedFixture {
-  id: string;
-  tokenId: string;
-  address: string;
+  id: string
+  tokenId: string
+  address: string
 }
 
 const UNSUBSCRIBED_FIXTURE: UnsubscribedFixture = {
