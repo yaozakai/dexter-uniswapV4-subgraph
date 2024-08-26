@@ -177,6 +177,7 @@ type Transaction @entity {
   modifyLiquiditys: [ModifyLiquidity]! @derivedFrom(field: "transaction")
   swaps: [Swap]! @derivedFrom(field: "transaction")
   mintPositions: [MintPosition]! @derivedFrom(field: "transaction")
+  transfers: [Transfer]! @derivedFrom(field: "transaction")
   subscribes: [Subscribed]! @derivedFrom(field: "transaction")
   unsubscribes: [Unsubscribed]! @derivedFrom(field: "transaction")
 }
