@@ -6,6 +6,7 @@ import { Initialize } from '../../src/types/PoolManager/PoolManager'
 import { Pool, Token } from '../../src/types/schema'
 import { SubgraphConfig } from '../../src/utils/chains'
 import { ADDRESS_ZERO, ZERO_BD, ZERO_BI } from '../../src/utils/constants'
+import { poolKeyId } from '../../src/utils/id'
 
 const POOL_MANAGER_ADDRESS = '0xc021A7Deb4a939fd7E661a0669faB5ac7Ba2D5d6'
 const USDC_MAINNET_ADDRESS = '0xbe2a7f5acecdc293bf34445a0021f229dd2edd49'
@@ -107,6 +108,30 @@ export const WBTC_WETH_03_MAINNET_POOL_FIXTURE: PoolFixture = {
   hooks: ADDRESS_ZERO,
 }
 
+export class PoolKeyFixture {
+  id: string;
+  token0: string;
+  token1: string;
+  fee: i32;
+  tickSpacing: i32;
+  hooks: string;
+}
+
+export class PositionConfigFixture {
+  id: string;
+  poolKey: PoolKeyFixture;
+  tickLower: i32;
+  tickUpper: i32;
+}
+
+export class PositionFixture {
+  id: string;
+  tokenId: BigInt;
+  positionConfig: PositionConfigFixture;
+  owner: Address;
+  origin: Address;
+}
+
 export const getPoolFixture = (poolAddress: string): PoolFixture => {
   if (poolAddress == WBTC_WETH_POOL_ID) {
     return WBTC_WETH_03_MAINNET_POOL_FIXTURE
@@ -122,6 +147,30 @@ export const TEST_USDC_DERIVED_ETH = BigDecimal.fromString('1').div(BigDecimal.f
 export const TEST_WETH_DERIVED_ETH = BigDecimal.fromString('1')
 
 export const MOCK_EVENT = newMockEvent()
+
+export const POOL_KEY_FIXTURE: PoolKeyFixture = {
+  id : poolKeyId(Address.fromString(USDC_MAINNET_ADDRESS), Address.fromString(WETH_MAINNET_ADDRESS), BigInt.fromI32(POOL_FEE_TIER_05 as i32), BigInt.fromI32(10 as i32), Address.fromString(WBTC_MAINNET_FIXTURE.address)),
+  token0: USDC_MAINNET_FIXTURE.address,
+  token1: WETH_MAINNET_FIXTURE.address,
+  fee: POOL_FEE_TIER_05,
+  tickSpacing: 10,
+  hooks: WBTC_MAINNET_FIXTURE.address
+}
+
+export const POSITION_CONFIG_FIXTURE: PositionConfigFixture = {
+  id: '1',
+  poolKey: POOL_KEY_FIXTURE,
+  tickLower: 101,
+  tickUpper: 201
+}
+
+export const POSITION_FIXTURE: PositionFixture = {
+  id: '1',
+  tokenId: BigInt.fromI32(1 as i32),
+  positionConfig: POSITION_CONFIG_FIXTURE,
+  origin: MOCK_EVENT.address,
+  owner: MOCK_EVENT.address
+}
 
 export const invokePoolCreatedWithMockedEthCalls = (
   mockEvent: ethereum.Event,
