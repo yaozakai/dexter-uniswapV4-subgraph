@@ -57,16 +57,16 @@ export function getSubgraphConfig(): SubgraphConfig {
   if (selectedNetwork == SEPOLIA_NETWORK_NAME) {
     return {
       poolManagerAddress: '0xf242cE588b030d0895C51C0730F2368680f80644',
-      stablecoinWrappedNativePoolId: '0xa40318dea5fabf21971f683f641b54d6d7d86f5b083cd6f0af9332c5c7a9ec06', // todo(matteen): use sepolia WETH/USDC pool
+      stablecoinWrappedNativePoolId: '0x85c41d6535ebab7661979fa7a5d331e4cb229b4d1e7dde1a78ae298fab8ca5bb', // todo(matteen): use sepolia WETH/USDC pool
       stablecoinIsToken0: true,
-      wrappedNativeAddress: '0xc268035619873d85461525f5fdb792dd95982161', // todo(matteen): use sepolia WETH
+      wrappedNativeAddress: '0xc359994a511871c41c2608021bb4329d49b6336c', // todo(matteen): use sepolia WETH
       minimumNativeLocked: BigDecimal.fromString('20'),
       stablecoinAddresses: [
-        '0xbe2a7f5acecdc293bf34445a0021f229dd2edd49', // USDC
+        '0x5d1abc83973c773d122ae7c551251cc9be2baecc', // USDC
       ],
       whitelistTokens: [
-        '0xc268035619873d85461525f5fdb792dd95982161', // todo(matteen): use sepolia WETH
-        '0xbe2a7f5acecdc293bf34445a0021f229dd2edd49', // USDC
+        '0xc359994a511871c41c2608021bb4329d49b6336c', // todo(matteen): use sepolia WETH
+        '0x5d1abc83973c773d122ae7c551251cc9be2baecc', // USDC
       ],
       tokenOverrides: [],
       poolsToSkip: [],
