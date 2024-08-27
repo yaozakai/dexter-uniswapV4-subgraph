@@ -187,6 +187,7 @@ export const createAndStoreTestPool = (poolFixture: PoolFixture): Pool => {
   const token0Address = poolFixture.token0.address
   const token1Address = poolFixture.token1.address
   const feeTier = parseInt(poolFixture.feeTier) as i32
+  const tickSpacing = parseInt(poolFixture.tickSpacing) as i32
 
   const pool = new Pool(poolAddress)
   pool.createdAtTimestamp = ZERO_BI
@@ -194,6 +195,7 @@ export const createAndStoreTestPool = (poolFixture: PoolFixture): Pool => {
   pool.token0 = token0Address
   pool.token1 = token1Address
   pool.feeTier = BigInt.fromI32(feeTier)
+  pool.tickSpacing = BigInt.fromI32(tickSpacing)
   pool.liquidity = ZERO_BI
   pool.sqrtPrice = ZERO_BI
   pool.token0Price = ZERO_BD
