@@ -78,6 +78,7 @@ describe('handleInitialize', () => {
       ['token0', token0.id],
       ['token1', token1.id],
       ['feeTier', INITIALIZE_FIXTURE.fee],
+      ['tickSpacing', INITIALIZE_FIXTURE.tickSpacing],
       ['hooks', INITIALIZE_FIXTURE.hooks],
       ['createdAtTimestamp', MOCK_EVENT.block.timestamp.toString()],
       ['createdAtBlockNumber', MOCK_EVENT.block.number.toString()],
