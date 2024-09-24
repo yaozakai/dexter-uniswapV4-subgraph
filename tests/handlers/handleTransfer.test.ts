@@ -47,7 +47,6 @@ describe('handleTransfer', () => {
   test('success - updates position owner', () => {
     const position = new Position(POSITION_FIXTURE.id)
     position.tokenId = POSITION_FIXTURE.tokenId
-    position.positionConfig = POSITION_FIXTURE.positionConfig.id
     position.owner = POSITION_FIXTURE.owner.toHexString()
     position.origin = POSITION_FIXTURE.origin.toHexString()
 
@@ -68,18 +67,31 @@ describe('handleTransfer', () => {
 
     assertObjectMatches('Position', POSITION_FIXTURE.id, [
       ['tokenId', POSITION_FIXTURE.tokenId.toString()],
-      ['positionConfig', POSITION_FIXTURE.positionConfig.id],
       ['owner', to.toHexString()],
       ['origin', POSITION_FIXTURE.origin.toHexString()],
     ])
   })
 
-  test('error - position not found', () => {
+  test('creates new position if not found', () => {
     assert.notInStore('Position', POSITION_FIXTURE.id)
 
     handleTransferHelper(TRANSFER_EVENT)
 
-    assert.notInStore('Transfer', TRANSFER_FIXTURE.id)
-    assert.notInStore('Position', POSITION_FIXTURE.id)
+    assertObjectMatches('Transfer', TRANSFER_FIXTURE.id, [
+      ['tokenId', TRANSFER_FIXTURE.tokenId],
+      ['from', TRANSFER_FIXTURE.from],
+      ['to', TRANSFER_FIXTURE.to],
+      ['origin', MOCK_EVENT.transaction.from.toHexString()],
+      ['transaction', MOCK_EVENT.transaction.hash.toHexString()],
+      ['logIndex', MOCK_EVENT.logIndex.toString()],
+      ['timestamp', MOCK_EVENT.block.timestamp.toString()],
+      ['position', POSITION_FIXTURE.id],
+    ])
+
+    assertObjectMatches('Position', POSITION_FIXTURE.id, [
+      ['tokenId', POSITION_FIXTURE.tokenId.toString()],
+      ['owner', to.toHexString()],
+      ['origin', POSITION_FIXTURE.origin.toHexString()],
+    ])
   })
 })

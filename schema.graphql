@@ -176,10 +176,9 @@ type Transaction @entity {
   # derived values
   modifyLiquiditys: [ModifyLiquidity]! @derivedFrom(field: "transaction")
   swaps: [Swap]! @derivedFrom(field: "transaction")
-  mintPositions: [MintPosition]! @derivedFrom(field: "transaction")
   transfers: [Transfer]! @derivedFrom(field: "transaction")
-  subscribes: [Subscribed]! @derivedFrom(field: "transaction")
-  unsubscribes: [Unsubscribed]! @derivedFrom(field: "transaction")
+  subscriptions: [Subscription]! @derivedFrom(field: "transaction")
+  unsubscriptions: [Unsubscription]! @derivedFrom(field: "transaction")
 }
 
 type Swap @entity {
@@ -417,70 +416,19 @@ type Position @entity {
   id: ID!
   # tokenId
   tokenId: BigInt!
-  # position config
-  positionConfig: PositionConfig!
   # address of current owner
   owner: String!
   # the EOA that minted the position
   origin: String!
-  # mint events
-  mintPositions: [MintPosition!]! @derivedFrom(field: "position")
   # subscribe events
-  subscribed: [Subscribed!]! @derivedFrom(field: "position")
-  # unsubscribe events
-  unsubscribed: [Unsubscribed!]! @derivedFrom(field: "position")
+  subscriptions: [Subscription!]! @derivedFrom(field: "position")
+  # unsubscription events
+  unsubscriptions: [Unsubscription!]! @derivedFrom(field: "position")
   # transfer events
   transfers: [Transfer!]! @derivedFrom(field: "position")
 }
 
-type PoolKey @entity {
-  # concatenation of all fields
-  id: ID!
-  # address of token0
-  token0: String!
-  # address of token1
-  token1: String!
-  # fee in bps
-  fee: BigInt!
-  # tick spacing
-  tickSpacing: BigInt!
-  # hook address
-  hooks: String!
-}
-
-type PositionConfig @entity {
-  # token id
-  id: ID!
-  # token id of position
-  tokenId: BigInt!
-  # pool key
-  poolKey: PoolKey!
-  # lower tick
-  tickLower: BigInt!
-  # upper tick
-  tickUpper: BigInt!
-}
-
-type MintPosition @entity {
-  # transaction hash + '-' + log index
-  id: ID!
-  # token id of position
-  tokenId: BigInt!
-  # configuration of position
-  positionConfig: PositionConfig!
-  # pointer to transaction
-  transaction: Transaction!
-  # log index
-  logIndex: BigInt!
-  # time of tx
-  timestamp: BigInt!
-  # the EOA that initiated the tx
-  origin: String!
-  # pointer to position
-  position: Position!
-}
-
-type Subscribed @entity {
+type Subscription @entity {
   # transaction hash + '-' + log index
   id: ID!
   # token id of position subscribed to
@@ -499,12 +447,12 @@ type Subscribed @entity {
   position: Position!
 }
 
-type Unsubscribed @entity {
+type Unsubscription @entity {
   # transaction hash + '-' + log index
   id: ID!
   # token id of position unsubscribed from
   tokenId: BigInt!
-  # address of subscriber
+  # address of unsubscriber
   address: String!
   # pointer to transaction
   transaction: Transaction!
@@ -521,7 +469,7 @@ type Unsubscribed @entity {
 type Transfer @entity {
   # transaction hash + '-' + log index
   id: ID!
-  # token id of position unsubscribed from
+  # token id of position
   tokenId: BigInt!
   # address of previous owner
   from: String!

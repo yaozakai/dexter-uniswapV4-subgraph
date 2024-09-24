@@ -1,5 +1,3 @@
-import { log } from '@graphprotocol/graph-ts'
-
 import { Transfer as TransferEvent } from '../types/PositionManager/PositionManager'
 import { Position, Transfer } from '../types/schema'
 import { loadTransaction } from '../utils'
@@ -16,11 +14,13 @@ export function handleTransferHelper(event: TransferEvent): void {
   const from = event.params.from
   const to = event.params.to
 
-  const position = Position.load(tokenId)
+  let position = Position.load(tokenId)
   if (position === null) {
-    log.debug('handleTransferHelper: position not found {}', [tokenId])
-    return
+    position = new Position(tokenId)
+    position.tokenId = event.params.id
+    position.origin = event.transaction.from.toHexString()
   }
+
   position.owner = to.toHexString()
 
   const transaction = loadTransaction(event)

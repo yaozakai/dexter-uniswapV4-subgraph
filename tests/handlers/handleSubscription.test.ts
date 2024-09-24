@@ -1,8 +1,8 @@
 import { ethereum } from '@graphprotocol/graph-ts'
 import { afterEach, clearStore, describe, test } from 'matchstick-as'
 
-import { handleSubscribedHelper } from '../../src/mappings/subscribed'
-import { Subscribed } from '../../src/types/PositionManager/PositionManager'
+import { handleSubscriptionHelper } from '../../src/mappings/subscribe'
+import { Subscription } from '../../src/types/PositionManager/PositionManager'
 import { assertObjectMatches, MOCK_EVENT, POSITION_FIXTURE } from './constants'
 
 class SubscribedFixture {
@@ -11,13 +11,13 @@ class SubscribedFixture {
   address: string
 }
 
-const SUBSCRIBED_FIXTURE: SubscribedFixture = {
+const SUBSCRIPTION_FIXTURE: SubscribedFixture = {
   id: MOCK_EVENT.transaction.hash.toHexString() + '-' + MOCK_EVENT.logIndex.toString(),
   tokenId: POSITION_FIXTURE.tokenId.toString(),
   address: MOCK_EVENT.address.toHexString(),
 }
 
-const SUBSCRIBED_EVENT = new Subscribed(
+const SUBSCRIPTION_EVENT = new Subscription(
   MOCK_EVENT.address,
   MOCK_EVENT.logIndex,
   MOCK_EVENT.transactionLogIndex,
@@ -31,22 +31,22 @@ const SUBSCRIBED_EVENT = new Subscribed(
   MOCK_EVENT.receipt,
 )
 
-describe('handleSubscribed', () => {
+describe('handleSubscription', () => {
   afterEach(() => {
     clearStore()
   })
 
   test('success', () => {
-    handleSubscribedHelper(SUBSCRIBED_EVENT)
+    handleSubscriptionHelper(SUBSCRIPTION_EVENT)
 
-    assertObjectMatches('Subscribed', SUBSCRIBED_FIXTURE.id, [
-      ['tokenId', SUBSCRIBED_FIXTURE.tokenId],
-      ['address', SUBSCRIBED_FIXTURE.address],
+    assertObjectMatches('Subscription', SUBSCRIPTION_FIXTURE.id, [
+      ['tokenId', SUBSCRIPTION_FIXTURE.tokenId],
+      ['address', SUBSCRIPTION_FIXTURE.address],
       ['origin', MOCK_EVENT.transaction.from.toHexString()],
       ['transaction', MOCK_EVENT.transaction.hash.toHexString()],
       ['logIndex', MOCK_EVENT.logIndex.toString()],
       ['timestamp', MOCK_EVENT.block.timestamp.toString()],
-      ['position', SUBSCRIBED_FIXTURE.tokenId],
+      ['position', SUBSCRIPTION_FIXTURE.tokenId],
     ])
   })
 })

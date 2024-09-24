@@ -1,8 +1,8 @@
 import { ethereum } from '@graphprotocol/graph-ts'
 import { afterEach, clearStore, describe, test } from 'matchstick-as'
 
-import { handleUnsubscribedHelper } from '../../src/mappings/unsubscribed'
-import { Unsubscribed } from '../../src/types/PositionManager/PositionManager'
+import { handleUnsubscriptionHelper } from '../../src/mappings/unsubscribe'
+import { Unsubscription } from '../../src/types/PositionManager/PositionManager'
 import { assertObjectMatches, MOCK_EVENT, POSITION_FIXTURE } from './constants'
 
 class UnsubscribedFixture {
@@ -11,13 +11,13 @@ class UnsubscribedFixture {
   address: string
 }
 
-const UNSUBSCRIBED_FIXTURE: UnsubscribedFixture = {
+const UNSUBSCRIPTION_FIXTURE: UnsubscribedFixture = {
   id: MOCK_EVENT.transaction.hash.toHexString() + '-' + MOCK_EVENT.logIndex.toString(),
   tokenId: POSITION_FIXTURE.tokenId.toString(),
   address: MOCK_EVENT.address.toHexString(),
 }
 
-const UNSUBSCRIBED_EVENT = new Unsubscribed(
+const UNSUBSCRIPTION_EVENT = new Unsubscription(
   MOCK_EVENT.address,
   MOCK_EVENT.logIndex,
   MOCK_EVENT.transactionLogIndex,
@@ -31,22 +31,22 @@ const UNSUBSCRIBED_EVENT = new Unsubscribed(
   MOCK_EVENT.receipt,
 )
 
-describe('handleUnsubscribed', () => {
+describe('handleUnsubscription', () => {
   afterEach(() => {
     clearStore()
   })
 
   test('success', () => {
-    handleUnsubscribedHelper(UNSUBSCRIBED_EVENT)
+    handleUnsubscriptionHelper(UNSUBSCRIPTION_EVENT)
 
-    assertObjectMatches('Unsubscribed', UNSUBSCRIBED_FIXTURE.id, [
-      ['tokenId', UNSUBSCRIBED_FIXTURE.tokenId],
-      ['address', UNSUBSCRIBED_FIXTURE.address],
+    assertObjectMatches('Unsubscription', UNSUBSCRIPTION_FIXTURE.id, [
+      ['tokenId', UNSUBSCRIPTION_FIXTURE.tokenId],
+      ['address', UNSUBSCRIPTION_FIXTURE.address],
       ['origin', MOCK_EVENT.transaction.from.toHexString()],
       ['transaction', MOCK_EVENT.transaction.hash.toHexString()],
       ['logIndex', MOCK_EVENT.logIndex.toString()],
       ['timestamp', MOCK_EVENT.block.timestamp.toString()],
-      ['position', UNSUBSCRIBED_FIXTURE.tokenId],
+      ['position', UNSUBSCRIPTION_FIXTURE.tokenId],
     ])
   })
 })

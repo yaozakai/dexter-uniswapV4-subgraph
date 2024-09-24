@@ -12,7 +12,7 @@ dataSources:
     network: sepolia
     source:
       abi: PoolManager
-      address: "0xc021A7Deb4a939fd7E661a0669faB5ac7Ba2D5d6"
+      address: "0xE8E23e97Fa135823143d6b9Cba9c699040D51F70"
       startBlock: 6012766
     mapping:
       kind: ethereum/events
@@ -52,18 +52,13 @@ dataSources:
       file: ./src/mappings/index.ts
       entities:
         - Position
-        - PositionConfig
-        - PoolKey
       abis:
         - name: PositionManager
           file: ./abis/PositionManager.json
       eventHandlers:
-        - event: MintPosition(indexed
-            uint256,((address,address,uint24,int24,address),int24,int24))
-          handler: handleMintPosition
-        - event: Subscribed(uint256,address)
-          handler: handleSubscribed
-        - event: Unsubscribed(uint256,address)
-          handler: handleUnsubscribed
+        - event: Subscription(indexed uint256,indexed address)
+          handler: handleSubscription
+        - event: Unsubscription(indexed uint256,indexed address)
+          handler: handleUnsubscription
         - event: Transfer(indexed address,indexed address,indexed uint256)
           handler: handleTransfer
