@@ -39,7 +39,7 @@ describe('handleSubscription', () => {
   test('success', () => {
     handleSubscriptionHelper(SUBSCRIPTION_EVENT)
 
-    assertObjectMatches('Subscription', SUBSCRIPTION_FIXTURE.id, [
+    assertObjectMatches('Subscribe', SUBSCRIPTION_FIXTURE.id, [
       ['tokenId', SUBSCRIPTION_FIXTURE.tokenId],
       ['address', SUBSCRIPTION_FIXTURE.address],
       ['origin', MOCK_EVENT.transaction.from.toHexString()],

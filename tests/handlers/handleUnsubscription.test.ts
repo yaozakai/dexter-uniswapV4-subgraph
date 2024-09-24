@@ -39,7 +39,7 @@ describe('handleUnsubscription', () => {
   test('success', () => {
     handleUnsubscriptionHelper(UNSUBSCRIPTION_EVENT)
 
-    assertObjectMatches('Unsubscription', UNSUBSCRIPTION_FIXTURE.id, [
+    assertObjectMatches('Unsubscribe', UNSUBSCRIPTION_FIXTURE.id, [
       ['tokenId', UNSUBSCRIPTION_FIXTURE.tokenId],
       ['address', UNSUBSCRIPTION_FIXTURE.address],
       ['origin', MOCK_EVENT.transaction.from.toHexString()],
