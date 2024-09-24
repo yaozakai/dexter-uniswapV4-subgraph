@@ -177,8 +177,8 @@ type Transaction @entity {
   modifyLiquiditys: [ModifyLiquidity]! @derivedFrom(field: "transaction")
   swaps: [Swap]! @derivedFrom(field: "transaction")
   transfers: [Transfer]! @derivedFrom(field: "transaction")
-  subscriptions: [Subscription]! @derivedFrom(field: "transaction")
-  unsubscriptions: [Unsubscription]! @derivedFrom(field: "transaction")
+  subscriptions: [Subscribe]! @derivedFrom(field: "transaction")
+  unsubscriptions: [Unsubscribe]! @derivedFrom(field: "transaction")
 }
 
 type Swap @entity {
@@ -421,14 +421,14 @@ type Position @entity {
   # the EOA that minted the position
   origin: String!
   # subscribe events
-  subscriptions: [Subscription!]! @derivedFrom(field: "position")
+  subscriptions: [Subscribe!]! @derivedFrom(field: "position")
   # unsubscription events
-  unsubscriptions: [Unsubscription!]! @derivedFrom(field: "position")
+  unsubscriptions: [Unsubscribe!]! @derivedFrom(field: "position")
   # transfer events
   transfers: [Transfer!]! @derivedFrom(field: "position")
 }
 
-type Subscription @entity {
+type Subscribe @entity {
   # transaction hash + '-' + log index
   id: ID!
   # token id of position subscribed to
@@ -447,7 +447,7 @@ type Subscription @entity {
   position: Position!
 }
 
-type Unsubscription @entity {
+type Unsubscribe @entity {
   # transaction hash + '-' + log index
   id: ID!
   # token id of position unsubscribed from

@@ -1,5 +1,5 @@
 import { Unsubscription as UnsubscriptionEvent } from '../types/PositionManager/PositionManager'
-import { Unsubscription } from '../types/schema'
+import { Unsubscribe } from '../types/schema'
 import { loadTransaction } from '../utils'
 import { eventId, positionId } from '../utils/id'
 
@@ -10,7 +10,7 @@ export function handleUnsubscription(event: UnsubscriptionEvent): void {
 }
 
 export function handleUnsubscriptionHelper(event: UnsubscriptionEvent): void {
-  const unsubscription = new Unsubscription(eventId(event.transaction.hash, event.logIndex))
+  const unsubscription = new Unsubscribe(eventId(event.transaction.hash, event.logIndex))
 
   const transaction = loadTransaction(event)
 
