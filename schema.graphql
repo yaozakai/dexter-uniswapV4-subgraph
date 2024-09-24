@@ -420,6 +420,8 @@ type Position @entity {
   owner: String!
   # the EOA that minted the position
   origin: String!
+  # created time
+  createdAtTimestamp: BigInt!
   # subscribe events
   subscriptions: [Subscribe!]! @derivedFrom(field: "position")
   # unsubscription events

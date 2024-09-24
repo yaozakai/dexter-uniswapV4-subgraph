@@ -92,6 +92,7 @@ describe('handleTransfer', () => {
       ['tokenId', POSITION_FIXTURE.tokenId.toString()],
       ['owner', to.toHexString()],
       ['origin', POSITION_FIXTURE.origin.toHexString()],
+      ['createdAtTimestamp', MOCK_EVENT.block.timestamp.toString()],
     ])
   })
 })

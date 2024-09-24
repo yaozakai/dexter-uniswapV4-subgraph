@@ -19,6 +19,7 @@ export function handleTransferHelper(event: TransferEvent): void {
     position = new Position(tokenId)
     position.tokenId = event.params.id
     position.origin = event.transaction.from.toHexString()
+    position.createdAtTimestamp = event.block.timestamp
   }
 
   position.owner = to.toHexString()
