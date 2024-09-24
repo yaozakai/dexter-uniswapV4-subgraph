@@ -49,6 +49,7 @@ describe('handleTransfer', () => {
     position.tokenId = POSITION_FIXTURE.tokenId
     position.owner = POSITION_FIXTURE.owner.toHexString()
     position.origin = POSITION_FIXTURE.origin.toHexString()
+    position.createdAtTimestamp = MOCK_EVENT.block.timestamp
 
     position.save()
 
@@ -69,6 +70,7 @@ describe('handleTransfer', () => {
       ['tokenId', POSITION_FIXTURE.tokenId.toString()],
       ['owner', to.toHexString()],
       ['origin', POSITION_FIXTURE.origin.toHexString()],
+      ['createdAtTimestamp', MOCK_EVENT.block.timestamp.toString()],
     ])
   })
 
