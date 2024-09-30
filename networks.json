@@ -3,6 +3,10 @@
     "PoolManager": {
       "address": "0xc021A7Deb4a939fd7E661a0669faB5ac7Ba2D5d6",
       "startBlock": 6012766
+    },
+    "PositionManager": {
+      "address": "0x0048d1C09771Bb87b6A44e1294769E1DFd698584",
+      "startBlock": 6673575
     }
   }
 }
