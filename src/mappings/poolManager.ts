@@ -28,6 +28,7 @@ export function handleInitializeHelper(
   const wrappedNativeAddress = subgraphConfig.wrappedNativeAddress
   const stablecoinAddresses = subgraphConfig.stablecoinAddresses
   const minimumNativeLocked = subgraphConfig.minimumNativeLocked
+  const nativeTokenDetails = subgraphConfig.nativeTokenDetails
   const poolId = event.params.id.toHexString()
 
   if (poolsToSkip.includes(poolId)) {
@@ -65,10 +66,10 @@ export function handleInitializeHelper(
   // fetch info if null
   if (token0 === null) {
     token0 = new Token(event.params.currency0.toHexString())
-    token0.symbol = fetchTokenSymbol(event.params.currency0, tokenOverrides)
-    token0.name = fetchTokenName(event.params.currency0, tokenOverrides)
+    token0.symbol = fetchTokenSymbol(event.params.currency0, tokenOverrides, nativeTokenDetails)
+    token0.name = fetchTokenName(event.params.currency0, tokenOverrides, nativeTokenDetails)
     token0.totalSupply = fetchTokenTotalSupply(event.params.currency0)
-    const decimals = fetchTokenDecimals(event.params.currency0, tokenOverrides)
+    const decimals = fetchTokenDecimals(event.params.currency0, tokenOverrides, nativeTokenDetails)
 
     // bail if we couldn't figure out the decimals
     if (decimals === null) {
@@ -92,10 +93,10 @@ export function handleInitializeHelper(
 
   if (token1 === null) {
     token1 = new Token(event.params.currency1.toHexString())
-    token1.symbol = fetchTokenSymbol(event.params.currency1, tokenOverrides)
-    token1.name = fetchTokenName(event.params.currency1, tokenOverrides)
+    token1.symbol = fetchTokenSymbol(event.params.currency1, tokenOverrides, nativeTokenDetails)
+    token1.name = fetchTokenName(event.params.currency1, tokenOverrides, nativeTokenDetails)
     token1.totalSupply = fetchTokenTotalSupply(event.params.currency1)
-    const decimals = fetchTokenDecimals(event.params.currency1, tokenOverrides)
+    const decimals = fetchTokenDecimals(event.params.currency1, tokenOverrides, nativeTokenDetails)
 
     if (decimals === null) {
       log.debug('mybug the decimal on token 0 was null', [])

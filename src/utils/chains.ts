@@ -1,5 +1,6 @@
-import { Address, BigDecimal, dataSource } from '@graphprotocol/graph-ts'
+import { Address, BigDecimal, BigInt, dataSource } from '@graphprotocol/graph-ts'
 
+import { NativeTokenDetails } from './nativeTokenDetails'
 import { StaticTokenDefinition } from './staticTokenDefinition'
 
 export enum ChainId {
@@ -48,6 +49,9 @@ export class SubgraphConfig {
 
   // initialize this list of pools and token addresses on factory creation. for new chains this is typically empty.
   poolMappings: Array<Address[]>
+
+  // native token details for the chain.
+  nativeTokenDetails: NativeTokenDetails
 }
 
 export function getSubgraphConfig(): SubgraphConfig {
@@ -71,6 +75,11 @@ export function getSubgraphConfig(): SubgraphConfig {
       tokenOverrides: [],
       poolsToSkip: [],
       poolMappings: [],
+      nativeTokenDetails: {
+        symbol: 'ETH',
+        name: 'Ethereum',
+        decimals: BigInt.fromI32(18),
+      },
     }
   } else {
     throw new Error('Unsupported Network')
