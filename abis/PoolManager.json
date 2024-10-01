@@ -1,10 +1,6 @@
 [
-  {
-    "inputs": [{ "internalType": "uint256", "name": "controllerGasLimit", "type": "uint256" }],
-    "stateMutability": "nonpayable",
-    "type": "constructor"
-  },
   { "inputs": [], "name": "AlreadyUnlocked", "type": "error" },
+  { "inputs": [], "name": "ContractUnlocked", "type": "error" },
   {
     "inputs": [
       { "internalType": "address", "name": "currency0", "type": "address" },
@@ -15,10 +11,11 @@
   },
   { "inputs": [], "name": "CurrencyNotSettled", "type": "error" },
   { "inputs": [], "name": "DelegateCallNotAllowed", "type": "error" },
+  { "inputs": [], "name": "InvalidBips", "type": "error" },
   { "inputs": [], "name": "InvalidCaller", "type": "error" },
   { "inputs": [], "name": "ManagerLocked", "type": "error" },
   { "inputs": [], "name": "MustClearExactPositiveDelta", "type": "error" },
-  { "inputs": [], "name": "NonZeroNativeValue", "type": "error" },
+  { "inputs": [], "name": "NonzeroNativeValue", "type": "error" },
   { "inputs": [], "name": "PoolNotInitialized", "type": "error" },
   { "inputs": [], "name": "ProtocolFeeCannotBeFetched", "type": "error" },
   {
@@ -47,6 +44,17 @@
       { "indexed": false, "internalType": "uint256", "name": "amount", "type": "uint256" }
     ],
     "name": "Approval",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      { "indexed": true, "internalType": "PoolId", "name": "id", "type": "bytes32" },
+      { "indexed": true, "internalType": "address", "name": "sender", "type": "address" },
+      { "indexed": false, "internalType": "uint256", "name": "amount0", "type": "uint256" },
+      { "indexed": false, "internalType": "uint256", "name": "amount1", "type": "uint256" }
+    ],
+    "name": "Donate",
     "type": "event"
   },
   {
@@ -403,14 +411,14 @@
   {
     "inputs": [],
     "name": "settle",
-    "outputs": [{ "internalType": "uint256", "name": "paid", "type": "uint256" }],
+    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
     "stateMutability": "payable",
     "type": "function"
   },
   {
     "inputs": [{ "internalType": "address", "name": "recipient", "type": "address" }],
     "name": "settleFor",
-    "outputs": [{ "internalType": "uint256", "name": "paid", "type": "uint256" }],
+    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
     "stateMutability": "payable",
     "type": "function"
   },
