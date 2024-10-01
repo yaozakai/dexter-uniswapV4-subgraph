@@ -27,6 +27,11 @@ export const TEST_CONFIG: SubgraphConfig = {
   tokenOverrides: [],
   poolsToSkip: [],
   poolMappings: [],
+  nativeTokenDetails: {
+    symbol: 'ETH',
+    name: 'Ethereum',
+    decimals: BigInt.fromI32(18),
+  },
 }
 
 export class TokenFixture {

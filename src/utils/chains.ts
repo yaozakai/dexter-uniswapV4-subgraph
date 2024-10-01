@@ -1,5 +1,6 @@
-import { Address, BigDecimal, dataSource } from '@graphprotocol/graph-ts'
+import { Address, BigDecimal, BigInt, dataSource } from '@graphprotocol/graph-ts'
 
+import { NativeTokenDetails } from './nativeTokenDetails'
 import { StaticTokenDefinition } from './staticTokenDefinition'
 
 export enum ChainId {
@@ -48,6 +49,9 @@ export class SubgraphConfig {
 
   // initialize this list of pools and token addresses on factory creation. for new chains this is typically empty.
   poolMappings: Array<Address[]>
+
+  // native token details for the chain.
+  nativeTokenDetails: NativeTokenDetails
 }
 
 export function getSubgraphConfig(): SubgraphConfig {
@@ -57,20 +61,25 @@ export function getSubgraphConfig(): SubgraphConfig {
   if (selectedNetwork == SEPOLIA_NETWORK_NAME) {
     return {
       poolManagerAddress: '0xE8E23e97Fa135823143d6b9Cba9c699040D51F70',
-      stablecoinWrappedNativePoolId: '0xa4789c97ab36708859e615a55300429418f08d109472c5cb8f02d76d09f8e4bd', // todo(matteen): use sepolia WETH/USDC pool
-      stablecoinIsToken0: true,
-      wrappedNativeAddress: '0x0275c79896215a790dd57f436e1103d4179213be', // todo(matteen): use sepolia WETH
+      stablecoinWrappedNativePoolId: '0x8dce1bb28300d751b94c09c7ea8e86e483630e36cd6572f4d58e149e56931b56', // todo(matteen): use sepolia WETH/USDC pool
+      stablecoinIsToken0: false,
+      wrappedNativeAddress: '0x0000000000000000000000000000000000000000', // todo(matteen): use sepolia WETH
       minimumNativeLocked: BigDecimal.fromString('20'),
       stablecoinAddresses: [
-        '0x1a6990c77cfbba398beb230dd918e28aab71eec2', // USDC
+        '0x1c7d4b196cb0c7b01d743fbc6116a902379c7238', // USDC
       ],
       whitelistTokens: [
-        '0x0275c79896215a790dd57f436e1103d4179213be', // todo(matteen): use sepolia WETH
-        '0x1a6990c77cfbba398beb230dd918e28aab71eec2', // USDC
+        '0x0000000000000000000000000000000000000000', // todo(matteen): use sepolia WETH
+        '0x1c7d4b196cb0c7b01d743fbc6116a902379c7238', // USDC
       ],
       tokenOverrides: [],
       poolsToSkip: [],
       poolMappings: [],
+      nativeTokenDetails: {
+        symbol: 'ETH',
+        name: 'Ethereum',
+        decimals: BigInt.fromI32(18),
+      },
     }
   } else {
     throw new Error('Unsupported Network')

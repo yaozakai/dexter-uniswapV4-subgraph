@@ -3,10 +3,19 @@ import { Address, BigInt } from '@graphprotocol/graph-ts'
 import { ERC20 } from '../types/PoolManager/ERC20'
 import { ERC20NameBytes } from '../types/PoolManager/ERC20NameBytes'
 import { ERC20SymbolBytes } from '../types/PoolManager/ERC20SymbolBytes'
+import { ADDRESS_ZERO, ZERO_BI } from './constants'
 import { isNullEthValue } from './index'
+import { NativeTokenDetails } from './nativeTokenDetails'
 import { getStaticDefinition, StaticTokenDefinition } from './staticTokenDefinition'
 
-export function fetchTokenSymbol(tokenAddress: Address, tokenOverrides: StaticTokenDefinition[]): string {
+export function fetchTokenSymbol(
+  tokenAddress: Address,
+  tokenOverrides: StaticTokenDefinition[],
+  nativeTokenDetails: NativeTokenDetails,
+): string {
+  if (tokenAddress.equals(Address.fromString(ADDRESS_ZERO))) {
+    return nativeTokenDetails.symbol
+  }
   // try with the static definition
   const staticTokenDefinition = getStaticDefinition(tokenAddress, tokenOverrides)
   if (staticTokenDefinition != null) {
@@ -34,7 +43,14 @@ export function fetchTokenSymbol(tokenAddress: Address, tokenOverrides: StaticTo
   return symbolValue
 }
 
-export function fetchTokenName(tokenAddress: Address, tokenOverrides: StaticTokenDefinition[]): string {
+export function fetchTokenName(
+  tokenAddress: Address,
+  tokenOverrides: StaticTokenDefinition[],
+  nativeTokenDetails: NativeTokenDetails,
+): string {
+  if (tokenAddress.equals(Address.fromString(ADDRESS_ZERO))) {
+    return nativeTokenDetails.name
+  }
   // try with the static definition
   const staticTokenDefinition = getStaticDefinition(tokenAddress, tokenOverrides)
   if (staticTokenDefinition != null) {
@@ -63,6 +79,9 @@ export function fetchTokenName(tokenAddress: Address, tokenOverrides: StaticToke
 }
 
 export function fetchTokenTotalSupply(tokenAddress: Address): BigInt {
+  if (tokenAddress.equals(Address.fromString(ADDRESS_ZERO))) {
+    return ZERO_BI
+  }
   const contract = ERC20.bind(tokenAddress)
   let totalSupplyValue = BigInt.zero()
   const totalSupplyResult = contract.try_totalSupply()
@@ -72,7 +91,14 @@ export function fetchTokenTotalSupply(tokenAddress: Address): BigInt {
   return totalSupplyValue
 }
 
-export function fetchTokenDecimals(tokenAddress: Address, tokenOverrides: StaticTokenDefinition[]): BigInt | null {
+export function fetchTokenDecimals(
+  tokenAddress: Address,
+  tokenOverrides: StaticTokenDefinition[],
+  nativeTokenDetails: NativeTokenDetails,
+): BigInt | null {
+  if (tokenAddress.equals(Address.fromString(ADDRESS_ZERO))) {
+    return nativeTokenDetails.decimals
+  }
   // try with the static definition
   const staticTokenDefinition = getStaticDefinition(tokenAddress, tokenOverrides)
   if (staticTokenDefinition) {
