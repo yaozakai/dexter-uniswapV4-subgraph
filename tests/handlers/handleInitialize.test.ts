@@ -30,6 +30,8 @@ class InitializeFixture {
   fee: string
   tickSpacing: string
   hooks: string
+  sqrtPriceX96: string
+  tick: string
 }
 
 const INITIALIZE_FIXTURE: InitializeFixture = {
@@ -39,6 +41,8 @@ const INITIALIZE_FIXTURE: InitializeFixture = {
   fee: '500',
   tickSpacing: '10',
   hooks: ADDRESS_ZERO,
+  sqrtPriceX96: '1',
+  tick: '1',
 }
 
 const id = Bytes.fromHexString(USDC_WETH_POOL_ID) as Bytes
@@ -57,6 +61,11 @@ const INITIALIZE_EVENT = new Initialize(
     new ethereum.EventParam('fee', ethereum.Value.fromI32(parseInt(INITIALIZE_FIXTURE.fee) as i32)),
     new ethereum.EventParam('tickSpacing', ethereum.Value.fromI32(parseInt(INITIALIZE_FIXTURE.tickSpacing) as i32)),
     new ethereum.EventParam('hooks', ethereum.Value.fromAddress(Address.fromString(INITIALIZE_FIXTURE.hooks))),
+    new ethereum.EventParam(
+      'sqrtPriceX96',
+      ethereum.Value.fromUnsignedBigInt(BigInt.fromString(INITIALIZE_FIXTURE.sqrtPriceX96)),
+    ),
+    new ethereum.EventParam('tick', ethereum.Value.fromI32(parseInt(INITIALIZE_FIXTURE.tick) as i32)),
   ],
   MOCK_EVENT.receipt,
 )
@@ -80,6 +89,8 @@ describe('handleInitialize', () => {
       ['feeTier', INITIALIZE_FIXTURE.fee],
       ['tickSpacing', INITIALIZE_FIXTURE.tickSpacing],
       ['hooks', INITIALIZE_FIXTURE.hooks],
+      ['sqrtPrice', INITIALIZE_FIXTURE.sqrtPriceX96],
+      ['tick', INITIALIZE_FIXTURE.tick],
       ['createdAtTimestamp', MOCK_EVENT.block.timestamp.toString()],
       ['createdAtBlockNumber', MOCK_EVENT.block.number.toString()],
     ])

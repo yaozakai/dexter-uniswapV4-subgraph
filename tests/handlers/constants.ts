@@ -7,14 +7,14 @@ import { Pool, Token } from '../../src/types/schema'
 import { SubgraphConfig } from '../../src/utils/chains'
 import { ADDRESS_ZERO, ZERO_BD, ZERO_BI } from '../../src/utils/constants'
 
-const POOL_MANAGER_ADDRESS = '0xc021A7Deb4a939fd7E661a0669faB5ac7Ba2D5d6'
-const USDC_MAINNET_ADDRESS = '0xbe2a7f5acecdc293bf34445a0021f229dd2edd49'
+const POOL_MANAGER_ADDRESS = '0xE8E23e97Fa135823143d6b9Cba9c699040D51F70'
+const USDC_MAINNET_ADDRESS = '0x5d1abc83973c773d122ae7c551251cc9be2baecc'
 const WETH_MAINNET_ADDRESS = '0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2'
 const WBTC_MAINNET_ADDRESS = '0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599'
 export const POOL_FEE_TIER_05 = 500
 
-export const USDC_WETH_POOL_ID = '0xa40318dea5fabf21971f683f641b54d6d7d86f5b083cd6f0af9332c5c7a9ec06'
-export const WBTC_WETH_POOL_ID = '0x1C01B15792CB28081ADB1FFF9D7D93381392939574E080535DF181C55CD1DB59'
+export const USDC_WETH_POOL_ID = '0x85c41d6535ebab7661979fa7a5d331e4cb229b4d1e7dde1a78ae298fab8ca5bb'
+export const WBTC_WETH_POOL_ID = '0x0dac90a31985829dc2bbeb5e70fd7e302ef8ca149f58dc485e71f53735bad8e4'
 
 export const TEST_CONFIG: SubgraphConfig = {
   poolManagerAddress: POOL_MANAGER_ADDRESS,
@@ -85,6 +85,8 @@ export class PoolFixture {
   tickSpacing: string
   liquidity: string
   hooks: string
+  sqrtPrice: string
+  tick: string
 }
 
 export const USDC_WETH_05_MAINNET_POOL_FIXTURE: PoolFixture = {
@@ -95,6 +97,8 @@ export const USDC_WETH_05_MAINNET_POOL_FIXTURE: PoolFixture = {
   tickSpacing: '10',
   liquidity: '100',
   hooks: ADDRESS_ZERO,
+  sqrtPrice: '1',
+  tick: '1',
 }
 
 export const WBTC_WETH_03_MAINNET_POOL_FIXTURE: PoolFixture = {
@@ -105,6 +109,8 @@ export const WBTC_WETH_03_MAINNET_POOL_FIXTURE: PoolFixture = {
   tickSpacing: '60',
   liquidity: '200',
   hooks: ADDRESS_ZERO,
+  sqrtPrice: '1',
+  tick: '1',
 }
 
 export class PoolKeyFixture {
@@ -162,6 +168,8 @@ export const invokePoolCreatedWithMockedEthCalls = (
   const tickSpacing = pool.tickSpacing
   const token0 = getTokenFixture(pool.token0.address)
   const token1 = getTokenFixture(pool.token1.address)
+  const sqrtPriceX96 = pool.sqrtPrice
+  const tick = pool.tick
 
   const token0Address = Address.fromString(token0.address)
   const token1Address = Address.fromString(token1.address)
@@ -176,6 +184,8 @@ export const invokePoolCreatedWithMockedEthCalls = (
     new ethereum.EventParam('fee', ethereum.Value.fromI32(parseInt(feeTier) as i32)),
     new ethereum.EventParam('tickSpacing', ethereum.Value.fromI32(parseInt(tickSpacing) as i32)),
     new ethereum.EventParam('hooks', ethereum.Value.fromAddress(hooksAddress)),
+    new ethereum.EventParam('sqrtPriceX96', ethereum.Value.fromUnsignedBigInt(BigInt.fromString(sqrtPriceX96))),
+    new ethereum.EventParam('tick', ethereum.Value.fromI32(parseInt(tick) as i32)),
   ]
 
   const initializeEvent = new Initialize(
@@ -218,6 +228,8 @@ export const createAndStoreTestPool = (poolFixture: PoolFixture): Pool => {
   const token1Address = poolFixture.token1.address
   const feeTier = parseInt(poolFixture.feeTier) as i32
   const tickSpacing = parseInt(poolFixture.tickSpacing) as i32
+  const sqrtPriceX96 = poolFixture.sqrtPrice
+  const tick = parseInt(poolFixture.tick) as i32
 
   const pool = new Pool(poolAddress)
   pool.createdAtTimestamp = ZERO_BI
@@ -227,10 +239,10 @@ export const createAndStoreTestPool = (poolFixture: PoolFixture): Pool => {
   pool.feeTier = BigInt.fromI32(feeTier)
   pool.tickSpacing = BigInt.fromI32(tickSpacing)
   pool.liquidity = ZERO_BI
-  pool.sqrtPrice = ZERO_BI
+  pool.sqrtPrice = BigInt.fromString(sqrtPriceX96)
   pool.token0Price = ZERO_BD
   pool.token1Price = ZERO_BD
-  pool.tick = ZERO_BI
+  pool.tick = BigInt.fromI32(tick)
   pool.observationIndex = ZERO_BI
   pool.volumeToken0 = ZERO_BD
   pool.volumeToken1 = ZERO_BD

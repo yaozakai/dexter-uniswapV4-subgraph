@@ -157,10 +157,8 @@ export function handleInitializeHelper(
   pool.collectedFeesToken1 = ZERO_BD
   pool.collectedFeesUSD = ZERO_BD
 
-  // todo(matteen): Update with tick and price event data when that is available
-  // pool.sqrtPrice = event.params.sqrtPriceX96
-  // pool.tick = BigInt.fromI32(event.params.tick)
-  pool.tick = ZERO_BI // temp
+  pool.sqrtPrice = event.params.sqrtPriceX96
+  pool.tick = BigInt.fromI32(event.params.tick)
   pool.save()
   token0.save()
   token1.save()
