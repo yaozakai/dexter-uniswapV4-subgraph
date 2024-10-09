@@ -61,16 +61,19 @@ export function getSubgraphConfig(): SubgraphConfig {
   if (selectedNetwork == SEPOLIA_NETWORK_NAME) {
     return {
       poolManagerAddress: '0xE8E23e97Fa135823143d6b9Cba9c699040D51F70',
-      stablecoinWrappedNativePoolId: '0x73156e5b34664a328d308c4de3a1ee9a33b99ebb516f99bef5095f41102e0e69',
-      stablecoinIsToken0: true,
-      wrappedNativeAddress: '0xd0df82de051244f04bff3a8bb1f62e1cd39eed92', // WETH
+      stablecoinWrappedNativePoolId: '0xd2a8f9cfbc6d8af10c9a9a9f5d6b94ee508d4ed007b69f4d71c00b76edbab8eb',
+      stablecoinIsToken0: false,
+      wrappedNativeAddress: '0x0000000000000000000000000000000000000000', // Native ETH
       minimumNativeLocked: BigDecimal.fromString('20'),
       stablecoinAddresses: [
-        '0xb60af4d222c522db7a2036a8b25a8d8c43c9da47', // USDC
+        '0x1c7d4b196cb0c7b01d743fbc6116a902379c7238', // USDC
+        '0xaa8e23fb1079ea71e0a56f48a2aa51851d8433d0', // USDT
       ],
       whitelistTokens: [
-        '0xd0df82de051244f04bff3a8bb1f62e1cd39eed92', // WETH
-        '0xb60af4d222c522db7a2036a8b25a8d8c43c9da47', // USDC
+        '0x0000000000000000000000000000000000000000', // Native ETH
+        '0x1c7d4b196cb0c7b01d743fbc6116a902379c7238', // USDC
+        '0xaa8e23fb1079ea71e0a56f48a2aa51851d8433d0', // USDT,
+        '0xfff9976782d46cc05630d1f6ebab18b2324d6b14', // WETH
       ],
       tokenOverrides: [],
       poolsToSkip: [],
