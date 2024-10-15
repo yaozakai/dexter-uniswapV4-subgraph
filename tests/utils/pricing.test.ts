@@ -1,7 +1,11 @@
-import { BigDecimal } from '@graphprotocol/graph-ts'
+import { BigDecimal, BigInt } from '@graphprotocol/graph-ts'
 import { assert, describe, test } from 'matchstick-as/assembly/index'
 
+import { Token } from '../../src/types/schema'
+import { ADDRESS_ZERO } from '../../src/utils/constants'
 import { calculateAmountUSD } from '../../src/utils/pricing'
+import { sqrtPriceX96ToTokenPrices } from '../../src/utils/pricing'
+import { TEST_CONFIG, USDC_MAINNET_FIXTURE, WETH_MAINNET_FIXTURE } from '../handlers/constants'
 
 describe('Price calculations', () => {
   test('calculateAmountUSD calculates correctly', () => {
@@ -40,5 +44,52 @@ describe('Price calculations', () => {
 
     // Expected result: (1e18 * 0.1 * 1000) + (2e18 * 0.2 * 1000) = 1e20 + 4e20 = 5e20
     assert.assertTrue(result.equals(BigDecimal.fromString('500000000000000000000')), 'Result should be 5e20')
+  })
+})
+
+describe('sqrtPriceX96ToTokenPrices', () => {
+  test('calculates prices correctly for non-native tokens', () => {
+    const token0 = new Token(USDC_MAINNET_FIXTURE.address)
+    token0.decimals = BigInt.fromString(USDC_MAINNET_FIXTURE.decimals)
+
+    const token1 = new Token(WETH_MAINNET_FIXTURE.address)
+    token1.decimals = BigInt.fromString(WETH_MAINNET_FIXTURE.decimals)
+
+    const sqrtPriceX96 = BigInt.fromString('79228162514264337593543950336') // 1:1 price
+
+    const prices = sqrtPriceX96ToTokenPrices(sqrtPriceX96, token0, token1, TEST_CONFIG.nativeTokenDetails)
+
+    assert.assertTrue(prices[0].equals(BigDecimal.fromString('1')), 'Token0 price should be 1')
+    assert.assertTrue(prices[1].equals(BigDecimal.fromString('1')), 'Token1 price should be 1')
+  })
+
+  test('calculates prices correctly when token0 is native', () => {
+    const token0 = new Token(ADDRESS_ZERO)
+    token0.decimals = BigInt.fromI32(0) // This should be ignored
+
+    const token1 = new Token(USDC_MAINNET_FIXTURE.address)
+    token1.decimals = BigInt.fromString(USDC_MAINNET_FIXTURE.decimals)
+
+    const sqrtPriceX96 = BigInt.fromString('79228162514264337593543950336') // 1:1 price
+
+    const prices = sqrtPriceX96ToTokenPrices(sqrtPriceX96, token0, token1, TEST_CONFIG.nativeTokenDetails)
+
+    assert.assertTrue(prices[0].equals(BigDecimal.fromString('1')), 'Native token price should be 1')
+    assert.assertTrue(prices[1].equals(BigDecimal.fromString('1')), 'USDC price should be 1')
+  })
+
+  test('calculates prices correctly when token1 is native', () => {
+    const token0 = new Token(USDC_MAINNET_FIXTURE.address)
+    token0.decimals = BigInt.fromString(USDC_MAINNET_FIXTURE.decimals)
+
+    const token1 = new Token(ADDRESS_ZERO)
+    token1.decimals = BigInt.fromI32(0) // This should be ignored
+
+    const sqrtPriceX96 = BigInt.fromString('79228162514264337593543950336') // 1:1 price
+
+    const prices = sqrtPriceX96ToTokenPrices(sqrtPriceX96, token0, token1, TEST_CONFIG.nativeTokenDetails)
+
+    assert.assertTrue(prices[0].equals(BigDecimal.fromString('1')), 'USDC price should be 1')
+    assert.assertTrue(prices[1].equals(BigDecimal.fromString('1')), 'Native token price should be 1')
   })
 })

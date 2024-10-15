@@ -82,7 +82,12 @@ describe('handleInitialize', () => {
     bundle.save()
 
     handleInitializeHelper(INITIALIZE_EVENT, TEST_CONFIG)
-    const expectedPrices = sqrtPriceX96ToTokenPrices(BigInt.fromString(INITIALIZE_FIXTURE.sqrtPriceX96), token0, token1)
+    const expectedPrices = sqrtPriceX96ToTokenPrices(
+      BigInt.fromString(INITIALIZE_FIXTURE.sqrtPriceX96),
+      token0,
+      token1,
+      TEST_CONFIG.nativeTokenDetails,
+    )
 
     assertObjectMatches('Pool', USDC_WETH_POOL_ID, [
       ['token0', token0.id],

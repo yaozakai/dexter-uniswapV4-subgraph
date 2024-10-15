@@ -64,7 +64,7 @@ export function getSubgraphConfig(): SubgraphConfig {
       stablecoinWrappedNativePoolId: '0xabdb9820d36431e092c155f7151c4c781f09fb4e1b7894fa918a0aadcac87e16',
       stablecoinIsToken0: true,
       wrappedNativeAddress: '0xfff9976782d46cc05630d1f6ebab18b2324d6b14', // WETH
-      minimumNativeLocked: BigDecimal.fromString('20'),
+      minimumNativeLocked: BigDecimal.fromString('1'),
       stablecoinAddresses: [
         '0x1c7d4b196cb0c7b01d743fbc6116a902379c7238', // USDC
         '0xaa8e23fb1079ea71e0a56f48a2aa51851d8433d0', // USDT

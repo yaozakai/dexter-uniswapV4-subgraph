@@ -161,7 +161,7 @@ export function handleInitializeHelper(
   pool.sqrtPrice = event.params.sqrtPriceX96
   pool.tick = BigInt.fromI32(event.params.tick)
 
-  const prices = sqrtPriceX96ToTokenPrices(pool.sqrtPrice, token0, token1)
+  const prices = sqrtPriceX96ToTokenPrices(pool.sqrtPrice, token0, token1, nativeTokenDetails)
   pool.token0Price = prices[0]
   pool.token1Price = prices[1]
 

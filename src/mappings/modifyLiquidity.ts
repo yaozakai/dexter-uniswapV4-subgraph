@@ -84,7 +84,6 @@ export function handleModifyLiquidityHelper(
       pool.liquidity = pool.liquidity.plus(event.params.liquidityDelta)
     }
 
-    // log pool liquidity
     pool.totalValueLockedToken0 = pool.totalValueLockedToken0.plus(amount0)
     pool.totalValueLockedToken1 = pool.totalValueLockedToken1.plus(amount1)
     pool.totalValueLockedETH = pool.totalValueLockedToken0
