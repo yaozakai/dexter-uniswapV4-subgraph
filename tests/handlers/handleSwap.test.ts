@@ -179,13 +179,7 @@ describe('handleSwap', () => {
       ['feesUSD', feesUSD.toString()],
       ['txCount', '1'],
       ['derivedETH', newToken0DerivedETH.toString()],
-      [
-        'totalValueLockedUSD',
-        amount0
-          .times(newToken0DerivedETH)
-          .times(newEthPrice)
-          .toString(),
-      ],
+      ['totalValueLockedUSD', amount0.times(newToken0DerivedETH).times(newEthPrice).toString()],
     ])
 
     assertObjectMatches('Token', WETH_MAINNET_FIXTURE.address, [
@@ -196,13 +190,7 @@ describe('handleSwap', () => {
       ['feesUSD', feesUSD.toString()],
       ['txCount', '1'],
       ['derivedETH', newToken1DerivedETH.toString()],
-      [
-        'totalValueLockedUSD',
-        amount1
-          .times(newToken1DerivedETH)
-          .times(newEthPrice)
-          .toString(),
-      ],
+      ['totalValueLockedUSD', amount1.times(newToken1DerivedETH).times(newEthPrice).toString()],
     ])
 
     assertObjectMatches('Swap', MOCK_EVENT.transaction.hash.toHexString() + '-' + MOCK_EVENT.logIndex.toString(), [
