@@ -121,7 +121,12 @@ describe('handleSwap', () => {
     handleSwapHelper(SWAP_EVENT, TEST_CONFIG)
 
     const newEthPrice = getNativePriceInUSD(USDC_WETH_POOL_ID, true)
-    const newPoolPrices = sqrtPriceX96ToTokenPrices(SWAP_FIXTURE.sqrtPriceX96, token0, token1)
+    const newPoolPrices = sqrtPriceX96ToTokenPrices(
+      SWAP_FIXTURE.sqrtPriceX96,
+      token0,
+      token1,
+      TEST_CONFIG.nativeTokenDetails,
+    )
     const newToken0DerivedETH = findNativePerToken(
       token0,
       TEST_CONFIG.wrappedNativeAddress,

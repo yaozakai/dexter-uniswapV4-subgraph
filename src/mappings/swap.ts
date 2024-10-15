@@ -31,6 +31,7 @@ export function handleSwapHelper(event: SwapEvent, subgraphConfig: SubgraphConfi
   const stablecoinAddresses = subgraphConfig.stablecoinAddresses
   const minimumNativeLocked = subgraphConfig.minimumNativeLocked
   const whitelistTokens = subgraphConfig.whitelistTokens
+  const nativeTokenDetails = subgraphConfig.nativeTokenDetails
 
   const bundle = Bundle.load('1')!
   const poolManager = PoolManager.load(poolManagerAddress)!
@@ -114,7 +115,7 @@ export function handleSwapHelper(event: SwapEvent, subgraphConfig: SubgraphConfi
     token1.txCount = token1.txCount.plus(ONE_BI)
 
     // updated pool ratess
-    const prices = sqrtPriceX96ToTokenPrices(pool.sqrtPrice, token0, token1)
+    const prices = sqrtPriceX96ToTokenPrices(pool.sqrtPrice, token0, token1, nativeTokenDetails)
     pool.token0Price = prices[0]
     pool.token1Price = prices[1]
     pool.save()

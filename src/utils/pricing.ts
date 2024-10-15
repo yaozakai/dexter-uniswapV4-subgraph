@@ -2,13 +2,22 @@ import { BigDecimal, BigInt } from '@graphprotocol/graph-ts'
 
 import { exponentToBigDecimal, safeDiv } from '../utils/index'
 import { Bundle, Pool, Token } from './../types/schema'
-import { ONE_BD, ZERO_BD, ZERO_BI } from './constants'
+import { ADDRESS_ZERO, ONE_BD, ZERO_BD, ZERO_BI } from './constants'
+import { NativeTokenDetails } from './nativeTokenDetails'
 
 const Q192 = BigInt.fromI32(2).pow(192 as u8)
-export function sqrtPriceX96ToTokenPrices(sqrtPriceX96: BigInt, token0: Token, token1: Token): BigDecimal[] {
+export function sqrtPriceX96ToTokenPrices(
+  sqrtPriceX96: BigInt,
+  token0: Token,
+  token1: Token,
+  nativeTokenDetails: NativeTokenDetails,
+): BigDecimal[] {
+  const token0Decimals = token0.id == ADDRESS_ZERO ? nativeTokenDetails.decimals : token0.decimals
+  const token1Decimals = token1.id == ADDRESS_ZERO ? nativeTokenDetails.decimals : token1.decimals
+
   const num = sqrtPriceX96.times(sqrtPriceX96).toBigDecimal()
   const denom = BigDecimal.fromString(Q192.toString())
-  const price1 = num.div(denom).times(exponentToBigDecimal(token0.decimals)).div(exponentToBigDecimal(token1.decimals))
+  const price1 = num.div(denom).times(exponentToBigDecimal(token0Decimals)).div(exponentToBigDecimal(token1Decimals))
 
   const price0 = safeDiv(BigDecimal.fromString('1'), price1)
   return [price0, price1]
