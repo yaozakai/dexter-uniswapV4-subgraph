@@ -6,7 +6,7 @@ import { Bundle, Pool, Token } from '../types/schema'
 import { getSubgraphConfig, SubgraphConfig } from '../utils/chains'
 import { ADDRESS_ZERO, ONE_BI, ZERO_BD, ZERO_BI } from '../utils/constants'
 import { updatePoolDayData, updatePoolHourData } from '../utils/intervalUpdates'
-import { findNativePerToken, getNativePriceInUSD } from '../utils/pricing'
+import { findNativePerToken, getNativePriceInUSD, sqrtPriceX96ToTokenPrices } from '../utils/pricing'
 import { fetchTokenDecimals, fetchTokenName, fetchTokenSymbol, fetchTokenTotalSupply } from '../utils/token'
 
 // The subgraph handler must have this signature to be able to handle events,
@@ -160,6 +160,11 @@ export function handleInitializeHelper(
 
   pool.sqrtPrice = event.params.sqrtPriceX96
   pool.tick = BigInt.fromI32(event.params.tick)
+
+  const prices = sqrtPriceX96ToTokenPrices(pool.sqrtPrice, token0, token1)
+  pool.token0Price = prices[0]
+  pool.token1Price = prices[1]
+
   pool.save()
   token0.save()
   token1.save()
