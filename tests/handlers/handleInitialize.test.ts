@@ -12,6 +12,7 @@ import {
   createAndStoreTestPool,
   createAndStoreTestToken,
   MOCK_EVENT,
+  NATIVE_TOKEN_FIXTURE,
   TEST_CONFIG,
   TEST_ETH_PRICE_USD,
   USDC_MAINNET_FIXTURE,
@@ -172,6 +173,17 @@ describe('findNativePerToken', () => {
 
   test('success - token is wrapped native', () => {
     const token = createAndStoreTestToken(WETH_MAINNET_FIXTURE)
+    const ethPerToken = findNativePerToken(
+      token,
+      TEST_CONFIG.wrappedNativeAddress,
+      TEST_CONFIG.stablecoinAddresses,
+      TEST_CONFIG.minimumNativeLocked,
+    )
+    assert.assertTrue(ethPerToken == BigDecimal.fromString('1'))
+  })
+
+  test('success - token is native', () => {
+    const token = createAndStoreTestToken(NATIVE_TOKEN_FIXTURE)
     const ethPerToken = findNativePerToken(
       token,
       TEST_CONFIG.wrappedNativeAddress,

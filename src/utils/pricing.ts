@@ -17,7 +17,10 @@ export function sqrtPriceX96ToTokenPrices(
 
   const num = sqrtPriceX96.times(sqrtPriceX96).toBigDecimal()
   const denom = BigDecimal.fromString(Q192.toString())
-  const price1 = num.div(denom).times(exponentToBigDecimal(token0Decimals)).div(exponentToBigDecimal(token1Decimals))
+  const price1 = num
+    .div(denom)
+    .times(exponentToBigDecimal(token0Decimals))
+    .div(exponentToBigDecimal(token1Decimals))
 
   const price0 = safeDiv(BigDecimal.fromString('1'), price1)
   return [price0, price1]
@@ -42,7 +45,7 @@ export function findNativePerToken(
   stablecoinAddresses: string[],
   minimumNativeLocked: BigDecimal,
 ): BigDecimal {
-  if (token.id == wrappedNativeAddress) {
+  if (token.id == wrappedNativeAddress || token.id == ADDRESS_ZERO) {
     return ONE_BD
   }
   const whiteList = token.whitelistPools
