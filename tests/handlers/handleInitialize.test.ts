@@ -6,7 +6,7 @@ import { Initialize } from '../../src/types/PoolManager/PoolManager'
 import { Bundle, Pool } from '../../src/types/schema'
 import { ADDRESS_ZERO } from '../../src/utils/constants'
 import { safeDiv } from '../../src/utils/index'
-import { findNativePerToken, getNativePriceInUSD } from '../../src/utils/pricing'
+import { findNativePerToken, getNativePriceInUSD, sqrtPriceX96ToTokenPrices } from '../../src/utils/pricing'
 import {
   assertObjectMatches,
   createAndStoreTestPool,
@@ -82,6 +82,7 @@ describe('handleInitialize', () => {
     bundle.save()
 
     handleInitializeHelper(INITIALIZE_EVENT, TEST_CONFIG)
+    const expectedPrices = sqrtPriceX96ToTokenPrices(BigInt.fromString(INITIALIZE_FIXTURE.sqrtPriceX96), token0, token1)
 
     assertObjectMatches('Pool', USDC_WETH_POOL_ID, [
       ['token0', token0.id],
@@ -93,6 +94,8 @@ describe('handleInitialize', () => {
       ['tick', INITIALIZE_FIXTURE.tick],
       ['createdAtTimestamp', MOCK_EVENT.block.timestamp.toString()],
       ['createdAtBlockNumber', MOCK_EVENT.block.number.toString()],
+      ['token0Price', expectedPrices[0].toString()],
+      ['token1Price', expectedPrices[1].toString()],
     ])
 
     const expectedEthPrice = getNativePriceInUSD(USDC_WETH_POOL_ID, true)
