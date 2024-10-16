@@ -42,7 +42,7 @@ export function findNativePerToken(
   stablecoinAddresses: string[],
   minimumNativeLocked: BigDecimal,
 ): BigDecimal {
-  if (token.id == wrappedNativeAddress) {
+  if (token.id == wrappedNativeAddress || token.id == ADDRESS_ZERO) {
     return ONE_BD
   }
   const whiteList = token.whitelistPools

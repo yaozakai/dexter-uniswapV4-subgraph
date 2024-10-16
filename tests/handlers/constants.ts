@@ -11,6 +11,7 @@ const POOL_MANAGER_ADDRESS = '0xE8E23e97Fa135823143d6b9Cba9c699040D51F70'
 const USDC_MAINNET_ADDRESS = '0x5d1abc83973c773d122ae7c551251cc9be2baecc'
 const WETH_MAINNET_ADDRESS = '0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2'
 const WBTC_MAINNET_ADDRESS = '0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599'
+const NATIVE_TOKEN_ADDRESS = '0x0000000000000000000000000000000000000000'
 export const POOL_FEE_TIER_05 = 500
 
 export const USDC_WETH_POOL_ID = '0x85c41d6535ebab7661979fa7a5d331e4cb229b4d1e7dde1a78ae298fab8ca5bb'
@@ -59,6 +60,15 @@ export const WETH_MAINNET_FIXTURE: TokenFixture = {
   totalSupply: '100',
   decimals: '18',
   balanceOf: '500',
+}
+
+export const NATIVE_TOKEN_FIXTURE: TokenFixture = {
+  address: NATIVE_TOKEN_ADDRESS,
+  symbol: 'ETH',
+  name: 'Ethereum',
+  totalSupply: '1000000000000000000',
+  decimals: '18',
+  balanceOf: '1000000000000000000',
 }
 
 export const WBTC_MAINNET_FIXTURE: TokenFixture = {
