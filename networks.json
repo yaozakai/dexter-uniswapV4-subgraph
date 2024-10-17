@@ -8,5 +8,15 @@
       "address": "0x0048d1C09771Bb87b6A44e1294769E1DFd698584",
       "startBlock": 6673575
     }
+  },
+  "unichain-sepolia": {
+    "PoolManager": {
+      "address": "0x38eb8b22df3ae7fb21e92881151b365df14ba967",
+      "startBlock": 1487797
+    },
+    "PositionManager": {
+      "address": "0x05deD3F8a8e84700d68A4D81cd6780c982dB13F9",
+      "startBlock": 1490026
+    }
   }
 }

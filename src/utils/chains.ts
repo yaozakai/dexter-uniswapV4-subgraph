@@ -9,6 +9,7 @@ export enum ChainId {
 
 // assemblyscript does not support string enums, hence these constants
 const SEPOLIA_NETWORK_NAME = 'sepolia'
+const UNICHAIN_SEPOLIA_NETWORK_NAME = 'unichain-sepolia'
 
 // Note: All token and pool addresses should be lowercased!
 export class SubgraphConfig {
@@ -74,6 +75,30 @@ export function getSubgraphConfig(): SubgraphConfig {
         '0x1c7d4b196cb0c7b01d743fbc6116a902379c7238', // USDC
         '0xaa8e23fb1079ea71e0a56f48a2aa51851d8433d0', // USDT,
         '0xfff9976782d46cc05630d1f6ebab18b2324d6b14', // WETH
+      ],
+      tokenOverrides: [],
+      poolsToSkip: [],
+      poolMappings: [],
+      nativeTokenDetails: {
+        symbol: 'ETH',
+        name: 'Ethereum',
+        decimals: BigInt.fromI32(18),
+      },
+    }
+  } else if (selectedNetwork == UNICHAIN_SEPOLIA_NETWORK_NAME) {
+    return {
+      poolManagerAddress: '0x38EB8B22Df3Ae7fb21e92881151B365Df14ba967',
+      stablecoinWrappedNativePoolId: '0xabdb9820d36431e092c155f7151c4c781f09fb4e1b7894fa918a0aadcac87e16', // TODO: no v4 pool for WETH/stable is deployed yet. This will result in $0 ETH USD prices for now
+      stablecoinIsToken0: true,
+      wrappedNativeAddress: '0x4200000000000000000000000000000000000006', // WETH
+      minimumNativeLocked: BigDecimal.fromString('1'),
+      stablecoinAddresses: [
+        '0x31d0220469e10c4E71834a79b1f276d740d3768F', // USDC
+      ],
+      whitelistTokens: [
+        '0x0000000000000000000000000000000000000000', // Native ETH
+        '0x31d0220469e10c4E71834a79b1f276d740d3768F', // USDC
+        '0x4200000000000000000000000000000000000006', // WETH
       ],
       tokenOverrides: [],
       poolsToSkip: [],
