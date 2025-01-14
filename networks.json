@@ -18,5 +18,25 @@
       "address": "0xf969aee60879c54baaed9f3ed26147db216fd664",
       "startBlock": 7094939
     }
+  },
+  "arbitrum-sepolia": {
+    "PoolManager": {
+      "address": "0xFB3e0C6F74eB1a21CC1Da29aeC80D2Dfe6C9a317",
+      "startBlock": 105909222
+    },
+    "PositionManager": {
+      "address": "0xAc631556d3d4019C95769033B5E719dD77124BAc",
+      "startBlock": 105920123
+    }
+  },
+  "base-sepolia": {
+    "PoolManager": {
+      "address": "0x05E73354cFDd6745C338b50BcFDfA3Aa6fA03408",
+      "startBlock": 19088197
+    },
+    "PositionManager": {
+      "address": "0x4b2c77d209d3405f41a037ec6c77f7f5b8e2ca80",
+      "startBlock": 20214494
+    }
   }
 }
