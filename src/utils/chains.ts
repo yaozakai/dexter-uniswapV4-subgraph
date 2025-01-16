@@ -10,6 +10,8 @@ export enum ChainId {
 // assemblyscript does not support string enums, hence these constants
 const SEPOLIA_NETWORK_NAME = 'sepolia'
 const UNICHAIN_SEPOLIA_NETWORK_NAME = 'unichain-sepolia'
+const ARBITRUM_SEPOLIA_NETWORK_NAME = 'arbitrum-sepolia'
+const BASE_SEPOLIA_NETWORK_NAME = 'base-sepolia'
 
 // Note: All token and pool addresses should be lowercased!
 export class SubgraphConfig {
@@ -61,7 +63,7 @@ export function getSubgraphConfig(): SubgraphConfig {
 
   if (selectedNetwork == SEPOLIA_NETWORK_NAME) {
     return {
-      poolManagerAddress: '0xE8E23e97Fa135823143d6b9Cba9c699040D51F70',
+      poolManagerAddress: '0xE03A1074c86CFeDd5C142C4F04F1a1536e203543',
       stablecoinWrappedNativePoolId: '0xabdb9820d36431e092c155f7151c4c781f09fb4e1b7894fa918a0aadcac87e16',
       stablecoinIsToken0: true,
       wrappedNativeAddress: '0xfff9976782d46cc05630d1f6ebab18b2324d6b14', // WETH
@@ -87,8 +89,8 @@ export function getSubgraphConfig(): SubgraphConfig {
     }
   } else if (selectedNetwork == UNICHAIN_SEPOLIA_NETWORK_NAME) {
     return {
-      poolManagerAddress: '0x38EB8B22Df3Ae7fb21e92881151B365Df14ba967',
-      stablecoinWrappedNativePoolId: '0xabdb9820d36431e092c155f7151c4c781f09fb4e1b7894fa918a0aadcac87e16', // TODO: no v4 pool for WETH/stable is deployed yet. This will result in $0 ETH USD prices for now
+      poolManagerAddress: '0x00b036b58a818b1bc34d502d3fe730db729e62ac',
+      stablecoinWrappedNativePoolId: '0x1927686e9757bb312fc499e480536d466c788dcdc86a1b62c82643157f05b603', // https://unichain-sepolia.blockscout.com/tx/0x6461a80bbdd78222097c8f0437952dba852f25c3822df50660e347ccd6436f6f?tab=logs
       stablecoinIsToken0: true,
       wrappedNativeAddress: '0x4200000000000000000000000000000000000006', // WETH
       minimumNativeLocked: BigDecimal.fromString('1'),
@@ -98,6 +100,54 @@ export function getSubgraphConfig(): SubgraphConfig {
       whitelistTokens: [
         '0x0000000000000000000000000000000000000000', // Native ETH
         '0x31d0220469e10c4E71834a79b1f276d740d3768F', // USDC
+        '0x4200000000000000000000000000000000000006', // WETH
+      ],
+      tokenOverrides: [],
+      poolsToSkip: [],
+      poolMappings: [],
+      nativeTokenDetails: {
+        symbol: 'ETH',
+        name: 'Ethereum',
+        decimals: BigInt.fromI32(18),
+      },
+    }
+  } else if (selectedNetwork == ARBITRUM_SEPOLIA_NETWORK_NAME) {
+    return {
+      poolManagerAddress: '0xFB3e0C6F74eB1a21CC1Da29aeC80D2Dfe6C9a317',
+      stablecoinWrappedNativePoolId: '', // no v4 pool exists on arbitrum sepolia yet, this will result in $0 prices
+      stablecoinIsToken0: true,
+      wrappedNativeAddress: '0x980B62Da83eFf3D4576C647993b0c1D7faf17c73', // WETH
+      minimumNativeLocked: BigDecimal.fromString('1'),
+      stablecoinAddresses: [
+        '0x75faf114eafb1BDbe2F0316DF893fd58CE46AA4d', // USDC
+      ],
+      whitelistTokens: [
+        '0x0000000000000000000000000000000000000000', // Native ETH
+        '0x75faf114eafb1BDbe2F0316DF893fd58CE46AA4d', // USDC
+        '0x980B62Da83eFf3D4576C647993b0c1D7faf17c73', // WETH
+      ],
+      tokenOverrides: [],
+      poolsToSkip: [],
+      poolMappings: [],
+      nativeTokenDetails: {
+        symbol: 'ETH',
+        name: 'Ethereum',
+        decimals: BigInt.fromI32(18),
+      },
+    }
+  } else if (selectedNetwork == BASE_SEPOLIA_NETWORK_NAME) {
+    return {
+      poolManagerAddress: '0x05E73354cFDd6745C338b50BcFDfA3Aa6fA03408',
+      stablecoinWrappedNativePoolId: '0xCAFE1EC4F71A632F8FC57506C478D0B25B399A9AA003C9BC02C444639578AE46', // https://sepolia.basescan.org/tx/0xa8a8ad7ed9fe1e44ce264f240821a33bfd93a385397b46fd7142deee242be2fa#eventlog
+      stablecoinIsToken0: true,
+      wrappedNativeAddress: '0x4200000000000000000000000000000000000006', // WETH
+      minimumNativeLocked: BigDecimal.fromString('1'),
+      stablecoinAddresses: [
+        '0x036CbD53842c5426634e7929541eC2318f3dCF7e', // USDC
+      ],
+      whitelistTokens: [
+        '0x0000000000000000000000000000000000000000', // Native ETH
+        '0x036CbD53842c5426634e7929541eC2318f3dCF7e', // USDC
         '0x4200000000000000000000000000000000000006', // WETH
       ],
       tokenOverrides: [],
