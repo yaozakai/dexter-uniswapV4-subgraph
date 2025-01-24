@@ -236,7 +236,7 @@ export function getSubgraphConfig(): SubgraphConfig {
   } else if (selectedNetwork == MATIC_NETWORK_NAME) {
     return {
       poolManagerAddress: '0x67366782805870060151383f4bbff9dab53e5cd6',
-      stablecoinWrappedNativePoolId: '0x15484bc239f7554e7ead77c45834c722d3f74a9b20826fdf21bbb1b026444286',
+      stablecoinWrappedNativePoolId: '0x15484bc239f7554e7ead77c45834c722d3f74a9b20826fdf21bbb1b026444286', // https://polygonscan.com/tx/0x6c94e24c0ddff6dd9bfa860561945330c81df85ebb4b1ecf75a459b016719314
       stablecoinIsToken0: false,
       wrappedNativeAddress: '0x0d500b1d8e8ef31e21c99d1db9a6444d3adf1270', // WMATIC
       minimumNativeLocked: BigDecimal.fromString('1'),
@@ -289,7 +289,7 @@ export function getSubgraphConfig(): SubgraphConfig {
   } else if (selectedNetwork == OPTIMISM_NETWORK_NAME) {
     return {
       poolManagerAddress: '0x9a13f98cb987694c9f086b1f5eb990eea8264ec3',
-      stablecoinWrappedNativePoolId: '0xedba0a2a9dc73acf4b130e07605cb4c212bbd98a31c9cd442cfb8cf5b4e093e7',
+      stablecoinWrappedNativePoolId: '0xedba0a2a9dc73acf4b130e07605cb4c212bbd98a31c9cd442cfb8cf5b4e093e7', // https://optimistic.etherscan.io/tx/0x5a7ce7eaa8a1ae27a84846b0152d2910ec8db0c4d62b0968e0a49830d882ad28
       stablecoinIsToken0: true,
       wrappedNativeAddress: '0x4200000000000000000000000000000000000006', // WETH
       minimumNativeLocked: BigDecimal.fromString('1'),
@@ -389,7 +389,7 @@ export function getSubgraphConfig(): SubgraphConfig {
   } else if (selectedNetwork == ZORA_MAINNET_NETWORK_NAME) {
     return {
       poolManagerAddress: '0x0575338e4c17006ae181b47900a84404247ca30f',
-      stablecoinWrappedNativePoolId: '0x8362fda2356bf98851192da5b5b89553dd92ad73f8e8d6be97f154ce72b0adfe',
+      stablecoinWrappedNativePoolId: '0x8362fda2356bf98851192da5b5b89553dd92ad73f8e8d6be97f154ce72b0adfe', // https://explorer.zora.energy/tx/0x8a0cd1856e3c95918e78478ccc993a6e745e364d5036852f44033827be880a17
       stablecoinIsToken0: false,
       wrappedNativeAddress: '0x4200000000000000000000000000000000000006', // WETH
       minimumNativeLocked: BigDecimal.fromString('1'),
@@ -496,7 +496,7 @@ export function getSubgraphConfig(): SubgraphConfig {
   } else if (selectedNetwork == BLAST_MAINNET_NETWORK_NAME) {
     return {
       poolManagerAddress: '0x1631559198a9e474033433b2958dabc135ab6446',
-      stablecoinWrappedNativePoolId: '0x83e7c9f12348a95a5fe02c8af7074dd52defd1e108e19e51234c49da56d7c635',
+      stablecoinWrappedNativePoolId: '0x83e7c9f12348a95a5fe02c8af7074dd52defd1e108e19e51234c49da56d7c635', // https://blastscan.io/tx/0x96ecf330532a794388405835ba7cc6687f281d3e44dee502fb89dc8d789fdf33
       stablecoinIsToken0: true,
       wrappedNativeAddress: '0x4300000000000000000000000000000000000004', // WETH
       minimumNativeLocked: BigDecimal.fromString('1'),
