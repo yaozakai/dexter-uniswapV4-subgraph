@@ -90,8 +90,12 @@ describe('handleSwap', () => {
     const token0 = Token.load(USDC_MAINNET_FIXTURE.address)!
     const token1 = Token.load(WETH_MAINNET_FIXTURE.address)!
 
-    const amount0 = convertTokenToDecimal(SWAP_FIXTURE.amount0, BigInt.fromString(USDC_MAINNET_FIXTURE.decimals))
-    const amount1 = convertTokenToDecimal(SWAP_FIXTURE.amount1, BigInt.fromString(WETH_MAINNET_FIXTURE.decimals))
+    const amount0 = convertTokenToDecimal(SWAP_FIXTURE.amount0, BigInt.fromString(USDC_MAINNET_FIXTURE.decimals)).times(
+      BigDecimal.fromString('-1'),
+    ) //
+    const amount1 = convertTokenToDecimal(SWAP_FIXTURE.amount1, BigInt.fromString(WETH_MAINNET_FIXTURE.decimals)).times(
+      BigDecimal.fromString('-1'),
+    )
 
     const amount0Abs = amount0.lt(ZERO_BD) ? amount0.times(BigDecimal.fromString('-1')) : amount0
     const amount1Abs = amount1.lt(ZERO_BD) ? amount1.times(BigDecimal.fromString('-1')) : amount1
@@ -179,7 +183,13 @@ describe('handleSwap', () => {
       ['feesUSD', feesUSD.toString()],
       ['txCount', '1'],
       ['derivedETH', newToken0DerivedETH.toString()],
-      ['totalValueLockedUSD', amount0.times(newToken0DerivedETH).times(newEthPrice).toString()],
+      [
+        'totalValueLockedUSD',
+        amount0
+          .times(newToken0DerivedETH)
+          .times(newEthPrice)
+          .toString(),
+      ],
     ])
 
     assertObjectMatches('Token', WETH_MAINNET_FIXTURE.address, [
@@ -190,7 +200,13 @@ describe('handleSwap', () => {
       ['feesUSD', feesUSD.toString()],
       ['txCount', '1'],
       ['derivedETH', newToken1DerivedETH.toString()],
-      ['totalValueLockedUSD', amount1.times(newToken1DerivedETH).times(newEthPrice).toString()],
+      [
+        'totalValueLockedUSD',
+        amount1
+          .times(newToken1DerivedETH)
+          .times(newEthPrice)
+          .toString(),
+      ],
     ])
 
     assertObjectMatches('Swap', MOCK_EVENT.transaction.hash.toHexString() + '-' + MOCK_EVENT.logIndex.toString(), [
