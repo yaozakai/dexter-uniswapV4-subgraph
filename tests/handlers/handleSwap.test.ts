@@ -92,7 +92,7 @@ describe('handleSwap', () => {
 
     const amount0 = convertTokenToDecimal(SWAP_FIXTURE.amount0, BigInt.fromString(USDC_MAINNET_FIXTURE.decimals)).times(
       BigDecimal.fromString('-1'),
-    ) //
+    )
     const amount1 = convertTokenToDecimal(SWAP_FIXTURE.amount1, BigInt.fromString(WETH_MAINNET_FIXTURE.decimals)).times(
       BigDecimal.fromString('-1'),
     )
