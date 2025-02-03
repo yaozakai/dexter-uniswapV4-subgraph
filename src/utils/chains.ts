@@ -187,6 +187,7 @@ export function getSubgraphConfig(): SubgraphConfig {
         '0xda10009cbd5d07dd0cecc66161fc93d7c9000da1', // DAI
         '0xfd086bc7cd5c481dcc9c85ebe478a1c0b69fcbb9', // USDT
         '0xaf88d065e77c8cc2239327c5edb3a432268e5831', // USDC
+        '0x0000000000000000000000000000000000000000', // Native ETH
       ],
       tokenOverrides: [
         {
@@ -223,6 +224,7 @@ export function getSubgraphConfig(): SubgraphConfig {
       whitelistTokens: [
         '0x4200000000000000000000000000000000000006', // WETH
         '0x833589fcd6edb6e08f4c7c32d4f71b54bda02913', // USDC
+        '0x0000000000000000000000000000000000000000', // Native ETH
       ],
       tokenOverrides: [],
       poolsToSkip: [],
@@ -251,6 +253,7 @@ export function getSubgraphConfig(): SubgraphConfig {
         '0x2791bca1f2de4661ed88a30c99a7a9449aa84174', // USDC.e
         '0x8f3cf7ad23cd3cadbd9735aff958023239c6a063', // DAI
         '0x3c499c542cef5e3811e1192ce70d8cc03d5c3359', // USDC
+        '0x0000000000000000000000000000000000000000', // Native POL
       ],
       tokenOverrides: [],
       poolsToSkip: [],
@@ -276,6 +279,7 @@ export function getSubgraphConfig(): SubgraphConfig {
         '0xbb4cdb9cbd36b01bd1cbaebf2de08d9173bc095c', // WBNB
         '0x55d398326f99059ff775485246999027b3197955', // USDT
         '0x8ac76a51cc950d9822d68b83fe1ad97b32cd580d', // USDC
+        '0x0000000000000000000000000000000000000000', // Native BNB
       ],
       tokenOverrides: [],
       poolsToSkip: [],
@@ -309,6 +313,7 @@ export function getSubgraphConfig(): SubgraphConfig {
         '0x50c5725949a6f0c72e6c4a641f24049a917db0cb', // LYRA
         '0x68f180fcce6836688e9084f035309e29bf0a2095', // WBTC
         '0x0b2c639c533813f4aa9d7837caf62653d097ff85', // USDC
+        '0x0000000000000000000000000000000000000000', // Native ETH
       ],
       tokenOverrides: [
         {
@@ -350,6 +355,7 @@ export function getSubgraphConfig(): SubgraphConfig {
         '0xc7198437980c041c805a1edcba50c1ce5db95118', // USDT_E
         '0x9702230a8ea53601f5cd2dc00fdbc13d4df4a8c7', // USDT
         '0x130966628846bfd36ff31a822705796e8cb8c18d', // MIM
+        '0x0000000000000000000000000000000000000000', // Native AVX
       ],
       tokenOverrides: [],
       poolsToSkip: [],
@@ -376,6 +382,7 @@ export function getSubgraphConfig(): SubgraphConfig {
         '0x03c7054bcb39f7b2e5b2c7acb37583e32d70cfa3', // WBTC
         '0x2cfc85d8e48f8eab294be644d9e25c3030863003', // WLD
         '0x859dbe24b90c9f2f7742083d3cf59ca41f55be5d', // sDAI
+        '0x0000000000000000000000000000000000000000', // Native ETH
       ],
       tokenOverrides: [],
       poolsToSkip: [],
@@ -399,6 +406,7 @@ export function getSubgraphConfig(): SubgraphConfig {
       whitelistTokens: [
         '0x4200000000000000000000000000000000000006', // WETH
         '0xcccccccc7021b32ebb4e8c08314bd62f7c653ec4', // USDzC
+        '0x0000000000000000000000000000000000000000', // Native ETH
       ],
       tokenOverrides: [],
       poolsToSkip: [],
@@ -506,6 +514,7 @@ export function getSubgraphConfig(): SubgraphConfig {
       whitelistTokens: [
         '0x4300000000000000000000000000000000000004', // WETH
         '0x4300000000000000000000000000000000000003', // USDB
+        '0x0000000000000000000000000000000000000000', // Native ETH
       ],
       tokenOverrides: [],
       poolsToSkip: [],

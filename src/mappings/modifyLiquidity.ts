@@ -46,10 +46,23 @@ export function handleModifyLiquidityHelper(
 
   if (token0 && token1) {
     const currTick: i32 = pool.tick!.toI32()
+    const currSqrtPriceX96 = pool.sqrtPrice
 
     // Get the amounts using the getAmounts function
-    const amount0Raw = getAmount0(event.params.tickLower, event.params.tickUpper, currTick, event.params.liquidityDelta)
-    const amount1Raw = getAmount1(event.params.tickLower, event.params.tickUpper, currTick, event.params.liquidityDelta)
+    const amount0Raw = getAmount0(
+      event.params.tickLower,
+      event.params.tickUpper,
+      currTick,
+      event.params.liquidityDelta,
+      currSqrtPriceX96,
+    )
+    const amount1Raw = getAmount1(
+      event.params.tickLower,
+      event.params.tickUpper,
+      currTick,
+      event.params.liquidityDelta,
+      currSqrtPriceX96,
+    )
     const amount0 = convertTokenToDecimal(amount0Raw, token0.decimals)
     const amount1 = convertTokenToDecimal(amount1Raw, token1.decimals)
 
