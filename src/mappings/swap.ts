@@ -43,8 +43,9 @@ export function handleSwapHelper(event: SwapEvent, subgraphConfig: SubgraphConfi
 
   if (token0 && token1) {
     // amounts - 0/1 are token deltas: can be positive or negative
-    const amount0 = convertTokenToDecimal(event.params.amount0, token0.decimals)
-    const amount1 = convertTokenToDecimal(event.params.amount1, token1.decimals)
+    // Unlike V3, a negative amount represents that amount is being sent to the pool and vice versa, so invert the sign
+    const amount0 = convertTokenToDecimal(event.params.amount0, token0.decimals).times(BigDecimal.fromString('-1'))
+    const amount1 = convertTokenToDecimal(event.params.amount1, token1.decimals).times(BigDecimal.fromString('-1'))
 
     // need absolute amounts for volume
     let amount0Abs = amount0
