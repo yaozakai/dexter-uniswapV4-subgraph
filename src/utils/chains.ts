@@ -529,7 +529,7 @@ export function getSubgraphConfig(): SubgraphConfig {
   } else if (selectedNetwork == UNICHAIN_MAINNET_NETWORK_NAME) {
     return {
       poolManagerAddress: '0x1f98400000000000000000000000000000000004',
-      stablecoinWrappedNativePoolId: '0xe452cd9b74c641fb3f6c2ff593c3d34f90f2da9155e5ab66798f72bee4f5fe8e',
+      stablecoinWrappedNativePoolId: '0x25939956ef14a098d95051d86c75890cfd623a9eeba055e46d8dd9135980b37c',
       stablecoinIsToken0: false,
       wrappedNativeAddress: '0x0000000000000000000000000000000000000000', // Native ETH
       minimumNativeLocked: BigDecimal.fromString('1'),
