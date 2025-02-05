@@ -22,6 +22,7 @@ const WORLDCHAIN_MAINNET_NETWORK_NAME = 'worldchain-mainnet'
 const ZORA_MAINNET_NETWORK_NAME = 'zora-mainnet'
 const MAINNET_NETWORK_NAME = 'mainnet'
 const BLAST_MAINNET_NETWORK_NAME = 'blast-mainnet'
+const UNICHAIN_MAINNET_NETWORK_NAME = 'unichain-mainnet'
 // Note: All token and pool addresses should be lowercased!
 export class SubgraphConfig {
   // deployment address
@@ -241,7 +242,7 @@ export function getSubgraphConfig(): SubgraphConfig {
       stablecoinWrappedNativePoolId: '0x15484bc239f7554e7ead77c45834c722d3f74a9b20826fdf21bbb1b026444286', // https://polygonscan.com/tx/0x6c94e24c0ddff6dd9bfa860561945330c81df85ebb4b1ecf75a459b016719314
       stablecoinIsToken0: false,
       wrappedNativeAddress: '0x0d500b1d8e8ef31e21c99d1db9a6444d3adf1270', // WMATIC
-      minimumNativeLocked: BigDecimal.fromString('1'),
+      minimumNativeLocked: BigDecimal.fromString('20000'),
       stablecoinAddresses: [
         '0x2791bca1f2de4661ed88a30c99a7a9449aa84174', // USDC.e
         '0x8f3cf7ad23cd3cadbd9735aff958023239c6a063', // DAI
@@ -270,7 +271,7 @@ export function getSubgraphConfig(): SubgraphConfig {
       stablecoinWrappedNativePoolId: '0x4c9dff5169d88f7fbf5e43fc8e2eb56bf9791785729b9fc8c22064a47af12052', // https://bscscan.com/tx/0x36c1e4c7b4105a0be337addc32b5564dd3494fccfe331bf9fe7c647163d27d05#eventlog
       stablecoinIsToken0: true,
       wrappedNativeAddress: '0xbb4cdb9cbd36b01bd1cbaebf2de08d9173bc095c', // WBNB
-      minimumNativeLocked: BigDecimal.fromString('1'),
+      minimumNativeLocked: BigDecimal.fromString('100'),
       stablecoinAddresses: [
         '0x55d398326f99059ff775485246999027b3197955', // USDT
         '0x8ac76a51cc950d9822d68b83fe1ad97b32cd580d', // USDC
@@ -337,7 +338,7 @@ export function getSubgraphConfig(): SubgraphConfig {
       stablecoinWrappedNativePoolId: '0xd7a8035ddd9ec1dba25e3b27b685927fe63d65281f21c1c1d21d122fc48caeb7', // https://snowtrace.io/tx/0x008bbcac5d411e48621c94f75f3dedf025a031d2633a548fb372f45f73db111d/eventlog?chainid=43114
       stablecoinIsToken0: false,
       wrappedNativeAddress: '0xb31f66aa3c1e785363f0875a1b74e27b85fd66c7', // WAVAX
-      minimumNativeLocked: BigDecimal.fromString('1'),
+      minimumNativeLocked: BigDecimal.fromString('100'),
       stablecoinAddresses: [
         '0xd586e7f844cea2f87f50152665bcbc2c279d8d70', // DAI_E
         '0xba7deebbfc5fa1100fb055a87773e1e99cd3507a', // DAI
@@ -514,6 +515,32 @@ export function getSubgraphConfig(): SubgraphConfig {
       whitelistTokens: [
         '0x4300000000000000000000000000000000000004', // WETH
         '0x4300000000000000000000000000000000000003', // USDB
+        '0x0000000000000000000000000000000000000000', // Native ETH
+      ],
+      tokenOverrides: [],
+      poolsToSkip: [],
+      poolMappings: [],
+      nativeTokenDetails: {
+        symbol: 'ETH',
+        name: 'Ethereum',
+        decimals: BigInt.fromI32(18),
+      },
+    }
+  } else if (selectedNetwork == UNICHAIN_MAINNET_NETWORK_NAME) {
+    return {
+      poolManagerAddress: '0x1f98400000000000000000000000000000000004',
+      stablecoinWrappedNativePoolId: '0xe452cd9b74c641fb3f6c2ff593c3d34f90f2da9155e5ab66798f72bee4f5fe8e',
+      stablecoinIsToken0: false,
+      wrappedNativeAddress: '0x0000000000000000000000000000000000000000', // Native ETH
+      minimumNativeLocked: BigDecimal.fromString('1'),
+      stablecoinAddresses: [
+        '0x078d782b760474a361dda0af3839290b0ef57ad6', // USDC
+        '0x20cab320a855b39f724131c69424240519573f81', // DAI
+      ],
+      whitelistTokens: [
+        '0x4200000000000000000000000000000000000006', // WETH
+        '0x078d782b760474a361dda0af3839290b0ef57ad6', // USDC
+        '0x20cab320a855b39f724131c69424240519573f81', // DAI
         '0x0000000000000000000000000000000000000000', // Native ETH
       ],
       tokenOverrides: [],
