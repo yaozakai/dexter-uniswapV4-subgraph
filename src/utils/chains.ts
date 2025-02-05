@@ -271,7 +271,7 @@ export function getSubgraphConfig(): SubgraphConfig {
       stablecoinWrappedNativePoolId: '0x4c9dff5169d88f7fbf5e43fc8e2eb56bf9791785729b9fc8c22064a47af12052', // https://bscscan.com/tx/0x36c1e4c7b4105a0be337addc32b5564dd3494fccfe331bf9fe7c647163d27d05#eventlog
       stablecoinIsToken0: true,
       wrappedNativeAddress: '0xbb4cdb9cbd36b01bd1cbaebf2de08d9173bc095c', // WBNB
-      minimumNativeLocked: BigDecimal.fromString('100'),
+      minimumNativeLocked: BigDecimal.fromString('10'),
       stablecoinAddresses: [
         '0x55d398326f99059ff775485246999027b3197955', // USDT
         '0x8ac76a51cc950d9822d68b83fe1ad97b32cd580d', // USDC
