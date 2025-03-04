@@ -148,5 +148,15 @@
       "address": "0x4529A01c7A0410167c5740C487A8DE60232617bf",
       "startBlock": 6819670
     }
+  },
+  "soneium-mainnet": {
+    "PoolManager": {
+      "address": "0x360e68faccca8ca495c1b759fd9eee466db9fb32",
+      "startBlock": 2473300
+    },
+    "PositionManager": {
+      "address": "0x1b35d13a2e2528f192637f14b05f0dc0e7deb566",
+      "startBlock": 2473310
+    }
   }
 }
