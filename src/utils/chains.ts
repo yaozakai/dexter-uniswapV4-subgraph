@@ -556,7 +556,7 @@ export function getSubgraphConfig(): SubgraphConfig {
   } else if (selectedNetwork == SONEIUM_MAINNET_NETWORK_NAME) {
     return {
       poolManagerAddress: '0x360e68faccca8ca495c1b759fd9eee466db9fb32',
-      stablecoinWrappedNativePoolId: '0x25939956ef14a098d95051d86c75890cfd623a9eeba055e46d8dd9135980b37c',
+      stablecoinWrappedNativePoolId: '0x3d18457ff1dcfa8ffb14b162ae3def9eda618569ac4a6aadc827628f5981b515',
       stablecoinIsToken0: false,
       wrappedNativeAddress: '0x0000000000000000000000000000000000000000', // Native ETH
       minimumNativeLocked: BigDecimal.fromString('1'),
