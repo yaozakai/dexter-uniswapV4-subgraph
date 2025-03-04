@@ -23,6 +23,7 @@ const ZORA_MAINNET_NETWORK_NAME = 'zora-mainnet'
 const MAINNET_NETWORK_NAME = 'mainnet'
 const BLAST_MAINNET_NETWORK_NAME = 'blast-mainnet'
 const UNICHAIN_MAINNET_NETWORK_NAME = 'unichain-mainnet'
+const SONEIUM_MAINNET_NETWORK_NAME = 'soneium-mainnet'
 // Note: All token and pool addresses should be lowercased!
 export class SubgraphConfig {
   // deployment address
@@ -541,6 +542,30 @@ export function getSubgraphConfig(): SubgraphConfig {
         '0x4200000000000000000000000000000000000006', // WETH
         '0x078d782b760474a361dda0af3839290b0ef57ad6', // USDC
         '0x20cab320a855b39f724131c69424240519573f81', // DAI
+        '0x0000000000000000000000000000000000000000', // Native ETH
+      ],
+      tokenOverrides: [],
+      poolsToSkip: [],
+      poolMappings: [],
+      nativeTokenDetails: {
+        symbol: 'ETH',
+        name: 'Ethereum',
+        decimals: BigInt.fromI32(18),
+      },
+    }
+  } else if (selectedNetwork == SONEIUM_MAINNET_NETWORK_NAME) {
+    return {
+      poolManagerAddress: '0x360e68faccca8ca495c1b759fd9eee466db9fb32',
+      stablecoinWrappedNativePoolId: '0x25939956ef14a098d95051d86c75890cfd623a9eeba055e46d8dd9135980b37c',
+      stablecoinIsToken0: false,
+      wrappedNativeAddress: '0x0000000000000000000000000000000000000000', // Native ETH
+      minimumNativeLocked: BigDecimal.fromString('1'),
+      stablecoinAddresses: [
+        '0xba9986d2381edf1da03b0b9c1f8b00dc4aacc369', // USDC
+      ],
+      whitelistTokens: [
+        '0x4200000000000000000000000000000000000006', // WETH
+        '0xba9986d2381edf1da03b0b9c1f8b00dc4aacc369', // USDC
         '0x0000000000000000000000000000000000000000', // Native ETH
       ],
       tokenOverrides: [],
