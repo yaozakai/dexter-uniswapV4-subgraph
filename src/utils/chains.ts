@@ -537,12 +537,15 @@ export function getSubgraphConfig(): SubgraphConfig {
       stablecoinAddresses: [
         '0x078d782b760474a361dda0af3839290b0ef57ad6', // USDC
         '0x20cab320a855b39f724131c69424240519573f81', // DAI
+        '0x9151434b16b9763660705744891fa906f660ecc5', // USDT0
       ],
       whitelistTokens: [
         '0x4200000000000000000000000000000000000006', // WETH
         '0x078d782b760474a361dda0af3839290b0ef57ad6', // USDC
         '0x20cab320a855b39f724131c69424240519573f81', // DAI
         '0x0000000000000000000000000000000000000000', // Native ETH
+        '0x9151434b16b9763660705744891fa906f660ecc5', // USDT0
+        '0x927b51f251480a681271180da4de28d44ec4afb8', // WBTC
       ],
       tokenOverrides: [],
       poolsToSkip: [],
