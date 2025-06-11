@@ -147,6 +147,10 @@
     "PositionManager": {
       "address": "0x4529A01c7A0410167c5740C487A8DE60232617bf",
       "startBlock": 6819670
+    },
+    "EulerSwapFactory": {
+      "address": "0x45b146BC07c9985589B52df651310e75C6BE066A",
+      "startBlock": 18413401
     }
   },
   "soneium-mainnet": {
