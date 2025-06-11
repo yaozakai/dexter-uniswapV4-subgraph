@@ -127,6 +127,10 @@
     "PositionManager": {
       "address": "0xbD216513d74C8cf14cf4747E6AaA6420FF64ee9e",
       "startBlock": 21689089
+    },
+    "EulerSwapFactory": {
+      "address": "0xb013be1D0D380C13B58e889f412895970A2Cf228",
+      "startBlock": 22676162
     }
   },
   "blast-mainnet": {
