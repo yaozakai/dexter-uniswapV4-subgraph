@@ -47,6 +47,10 @@ export function handleSwapHelper(event: SwapEvent, subgraphConfig: SubgraphConfi
     const amount0 = convertTokenToDecimal(event.params.amount0, token0.decimals).times(BigDecimal.fromString('-1'))
     const amount1 = convertTokenToDecimal(event.params.amount1, token1.decimals).times(BigDecimal.fromString('-1'))
 
+    // Update the pool feeTier with the fee from the swap event
+    // This is important for dynamic fee pools where we want to keep store the actual last fee rather storing the dynamic flag (8388608)
+    pool.feeTier = BigInt.fromI32(event.params.fee as i32)
+
     // need absolute amounts for volume
     let amount0Abs = amount0
     if (amount0.lt(ZERO_BD)) {
