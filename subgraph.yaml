@@ -105,5 +105,5 @@ dataSources:
         - name: ArrakisHookFactory
           file: ./abis/ArrakisHookFactory.json
       eventHandlers:
-        - event: LogCreatePrivateHook(indexed address,indexed address,indexed bytes32)
+        - event: LogCreatePrivateHook(indexed address,indexed address,bytes32)
           handler: handleArrakisHookDeployed
