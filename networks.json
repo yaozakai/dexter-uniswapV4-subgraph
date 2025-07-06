@@ -1,5 +1,6 @@
 {
   "sepolia": {
+    "network": "sepolia",
     "PoolManager": {
       "address": "0xE03A1074c86CFeDd5C142C4F04F1a1536e203543",
       "startBlock": 7258946
@@ -120,6 +121,7 @@
     }
   },
   "mainnet": {
+    "network": "mainnet",
     "PoolManager": {
       "address": "0x000000000004444c5dc75cB358380D2e3dE08A90",
       "startBlock": 21688329
