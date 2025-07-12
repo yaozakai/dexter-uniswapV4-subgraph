@@ -9,11 +9,11 @@ features:
 dataSources:
   - kind: ethereum/contract
     name: PoolManager
-    network: mainnet
+    network: sepolia
     source:
       abi: PoolManager
-      address: "0x000000000004444c5dc75cB358380D2e3dE08A90"
-      startBlock: 21688329
+      address: "0xE03A1074c86CFeDd5C142C4F04F1a1536e203543"
+      startBlock: 7258946
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.7
@@ -43,11 +43,11 @@ dataSources:
           handler: handleSwap
   - kind: ethereum/contract
     name: PositionManager
-    network: mainnet
+    network: sepolia
     source:
       abi: PositionManager
-      address: "0xbD216513d74C8cf14cf4747E6AaA6420FF64ee9e"
-      startBlock: 21689089
+      address: "0x429ba70129df741B2Ca2a85BC3A2a3328e5c09b4"
+      startBlock: 7259148
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.7
@@ -65,25 +65,3 @@ dataSources:
           handler: handleUnsubscription
         - event: Transfer(indexed address,indexed address,indexed uint256)
           handler: handleTransfer
-  - kind: ethereum/contract
-    name: EulerSwapFactory
-    network: mainnet
-    source:
-      abi: EulerSwapFactory
-      address: "0xb013be1D0D380C13B58e889f412895970A2Cf228"
-      startBlock: 22676162
-    mapping:
-      kind: ethereum/events
-      apiVersion: 0.0.7
-      language: wasm/assemblyscript
-      file: ./src/mappings/index.ts
-      entities:
-        - Position
-      abis:
-        - name: EulerSwapFactory
-          file: ./abis/EulerSwapFactory.json
-      eventHandlers:
-        - event: PoolDeployed(indexed address,indexed address,indexed address,address)
-          handler: handleHookDeployed
-        - event: PoolUninstalled(indexed address,indexed address,indexed address,address)
-          handler: handleHookUninstalled
