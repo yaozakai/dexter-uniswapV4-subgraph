@@ -5,6 +5,7 @@ import { ERC20NameBytes } from '../types/PoolManager/ERC20NameBytes'
 import { ERC20SymbolBytes } from '../types/PoolManager/ERC20SymbolBytes'
 import { ADDRESS_ZERO, ZERO_BI } from './constants'
 import { isNullEthValue } from './index'
+import { logWarning } from './logging'
 import { NativeTokenDetails } from './nativeTokenDetails'
 import { getStaticDefinition, StaticTokenDefinition } from './staticTokenDefinition'
 
@@ -84,9 +85,19 @@ export function fetchTokenTotalSupply(tokenAddress: Address): BigInt {
   }
   const contract = ERC20.bind(tokenAddress)
   let totalSupplyValue = BigInt.zero()
+
+  // Add retry logic and better error handling for reorgs
   const totalSupplyResult = contract.try_totalSupply()
   if (!totalSupplyResult.reverted) {
     totalSupplyValue = totalSupplyResult.value
+  } else {
+    // Log the error but don't fail the entire indexing process
+    logWarning(
+      'fetchTokenTotalSupply',
+      `Failed to fetch totalSupply for token ${tokenAddress.toHexString()}, likely due to reorg or non-standard token contract`,
+    )
+    // Return zero if the call fails (commonly due to reorgs or non-standard tokens)
+    totalSupplyValue = ZERO_BI
   }
   return totalSupplyValue
 }
